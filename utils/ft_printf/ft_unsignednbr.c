@@ -1,19 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_unsignednbr.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/20 13:03:33 by mizem            ###   ########.fr       */
+/*   Created: 2024/01/19 21:17:53 by mizem             #+#    #+#             */
+/*   Updated: 2024/01/22 11:54:53 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_printf.h"
 
-int main(int ac, char **av)
+int	ft_unsignednbr(unsigned int n)
 {
-	if (ac > 1)
-		printf("HELLO %s\n", av[1]);
+	int	count;
+
+	count = 0;
+	if (n < 10)
+		count += ft_putchar(n + 48);
+	else
+	{
+		count += ft_unsignednbr(n / 10);
+		count += ft_putchar(n % 10 + 48);
+	}
+	return (count);
 }

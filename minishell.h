@@ -1,19 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/20 13:03:33 by mizem            ###   ########.fr       */
+/*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
+/*   Updated: 2024/07/20 12:55:36 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
-int main(int ac, char **av)
+#include "utils/ft_printf/ft_printf.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+
+void	ft_strncpy(char *s1, char *s2, int len);
+
+typedef struct s_cmd
 {
-	if (ac > 1)
-		printf("HELLO %s\n", av[1]);
-}
+	char *commad;
+	char *flag;
+	char *directory;
+}	t_cmd;
+
+
+
+
+
+
+
+
+
+
+
+#endif

@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/20 13:03:33 by mizem            ###   ########.fr       */
+/*   Created: 2024/07/20 12:33:44 by mizem             #+#    #+#             */
+/*   Updated: 2024/07/20 12:36:43 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int main(int ac, char **av)
+void	ft_strncpy(char *s1, char *s2, int len)
 {
-	if (ac > 1)
-		printf("HELLO %s\n", av[1]);
+	int i = 0;
+	while (s2[i] && i < len)
+	{
+		s1[i] = s2[i];
+		i++;
+	}
+	s1[i] = '\0';
 }

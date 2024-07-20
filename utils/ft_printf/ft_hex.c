@@ -1,19 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_hex.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/20 13:03:33 by mizem            ###   ########.fr       */
+/*   Created: 2024/01/20 10:03:11 by mizem             #+#    #+#             */
+/*   Updated: 2024/01/22 11:54:02 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_printf.h"
 
-int main(int ac, char **av)
+int	ft_hex(unsigned long int x)
 {
-	if (ac > 1)
-		printf("HELLO %s\n", av[1]);
+	int		count;
+	char	*arr;
+
+	count = 0;
+	arr = "0123456789abcdef";
+	if (x < 16)
+		count += write(1, &arr[x], 1);
+	else
+	{
+		count += ft_hex(x / 16);
+		count += ft_hex(x % 16);
+	}
+	return (count);
 }
