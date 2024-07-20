@@ -11,7 +11,7 @@ UTILS_O = $(UTILS_C:.c=.o)
 all: $(MINISHELL)
 
 $(MINISHELL): $(MINISHELL_O) $(UTILS_O) minishell.h
-	$(CC) $(CFLAGS) $(MINISHELL_O) $(UTILS_O) -o minishell
+	$(CC) $(CFLAGS) $(MINISHELL_O) $(UTILS_O) -o minishell -lreadline
 
 clean:
 	rm -rf $(MINISHELL_O) $(UTILS_O)

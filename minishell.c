@@ -6,14 +6,26 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/20 13:03:33 by mizem            ###   ########.fr       */
+/*   Updated: 2024/07/20 21:17:57 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(int ac, char **av)
+int main()
 {
-	if (ac > 1)
-		printf("HELLO %s\n", av[1]);
-}
+	char *line;
+	// t_cmd *cmd;
+	
+	while (1)
+	{
+		line = readline("minishell $ ");
+		if (!line)
+			break;
+		if (*line)
+		{
+			printf("%s\n", line);
+			free(line);
+		}
+	}
+}	
