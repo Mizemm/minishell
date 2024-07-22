@@ -1,9 +1,23 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/07/20 22:27:04 by abdennac          #+#    #+#              #
+#    Updated: 2024/07/22 17:00:10 by abdennac         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 MINISHELL = minishell
 CC = cc
 CFLAGS = -Wall -Wextra  -Werror
 
 MINISHELL_C = minishell.c
-UTILS_C = utils/ft_split.c utils/ft_strncpy.c utils/ft_printf/ft_printf.c utils/ft_printf/ft_putchar.c utils/ft_printf/ft_putnbr.c utils/ft_printf/ft_hex.c utils/ft_printf/ft_upperhex.c utils/ft_printf/ft_putstr.c utils/ft_printf/ft_unsignednbr.c
+UTILS_C = utils/ft_strdup.c utils/ft_strjoin.c utils/ft_split.c utils/ft_strlen.c \
+utils/ft_printf/ft_printf.c utils/ft_printf/ft_putchar.c utils/ft_printf/ft_putnbr.c \
+utils/ft_printf/ft_hex.c utils/ft_printf/ft_upperhex.c utils/ft_printf/ft_putstr.c utils/ft_printf/ft_unsignednbr.c
 
 MINISHELL_O = $(MINISHELL_C:.c=.o)
 UTILS_O = $(UTILS_C:.c=.o)
