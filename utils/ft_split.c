@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 12:29:36 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/22 16:51:21 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/07/23 03:03:50 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,26 @@ int count_wc(char *str, char c)
 	}
 	return (wc);
 }
+
 char **ft_split(char *str, char c)
 {
-	int i = 0;
-	int j = 0;
-	int start = 0;
-	int end = 0;
+	int i;
+	int j;
+	int start;
+	int end;
+	char **out;
+
+	i = 0;
+	j = 0;
+	start = 0;
+	end = 0;
 	if (!str)
 		return NULL;
 	int wc = count_wc(str, c);
-	char **out = malloc(sizeof(char *) * (wc + 1));
+	out = malloc(sizeof(char *) * (wc + 1));
 	if (!out)
 		return NULL;
+
 	while (str[i])
 	{
 		while (str[i] && str[i] == c)
@@ -62,10 +70,14 @@ char **ft_split(char *str, char c)
 		if (start < end)
 		{
 			out[j] = malloc(sizeof(char) * ((end - start) + 1));
+			if (!out)
+				return NULL;
 			ft_strncpy(out[j], &str[start], (end - start));
 			j++;
 		}
 	}
 	out[j] = NULL;
 	return out;
+	return out;
 }
+
