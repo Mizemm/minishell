@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/23 03:41:33 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:37:40 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,9 @@ int main(int ac, char **av, char **env)
 
 	char **tmp;
 	(void)av;
-	if (ac < 1)
-		exit(1);
+	(void)ac;
+	
 	tmp = enviromnt(env);
-	// while (*tmp)
-	// {
-	// 	printf("%s\n", *tmp);
-	// 	tmp++;
-	// }
 	while (1)
 	{
 		line = readline("minishell $ ");
@@ -74,8 +69,8 @@ int main(int ac, char **av, char **env)
 		if (*line)
 		{
 			parse(line);
-			// printf("***%s***\n", line);
-			// free(line);
+			printf("***%s***\n", line);
+			free(line);
 		}
 	}
 }
