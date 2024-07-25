@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/23 12:37:40 by mizem            ###   ########.fr       */
+/*   Updated: 2024/07/24 19:05:21 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_strchr(char *s)
+int ft_strchr2(char *s)
 {
 	int i = 0;
 	char str[5] = "PATH";
@@ -33,7 +33,7 @@ char **enviromnt(char **env)
 	j = 0;
 	while (env[i])
 	{
-		if (ft_strchr(env[i]))
+		if (ft_strchr2(env[i]))
 		{
 			j= 5;
 			while (env[i][j])
@@ -58,9 +58,14 @@ int main(int ac, char **av, char **env)
 
 	char **tmp;
 	(void)av;
-	(void)ac;
-	
+	if (ac < 1)
+		exit(1);
 	tmp = enviromnt(env);
+	// while (*tmp)
+	// {
+	// 	printf("%s\n", *tmp);
+	// 	tmp++;
+	// }
 	while (1)
 	{
 		line = readline("minishell $ ");
@@ -69,8 +74,8 @@ int main(int ac, char **av, char **env)
 		if (*line)
 		{
 			parse(line);
-			printf("***%s***\n", line);
-			free(line);
+			// printf("***%s***\n", line);
+			// free(line);
 		}
 	}
 }
