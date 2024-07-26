@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/26 14:14:51 by mizem            ###   ########.fr       */
+/*   Updated: 2024/07/26 17:36:40 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,17 @@ int main(int ac, char **av, char **env)
 {
 	char *line;
 
-	char **tokens;
+	char **tmp;
 	(void)av;
 	(void)env;
 	if (ac < 1)
 		exit(1);
+	tmp = enviromnt(env);
+	// while (*tmp)
+	// {
+	// 	printf("%s\n", *tmp);
+	// 	tmp++;
+	// }
 	while (1)
 	{
 		line = readline("minishell $ ");
@@ -29,12 +35,9 @@ int main(int ac, char **av, char **env)
 			break;
 		if (*line)
 		{
-			tokens = ft_split(line, ' ');
-			while (*tokens)
-			{
-				printf("<%s>\n", *tokens);
-				tokens++;
-			}
+			parse(line);
+			// printf("***%s***\n", line);
+			// free(line);
 		}
 	}
 }
