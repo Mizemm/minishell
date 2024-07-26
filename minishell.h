@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/26 14:25:22 by mizem            ###   ########.fr       */
+/*   Updated: 2024/07/26 20:33:57 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ typedef struct s_cmd {
  char *path; // The full path to the command (e.g., "/bin/echo", "/bin
  char **args; // Array of arguments including the command
  int arg_count; // Number of arguments
- char *input_file; // For input redirection (<)
- char *output_file; // For output redirection (>)
+//  char *input_file; // For input redirection (<)
+//  char *output_file; // For output redirection (>)
 //  char *append_file; // For append redirection (>>)
 //  char *heredoc_delimiter; // For heredoc (<<)
 //  char *heredoc_content; // Content of heredoc
@@ -55,7 +55,9 @@ typedef struct s_cmd {
  struct s_cmd *next; // Pointer to next command in pipeline
 } t_cmd;
 
-char **environment(char **env);
+int count_ac(char **str);
+char    **environment(char **env);
 void	parse(char *line);
+t_cmd   *create_list(char **tokens);
 
 #endif

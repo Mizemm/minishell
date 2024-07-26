@@ -6,7 +6,7 @@
 #    By: mizem <mizem@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/20 22:27:04 by abdennac          #+#    #+#              #
-#    Updated: 2024/07/26 17:39:03 by mizem            ###   ########.fr        #
+#    Updated: 2024/07/26 17:56:26 by mizem            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 MINISHELL_C = minishell.c
-UTILS_C = \
+UTILS_C = parser.c \
 			utils/ft_isalnum.c utils/ft_lstclear_bonus.c utils/ft_strdup.c \
 			utils/ft_lstsize_bonus.c utils/ft_strchr.c utils/ft_strcmp.c \
 			utils/ft_strjoin.c utils/ft_split.c utils/ft_strlen.c \
