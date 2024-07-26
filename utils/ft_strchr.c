@@ -1,40 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/26 14:14:51 by mizem            ###   ########.fr       */
+/*   Created: 2023/12/10 16:54:51 by mizem             #+#    #+#             */
+/*   Updated: 2024/07/25 21:28:23 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-
-int main(int ac, char **av, char **env)
+char	*ft_strchr(const char *s, int c)
 {
-	char *line;
+	int	i;
 
-	char **tokens;
-	(void)av;
-	(void)env;
-	if (ac < 1)
-		exit(1);
-	while (1)
+	i = 0;
+	if (s[i] == '\0' && (char)c == '\0')
+		return ((char *)s + i);
+	while (s[i])
 	{
-		line = readline("minishell $ ");
-		if (!line)
-			break;
-		if (*line)
-		{
-			tokens = ft_split(line, ' ');
-			while (*tokens)
-			{
-				printf("<%s>\n", *tokens);
-				tokens++;
-			}
-		}
+		if (s[i] == (char)c)
+			return ((char *)s + i);
+		i++;
+		if (s[i] == '\0' && (char)c == '\0')
+			return ((char *)s + i);
 	}
+	return (NULL);
 }

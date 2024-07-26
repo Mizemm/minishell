@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/26 14:14:51 by mizem            ###   ########.fr       */
+/*   Created: 2023/12/06 19:18:56 by mizem             #+#    #+#             */
+/*   Updated: 2024/07/25 21:27:35 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-
-int main(int ac, char **av, char **env)
+int     ft_isalpha(int c)
 {
-	char *line;
+        if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
+                return (1);
+        return (0);
+}
+int     ft_isdigit(int c)
+{
+        if (c >= '0' && c <= '9')
+                return (1);
+        return (0);
+}
 
-	char **tokens;
-	(void)av;
-	(void)env;
-	if (ac < 1)
-		exit(1);
-	while (1)
-	{
-		line = readline("minishell $ ");
-		if (!line)
-			break;
-		if (*line)
-		{
-			tokens = ft_split(line, ' ');
-			while (*tokens)
-			{
-				printf("<%s>\n", *tokens);
-				tokens++;
-			}
-		}
-	}
+int     ft_isalnum(int c)
+{
+        if (ft_isalpha(c) || ft_isdigit(c))
+                return (1);
+        return (0);
 }

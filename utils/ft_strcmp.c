@@ -1,40 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/26 14:14:51 by mizem            ###   ########.fr       */
+/*   Created: 2023/12/19 15:26:44 by mizem             #+#    #+#             */
+/*   Updated: 2024/07/25 21:30:19 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-
-int main(int ac, char **av, char **env)
+int	ft_strncmp(const char *s1, const char *s2)
 {
-	char *line;
+	size_t	i;
 
-	char **tokens;
-	(void)av;
-	(void)env;
-	if (ac < 1)
-		exit(1);
-	while (1)
+	i = 0;
+	while ((unsigned char)s1[i] != '\0' || 
+			(unsigned char)s2[i] != '\0')
 	{
-		line = readline("minishell $ ");
-		if (!line)
-			break;
-		if (*line)
-		{
-			tokens = ft_split(line, ' ');
-			while (*tokens)
-			{
-				printf("<%s>\n", *tokens);
-				tokens++;
-			}
-		}
+		if ((unsigned char)s1[i] != (unsigned char)s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
 	}
+	return (0);
 }

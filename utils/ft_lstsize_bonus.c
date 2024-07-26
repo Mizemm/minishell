@@ -1,40 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/26 14:14:51 by mizem            ###   ########.fr       */
+/*   Created: 2024/01/02 21:45:47 by mizem             #+#    #+#             */
+/*   Updated: 2024/07/25 21:35:13 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-
-int main(int ac, char **av, char **env)
+int	ft_lstsize(t_list *lst)
 {
-	char *line;
+	int	i;
 
-	char **tokens;
-	(void)av;
-	(void)env;
-	if (ac < 1)
-		exit(1);
-	while (1)
+	i = 0;
+	if (!lst)
+		return (0);
+	while (lst != NULL)
 	{
-		line = readline("minishell $ ");
-		if (!line)
-			break;
-		if (*line)
-		{
-			tokens = ft_split(line, ' ');
-			while (*tokens)
-			{
-				printf("<%s>\n", *tokens);
-				tokens++;
-			}
-		}
+		lst = lst->next;
+		i++;
 	}
+	return (i);
 }

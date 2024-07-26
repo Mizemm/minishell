@@ -3,34 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/07/24 17:30:29 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/07/26 14:27:31 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// proof of consept to split the tokens
-void	parse(char *input)
+int path_check(char *s)
 {
-	// t_cmd	tokens;
+	int i = 0;
+	char str[5] = "PATH";
+	while (s[i] && s[i] == str[i])
+		i++;
+	if (i == 4)
+		return 1;
+	return 0;
+}
+char **environment(char **env)
+{
+	int i;
+	int j;
+	char **tmp = NULL;
 
-	// char **lines = ft_split(line, ' ');
-	
-	// tokens.command = lines[0];
-	// if (lines[1][0] == '-')
-	// 	tokens.flag = lines[1];
-	// tokens.directory= lines[2];
-	
-	// printf("-%s-\n", tokens.command);
-	// printf("-%s-\n", tokens.flag);
-	// printf("-%s-\n", tokens.directory);
-
-	t_token *tokens = NULL;
-    int token_count = 0;
-
-	tokenize(input, &tokens, &token_count);
+	i = 0;
+	j = 0;
+	while (env[i])
+	{
+		if (path_check(env[i]))
+		{
+			j= 5;
+			while (env[i][j])
+			{
+				if (env[i][j] == '/')
+				{
+					tmp = ft_split(&env[i][j], ':');
+					break;
+				}
+				j++;
+			}
+			break;
+		}
+		i++;
+	}
+	return tmp;
 }
 
+t_cmd *create_list(char **tokens, int start, int end)
+{
+	t_cmd *cmd;
+
+	cmd = malloc(sizeof(t_cmd));
+	cmd->command = ft_strdup(tokens[start]);
+	// cmd->path = ;
+	cmd->args = malloc(sizeof(char *) * en)
+	
+}
