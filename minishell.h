@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/26 20:33:57 by mizem            ###   ########.fr       */
+/*   Updated: 2024/07/27 13:04:03 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,10 @@ typedef struct s_cmd {
  struct s_cmd *next; // Pointer to next command in pipeline
 } t_cmd;
 
+void	ft_lstadd_back(t_cmd **head, t_cmd *new);
 int count_ac(char **str);
 char    **environment(char **env);
 void	parse(char *line);
-t_cmd   *create_list(char **tokens);
+t_cmd   *create_list(char *tokens);
 
 #endif
