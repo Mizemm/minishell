@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   pipe_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 12:29:36 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/27 22:51:34 by mizem            ###   ########.fr       */
+/*   Updated: 2024/07/27 22:50:54 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,38 @@ void	ft_strncpy(char *s1, char *s2, int len)
 
 int count_wc(char *str, char c)
 {
-	int i = 0;
-	int wc = 0;
-	if (!str)
-		return 0;
-	while (str[i])
-	{
-		while (str[i] && str[i] == c)
-			i++;
-		wc++;
-		while (str[i] && str[i] != c)
-			i++;
+    int i = 0;
+    int wc = 0;
+    int flag = 0;
+
+    if (!str)
+        return 0;
+
+    while (str[i])
+    {
+        if (str[i] == '"')
+            flag = !flag;
+        if (flag == 0 && str[i] == c)
+		{
+            while (str[i] && str[i] == c)
+                i++;
+        }
+		else if (flag == 0)
+		{
+            while (str[i] && str[i] != c)
+			{
+				if (str[i] == '"')
+					break;
+                i++;
+			}
+			wc++;
+        }
+		else
+            i++;
 	}
-	return (wc);
+    return wc;
 }
+
 
 char **ft_split(char *str, char c)
 {
@@ -58,15 +76,30 @@ char **ft_split(char *str, char c)
 	out = malloc(sizeof(char *) * (wc + 1));
 	if (!out)
 		return NULL;
-
 	while (str[i])
 	{
 		while (str[i] && str[i] == c)
 			i++;
-		start = i;
-		while (str[i] && str[i] != c)
-			i++;
-		end = i;
+		if (str[i] == '"')
+        {
+            start = i++;
+            while (str[i] && str[i] != '"')
+                i++;
+            end = ++i;
+        }
+		else
+		{
+			start = i;
+			while (str[i] && str[i] != c)
+			{
+				i++;
+				if (str[i] == '"')
+					break;
+			}
+			end = i;
+		}
+        while (end > start && str[end - 1] == ' ')
+            end--;
 		if (start < end)
 		{
 			out[j] = malloc(sizeof(char) * ((end - start) + 1));
@@ -78,4 +111,16 @@ char **ft_split(char *str, char c)
 	}
 	out[j] = NULL;
 	return out;
+}
+
+int main()
+{
+	printf("<<%d>>\n", count_wc("please \"work | now   \"", '|'));
+	char **str = ft_split("please \"work | now   \"", '|');
+	int i = 0;
+	while (str[i])
+	{
+		printf("<%s>\n", str[i]);
+		i++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/27 13:06:26 by mizem            ###   ########.fr       */
+/*   Updated: 2024/07/27 21:54:15 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,23 @@ int main(int ac, char **av, char **env)
 			tokens = ft_split(line, '|');
 			while (*tokens)
 			{
+				printf("<%s>\n", *tokens);
+				tokens++;
+			}
+			while (*tokens)
+			{
 				list = create_list(*tokens);
-				printf("command : %s\ncount : %d\n", list->command, list->arg_count);
+				// printf("command : %s\ncount : %d\n", list->command, list->arg_count);
+				// int i = 0;
+				// while (list->args[i])
+				// {
+				// 	printf("<%s>\n", list->args[i]);
+				// 	i++;
+				// }
 				ft_lstadd_back(head, list);
 				tokens++;
 			}
 			add_history(line);
-			int i = 0;
-			while (i < count_ac(tokens))
-			{
-				printf("argument :<%s>\n", (list->args[i]));
-				i++;;
-			}
 		}
 	}
 }
