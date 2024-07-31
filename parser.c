@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/07/27 13:06:33 by mizem            ###   ########.fr       */
+/*   Updated: 2024/07/31 11:34:11 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,32 +40,33 @@ char **environment(char **env)
 	char **tmp = NULL;
 
 	i = 0;
-	j = 0;
 	while (env[i])
 	{
 		if (path_check(env[i]))
 		{
-			j= 5;
+			j = 0;
 			while (env[i][j])
 			{
 				if (env[i][j] == '/')
 				{
-					tmp = ft_split(&env[i][j], ':');
+					tmp = pipe_split(&env[i][j], ':');
 					break;
 				}
 				j++;
 			}
-			break;
 		}
 		i++;
 	}
 	return tmp;
 }
-
+char *return_path(char **paths)
+{
+	
+}
 t_cmd *create_list(char *tokens)
 {
 	int i = 0;
-	char **str = ft_split(tokens, ' ');
+	char **str = pipe_split(tokens, ' ');
 	t_cmd *cmd;
 	int ac = count_ac(str);
 

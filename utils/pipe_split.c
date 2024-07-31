@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 12:29:36 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/30 22:55:38 by mizem            ###   ########.fr       */
+/*   Updated: 2024/07/31 10:50:51 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,6 @@ char **pipe_split(char *str, char c) {
             i++;
         }
         end = i;
-        // while (end > start && str[end - 1] == ' ')
-        //     end--;
         if (start < end)
         {
             out[j] = malloc(sizeof(char) * ((end - start) + 1));
@@ -118,20 +116,18 @@ char **pipe_split(char *str, char c) {
             ft_strncpy(out[j], &str[start], (end - start));
             j++;
         }
-        // if (str[i] == c)
-        //     i++;
     }
     out[j] = NULL;
     return out;
 }
 
-int main()
-{
-	char **str = pipe_split("  please   \"work | now   \" ||  did it work   ", ' ');
-	int i = 0;
-	while (str[i])
-	{
-		printf("<%s>\n", str[i]);
-		i++;
-	}
-}
+// int main()
+// {
+// 	char **str = pipe_split("  please   ", '|');
+// 	int i = 0;
+// 	while (str[i])
+// 	{
+// 		printf("<%s>\n", str[i]);
+// 		i++;
+// 	}
+// }

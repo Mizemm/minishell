@@ -6,7 +6,7 @@
 #    By: mizem <mizem@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/20 22:27:04 by abdennac          #+#    #+#              #
-#    Updated: 2024/07/27 13:04:51 by mizem            ###   ########.fr        #
+#    Updated: 2024/07/29 18:54:40 by mizem            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,10 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 MINISHELL_C = minishell.c
-UTILS_C = parser.c utils/ft_lstadd_back_bonus.c \
+UTILS_C = parser.c utils/pipe_split.c utils/ft_lstadd_back_bonus.c \
 			utils/ft_isalnum.c utils/ft_lstclear_bonus.c utils/ft_strdup.c \
 			utils/ft_lstsize_bonus.c utils/ft_strchr.c utils/ft_strcmp.c \
-			utils/ft_strjoin.c utils/ft_split.c utils/ft_strlen.c \
+			utils/ft_strjoin.c utils/ft_strlen.c \
 			utils/ft_printf/ft_printf.c utils/ft_printf/ft_putchar.c utils/ft_printf/ft_putnbr.c \
 			utils/ft_printf/ft_hex.c utils/ft_printf/ft_upperhex.c utils/ft_printf/ft_putstr.c \
 			utils/ft_printf/ft_unsignednbr.c

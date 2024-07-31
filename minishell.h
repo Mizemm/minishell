@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/27 13:04:03 by mizem            ###   ########.fr       */
+/*   Updated: 2024/07/29 18:58:34 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_strncpy(char *s1, char *s2, int len);
 char	*ft_strdup(char *src);
 char	*ft_strjoin(char *s1, char *s2);
 int     count_wc(char *str, char c);
-char	**ft_split(char *str, char c);
+char    **pipe_split(char *str, char c);
 
 /* ########################################################################### */
 
