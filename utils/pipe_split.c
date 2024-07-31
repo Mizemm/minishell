@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 12:29:36 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/31 10:50:51 by mizem            ###   ########.fr       */
+/*   Updated: 2024/07/31 15:34:30 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ char **pipe_split(char *str, char c) {
 
 // int main()
 // {
-// 	char **str = pipe_split("  please   ", '|');
+// 	char **str = pipe_split("  please  |h ", '|');
 // 	int i = 0;
 // 	while (str[i])
 // 	{

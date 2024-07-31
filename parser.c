@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/07/31 11:34:11 by mizem            ###   ########.fr       */
+/*   Updated: 2024/07/31 16:40:00 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,29 @@ char **environment(char **env)
 	}
 	return tmp;
 }
-char *return_path(char **paths)
-{
-	
-}
-t_cmd *create_list(char *tokens)
+char *return_path(char **ev, char *str)
 {
 	int i = 0;
-	char **str = pipe_split(tokens, ' ');
+	char *tmp;
+	while (ev[i])
+	{
+		tmp = ft_strjoin(ev[i], str);
+		if (access(tmp, X_OK) == 0)
+            return tmp;
+        free(tmp);
+        i++;
+	}
+	return 0;
+}
+t_cmd *create_list(char *tokens, char **ev)
+{
+	int i = 0;
 	t_cmd *cmd;
+	char **str = pipe_split(tokens, ' ');
 	int ac = count_ac(str);
-
 	cmd = malloc(sizeof(t_cmd));
 	cmd->command = ft_strdup(str[0]);
+	cmd->path = return_path(ev, cmd->command);
 	cmd->arg_count = ac;
 	cmd->args = malloc(sizeof(char *) * (ac + 1));
 	while (i < ac)

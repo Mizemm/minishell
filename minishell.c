@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/31 11:33:17 by mizem            ###   ########.fr       */
+/*   Updated: 2024/07/31 16:42:18 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int main(int ac, char **av, char **env)
 {
 	t_cmd **head;
 	t_cmd *list;
+	char **ev;
 	char *line;
 	char **tokens;
-	char **paths;
 	(void)av;
 	
 	head = NULL;
@@ -29,7 +29,7 @@ int main(int ac, char **av, char **env)
 	while (1)
 	{
 		line = readline("minishell $ ");
-		paths = environment(env);
+		ev = environment(env);
 		if (!line)
 			break;
 		if (*line)
@@ -37,8 +37,9 @@ int main(int ac, char **av, char **env)
 			tokens = pipe_split(line, '|');
 			while (*tokens)
 			{
-				list = create_list(*tokens);
+				list = create_list(*tokens, ev);
 				printf("Command : [%s]\n", list->command);
+				printf("Path : [%s]\n", list->path);
 				int i = 0;
 				while (list->args[i])
 				{

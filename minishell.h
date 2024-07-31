@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/29 18:58:34 by mizem            ###   ########.fr       */
+/*   Updated: 2024/07/31 16:41:19 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,12 @@ char    **pipe_split(char *str, char c);
 
 /* ########################################################################### */
 
-typedef struct s_cmd {
- char *command; // The command name (e.g., "echo", "ls")
- char *path; // The full path to the command (e.g., "/bin/echo", "/bin
- char **args; // Array of arguments including the command
- int arg_count; // Number of arguments
+typedef struct s_cmd
+{
+    char *command; // The command name (e.g., "echo", "ls")
+    char *path; // The full path to the command (e.g., "/bin/echo", "/bin
+    char **args; // Array of arguments including the command
+    int arg_count; // Number of arguments
 //  char *input_file; // For input redirection (<)
 //  char *output_file; // For output redirection (>)
 //  char *append_file; // For append redirection (>>)
@@ -55,10 +56,11 @@ typedef struct s_cmd {
  struct s_cmd *next; // Pointer to next command in pipeline
 } t_cmd;
 
+
 void	ft_lstadd_back(t_cmd **head, t_cmd *new);
 int count_ac(char **str);
 char    **environment(char **env);
 void	parse(char *line);
-t_cmd   *create_list(char *tokens);
+t_cmd   *create_list(char *tokens, char **ev);
 
 #endif
