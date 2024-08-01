@@ -6,13 +6,13 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:55:29 by abdennac          #+#    #+#             */
-/*   Updated: 2024/07/22 16:57:37 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/08/01 09:44:47 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
 	int	i;
 

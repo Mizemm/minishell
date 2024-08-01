@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/31 16:42:18 by mizem            ###   ########.fr       */
+/*   Updated: 2024/08/01 09:53:34 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
-	t_cmd **head;
-	t_cmd *list;
-	char **ev;
-	char *line;
-	char **tokens;
+	t_cmd	**head;
+	t_cmd	*list;
+	char	**ev;
+	char	*line;
+	char	**tokens;
+	int		i;
+
 	(void)av;
-	
 	head = NULL;
 	if (ac < 1)
 		exit(1);
@@ -31,7 +31,7 @@ int main(int ac, char **av, char **env)
 		line = readline("minishell $ ");
 		ev = environment(env);
 		if (!line)
-			break;
+			break ;
 		if (*line)
 		{
 			tokens = pipe_split(line, '|');
@@ -40,7 +40,7 @@ int main(int ac, char **av, char **env)
 				list = create_list(*tokens, ev);
 				printf("Command : [%s]\n", list->command);
 				printf("Path : [%s]\n", list->path);
-				int i = 0;
+				i = 0;
 				while (list->args[i])
 				{
 					printf(" Args : <%s>\n", list->args[i]);

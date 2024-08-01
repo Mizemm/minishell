@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 20:39:38 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/27 13:05:58 by mizem            ###   ########.fr       */
+/*   Updated: 2024/08/01 09:45:23 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_cmd	*ft_lstlast(t_cmd *lst)
 	}
 	return (lst);
 }
+
 void	ft_lstadd_back(t_cmd **head, t_cmd *new)
 {
 	if (!head || !new)

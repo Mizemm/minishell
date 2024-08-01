@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/07/31 16:40:00 by mizem            ###   ########.fr       */
+/*   Updated: 2024/08/01 09:56:11 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 int count_ac(char **str)
 {
-	int i = 0;
-	
+	int i;
+
+	i = 0;
 	if (!str)
-		return 0;
+		return (0);
 	while (str[i])
 		i++;
 	return (i);
@@ -25,20 +26,23 @@ int count_ac(char **str)
 
 int path_check(char *s)
 {
-	int i = 0;
+	int i;
 	char str[5] = "PATH";
+
+	i = 0;
 	while (s[i] && s[i] == str[i])
 		i++;
 	if (i == 4)
-		return 1;
-	return 0;
+		return (1);
+	return (0);
 }
 char **environment(char **env)
 {
 	int i;
 	int j;
-	char **tmp = NULL;
+	char **tmp;
 
+	tmp = NULL;
 	i = 0;
 	while (env[i])
 	{
@@ -57,28 +61,35 @@ char **environment(char **env)
 		}
 		i++;
 	}
-	return tmp;
+	return (tmp);
 }
 char *return_path(char **ev, char *str)
 {
-	int i = 0;
+	int i;
 	char *tmp;
+
+	i = 0;
 	while (ev[i])
 	{
 		tmp = ft_strjoin(ev[i], str);
 		if (access(tmp, X_OK) == 0)
-            return tmp;
-        free(tmp);
-        i++;
+			return (tmp);
+		free(tmp);
+		i++;
 	}
-	return 0;
+	return (0);
 }
+
 t_cmd *create_list(char *tokens, char **ev)
 {
-	int i = 0;
-	t_cmd *cmd;
-	char **str = pipe_split(tokens, ' ');
-	int ac = count_ac(str);
+	int		i;
+	t_cmd	*cmd;
+	char	**str;
+	int		ac;
+
+	i = 0;
+	str = pipe_split(tokens, ' ');
+	ac = count_ac(str);
 	cmd = malloc(sizeof(t_cmd));
 	cmd->command = ft_strdup(str[0]);
 	cmd->path = return_path(ev, cmd->command);
@@ -90,5 +101,5 @@ t_cmd *create_list(char *tokens, char **ev)
 		i++;
 	}
 	cmd->args[i] = NULL;
-	return cmd;
+	return (cmd);
 }

@@ -3,121 +3,116 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 15:22:39 by abdennac          #+#    #+#             */
-/*   Updated: 2024/07/26 13:37:55 by mizem            ###   ########.fr       */
+/*   Updated: 2024/07/31 15:23:59 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void error(char *str)
+void tokenize(char *input, t_main *main, int *token_count)
 {
-	ft_printf("%s\n", str);
-	exit(1);
-}
+	char *buffer = malloc(ft_strlen(input) + 1);
+	if (!buffer)
+		error("Buffer allocation failed");
+	int buf_idx;
 
-int spc_check(int c)
-{
-	if (c == ' ')
-		return (1);
-	return (0);
-}
-
-void *ft_memcpy(void *dst, const void *src, size_t n)
-{
-	size_t i;
-
-	if (!dst && !src)
-		return (0);
-	i = 0;
-	while (i < n)
+	while (*input != '\0')
 	{
-		((unsigned char *)dst)[i] = ((unsigned char *)src)[i];
+		if (spc_check(*input))
+			input++;
+
+		buf_idx = 0;
+		// Tokenize FLAG
+		if (*input == '-' && ft_isalnum(*(input + 1)))
+		{
+			while (*input && !spc_check(*input))
+				buffer[buf_idx++] = *input++;
+			buffer[buf_idx] = '\0';
+			ft_lstadd_back_token(&main->tokens, new_t_token("FLAG", buffer));
+		}
+
+		// Tokenize OPERATOR
+		else if (ft_strchr("|&><=", *input))
+		{
+			buffer[buf_idx++] = *input++;
+			buffer[buf_idx] = '\0';
+			ft_lstadd_back_token(&main->tokens, new_t_token("OPERATOR", buffer));
+		}
+
+		// Tokenize QUOTED_STRING
+		else if (*input == '"' || *input == '\'')
+		{
+			char quote = *input++;
+			while (*input && *input != quote)
+				buffer[buf_idx++] = *input++;
+			if (*input == quote)
+				input++;
+			buffer[buf_idx] = '\0';
+			ft_lstadd_back_token(&main->tokens, new_t_token("QUOTED_STRING", buffer));
+		}
+
+		// Tokenize VARIABLE
+		else if (*input == '$' && ft_isalnum(*(input + 1)))
+		{
+			buffer[buf_idx++] = *input++;
+			while (ft_isalnum(*input) || *input == '_')
+				buffer[buf_idx++] = *input++;
+			buffer[buf_idx] = '\0';
+			ft_lstadd_back_token(&main->tokens, new_t_token("VARIABLE", buffer));
+		}
+
+		// Tokenize COMMAND/ARGUMENT
+		else
+		{
+			while (*input && !spc_check(*input) && !ft_strchr("|&><=", *input))
+				buffer[buf_idx++] = *input++;
+			buffer[buf_idx] = '\0';
+
+			if (*token_count == 0 || ft_strcmp((main->tokens)[*token_count - 1].type, "OPERATOR") == 0)
+				ft_lstadd_back_token(&main->tokens, new_t_token("COMMAND", buffer));
+			else
+				ft_lstadd_back_token(&main->tokens, new_t_token("ARGUMENT", buffer));
+		}
+	}
+
+	free(buffer);
+	buffer = NULL;
+}
+
+int count_ac(t_token *tokens)
+{
+	int i = 0;
+	while (tokens && tokens->value[0] != '|')
+	{
+		i++;
+		tokens = tokens->next;
+	}
+	return (i);
+}
+
+void create_list(t_cmd *cmd, t_token *tokens)
+{
+	int i = 0;
+
+	cmd = malloc(sizeof(t_cmd));
+	cmd->arg_count = count_ac(tokens);
+	cmd->args = malloc((cmd->arg_count * sizeof(char *)) + 1);
+	cmd->args[cmd->arg_count - 1] = NULL;
+	if (!cmd->args)
+		error("command allocation failed");
+
+	while (tokens && tokens->value[0] != '|')
+	{
+		cmd->args[i] = ft_strdup(tokens->value);
+		tokens = tokens->next;
+		// if (ft_strcmp(tokens->type, "COMMAND"))
+		//     cmd->command = ft_strdup(tokens->value);
 		i++;
 	}
-	return (dst);
-}
-
-char *ft_strchr(const char *s, int c)
-{
-	while ((*s != '\0') && (*s != c))
-	{
-		s++;
-	}
-	if (*s == c)
-	{
-		return ((char *)s);
-	}
-	return ((char *)NULL);
-}
-
-void add_token(t_token **tokens, int *token_count, char *type, char *value)
-{
-	t_token *new_token = malloc((*token_count + 1) + sizeof(t_token));
-	if (!new_token)
-		error("token allocation failed");
-	if (*tokens)
-	{
-		ft_memcpy(new_token, *tokens, *token_count * sizeof(t_token));
-		free(*tokens);
-	}
-	new_token[*token_count].type = ft_strdup(type);
-	new_token[*token_count].value = ft_strdup(value);
-	if (!new_token[*token_count].type || !new_token[*token_count].type)
-		error("type / value allocation failed");
-	*tokens = new_token;
-	(*token_count)++;
-}
-
-void tokenize(char *input, t_token **tokens, int *token_count)
-{
-	int i;
-	char *buffer;
-	int buff_i;
-	char quote;
-
-	buffer = malloc(ft_strlen(input) + 1);
-	if (!buffer)
-		error("buffer allocation failed");
-
 	i = -1;
-	while (input[++i])
-	{
-		if (spc_check(input[i]))
-			i++;
-
-		buff_i = 0;
-		// tokenize flags
-		if (input[i] == '-' && isalnum(input[i + 1]))
-		{
-			while (input[i] && !spc_check(input[i]))
-				buffer[buff_i++] = input[i++];
-			buffer[buff_i] = '\0';
-			add_token(tokens, token_count, "FLAG", buffer);
-		}
-		// tokenize operator
-		else if (ft_strchr("|&><=", input[i]))
-		{
-			buffer[buff_i++] = input[i++];
-			buffer[buff_i] = '\0';
-			add_token(tokens, token_count, "OPERATOR", buffer);
-		}
-		// tokenize quoted string
-		else if (input[i] == '"' || input[i] == '\'')
-		{
-			quote = input[i++];
-			while (input[i] && input[i] != quote)
-				buffer[buff_i++] = input[i++];
-			if(input[i] == quote)
-				i++;
-			buffer[buff_i] = '\0';
-			 add_token(tokens, token_count, "QUOTED_STRING", buffer);
-		}
-		// tokenize variables
-		else if ()
-	}
-	
-	free(buffer);
+	while(cmd->args[++i])
+		printf("*** %s\n", cmd->args[i]);
 }

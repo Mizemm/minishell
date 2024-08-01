@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 12:33:44 by mizem             #+#    #+#             */
-/*   Updated: 2024/07/20 12:36:43 by mizem            ###   ########.fr       */
+/*   Updated: 2024/08/01 09:50:30 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	ft_strncpy(char *s1, char *s2, int len)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (s2[i] && i < len)
 	{
 		s1[i] = s2[i];
