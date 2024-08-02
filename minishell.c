@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/08/02 15:04:20 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/08/02 17:56:06 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	main(int ac, char **av, char **env)
 	char	**ev;
 	char	**tokens;
 	int		i;
+	int		j;
 
 	(void)av;
 	list = NULL;
@@ -27,25 +28,30 @@ int	main(int ac, char **av, char **env)
 	using_history();
 	while (1)
 	{
-		line = readline("minishell $ ");
+		line = readline("minishin $ ");
 		ev = environment(env);
 		if (!line)
 			break ;
 		if (*line)
 		{
 			tokens = pipe_split(line, '|');
+			j = count_ac(tokens);
 			while (*tokens)
 			{
-				list = create_list(list, *tokens, ev);
-				printf("Command : [%s]\n", list->command);
-				printf("Path : [%s]\n", list->path);
+				list = create_list(list, *tokens, ev, j);
+				printf("Command :	[%s]\n", list->command);
+				printf("Path :		[%s]\n", list->path);
+				printf("Output file :	[%s]\n", list->output_file);
+				printf("Input file :	[%s]\n", list->input_file);
+				printf("Pipe_out :	[%d]\n", list->pipe_out);
 				i = -1;
 				while (list->args[++i])
-					printf(" Args : <%s>\n", list->args[i]);
+					printf("-----------> Args : {%s}\n", list->args[i]);
 				tokens++;
+				j--;
 			}
 			add_history(line);
 		}
-		execute_command(list);
+			execute_command(list);
 	}
 }
