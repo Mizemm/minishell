@@ -6,7 +6,7 @@
 #    By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/20 22:27:04 by abdennac          #+#    #+#              #
-#    Updated: 2024/08/01 09:05:43 by abdennac         ###   ########.fr        #
+#    Updated: 2024/08/02 13:57:09 by abdennac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 MINISHELL_C = minishell.c
-UTILS_C = parser.c utils/pipe_split.c utils/ft_lstadd_back_bonus.c \
+UTILS_C = parser.c execution.c utils/pipe_split.c utils/ft_lstadd_back_bonus.c \
 			utils/ft_isalnum.c utils/ft_lstclear_bonus.c utils/ft_strdup.c \
 			utils/ft_lstsize_bonus.c utils/ft_strchr.c utils/ft_strcmp.c \
 			utils/ft_strjoin.c utils/ft_strlen.c \

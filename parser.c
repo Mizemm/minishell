@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/08/01 09:56:11 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/08/02 15:03:12 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char *return_path(char **ev, char *str)
 	return (0);
 }
 
-t_cmd *create_list(char *tokens, char **ev)
+t_cmd *create_list(t_cmd *list, char *tokens, char **ev)
 {
 	int		i;
 	t_cmd	*cmd;
@@ -101,5 +101,6 @@ t_cmd *create_list(char *tokens, char **ev)
 		i++;
 	}
 	cmd->args[i] = NULL;
+	ft_lstadd_back(&list, cmd);
 	return (cmd);
 }

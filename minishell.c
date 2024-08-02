@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/08/01 09:53:34 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/08/02 15:04:20 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,14 @@
 
 int	main(int ac, char **av, char **env)
 {
-	t_cmd	**head;
 	t_cmd	*list;
-	char	**ev;
 	char	*line;
+	char	**ev;
 	char	**tokens;
 	int		i;
 
 	(void)av;
-	head = NULL;
+	list = NULL;
 	if (ac < 1)
 		exit(1);
 	using_history();
@@ -37,19 +36,16 @@ int	main(int ac, char **av, char **env)
 			tokens = pipe_split(line, '|');
 			while (*tokens)
 			{
-				list = create_list(*tokens, ev);
+				list = create_list(list, *tokens, ev);
 				printf("Command : [%s]\n", list->command);
 				printf("Path : [%s]\n", list->path);
-				i = 0;
-				while (list->args[i])
-				{
+				i = -1;
+				while (list->args[++i])
 					printf(" Args : <%s>\n", list->args[i]);
-					i++;
-				}
-				ft_lstadd_back(head, list);
 				tokens++;
 			}
 			add_history(line);
 		}
+		execute_command(list);
 	}
 }

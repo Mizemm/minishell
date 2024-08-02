@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/08/01 09:54:31 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/08/02 15:02:19 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,15 @@ typedef struct s_cmd
 	char *heredoc_delimiter; // For heredoc (<<)
 	char *heredoc_content;   // Content of heredoc
 	int pipe_out;            // 1 if command pipes to next, 0 otherwise
+	char **environment;
 	struct s_cmd *next;      // Pointer to next command in pipeline
 }					t_cmd;
 
+void 				execute_command(t_cmd *commands);
 void				ft_lstadd_back(t_cmd **head, t_cmd *new);
 int					count_ac(char **str);
 char				**environment(char **env);
 void				parse(char *line);
-t_cmd				*create_list(char *tokens, char **ev);
+t_cmd				*create_list(t_cmd *list, char *tokens, char **ev);
 
 #endif
