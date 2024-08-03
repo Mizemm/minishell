@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/08/03 15:21:59 by mizem            ###   ########.fr       */
+/*   Updated: 2024/08/03 16:52:54 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int path_check(char *s)
 }
 char **environment(char *env)
 {
-	printf("%s", env);
 	int i;
 	char **tmp;
 
@@ -103,6 +102,7 @@ t_cmd *create_list(t_cmd *list, char *tokens, char **ev, int flag)
     cmd->heredoc_delimiter = NULL;
     cmd->pipe_out = 0;
     cmd->arg_count = ac;
+    cmd->next = NULL;
 
 	if (!cmd)
 		return NULL;

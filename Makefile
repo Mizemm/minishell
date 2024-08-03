@@ -6,13 +6,13 @@
 #    By: mizem <mizem@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/20 22:27:04 by abdennac          #+#    #+#              #
-#    Updated: 2024/08/02 17:27:30 by mizem            ###   ########.fr        #
+#    Updated: 2024/08/03 16:47:52 by mizem            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 MINISHELL = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = #-Wall -Wextra -Werror #-fsanitize=address
 
 MINISHELL_C = minishell.c
 UTILS_C = parser.c execution.c utils/pipe_split.c utils/ft_lstadd_back_bonus.c \
