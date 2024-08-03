@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/08/02 17:53:44 by mizem            ###   ########.fr       */
+/*   Updated: 2024/08/03 15:21:59 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,31 +36,16 @@ int path_check(char *s)
 		return (1);
 	return (0);
 }
-char **environment(char **env)
+char **environment(char *env)
 {
+	printf("%s", env);
 	int i;
-	int j;
 	char **tmp;
 
 	tmp = NULL;
 	i = 0;
-	while (env[i])
-	{
-		if (path_check(env[i]))
-		{
-			j = 0;
-			while (env[i][j])
-			{
-				if (env[i][j] == '/')
-				{
-					tmp = pipe_split(&env[i][j], ':');
-					break;
-				}
-				j++;
-			}
-		}
-		i++;
-	}
+	if (env)
+		tmp = pipe_split(&env[i], ':');
 	return (tmp);
 }
 char *return_path(char **ev, char *str)
@@ -118,10 +103,10 @@ t_cmd *create_list(t_cmd *list, char *tokens, char **ev, int flag)
     cmd->heredoc_delimiter = NULL;
     cmd->pipe_out = 0;
     cmd->arg_count = ac;
-	
+
 	if (!cmd)
 		return NULL;
-	
+
 	cmd->command = ft_strdup(str[0]);
 	cmd->path = return_path(ev, cmd->command);
 	cmd->arg_count = ac;
@@ -134,7 +119,7 @@ t_cmd *create_list(t_cmd *list, char *tokens, char **ev, int flag)
 	cmd->args[i] = NULL;
 	if (flag > 1)
 		cmd->pipe_out = 1;
-	
+
 	redirections(cmd);	
 	
 	ft_lstadd_back(&list, cmd);

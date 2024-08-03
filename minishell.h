@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/08/02 17:26:52 by mizem            ###   ########.fr       */
+/*   Updated: 2024/08/03 15:15:44 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_cmd
 void 				execute_command(t_cmd *commands);
 void				ft_lstadd_back(t_cmd **head, t_cmd *new);
 int					count_ac(char **str);
-char				**environment(char **env);
+char				**environment(char *env);
 void				parse(char *line);
 t_cmd				*create_list(t_cmd *list, char *tokens, char **ev, int flag);
 

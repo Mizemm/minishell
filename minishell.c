@@ -6,20 +6,20 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/08/02 17:56:06 by mizem            ###   ########.fr       */
+/*   Updated: 2024/08/03 15:19:46 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+int	main(int ac, char **av)
 {
 	t_cmd	*list;
 	char	*line;
 	char	**ev;
 	char	**tokens;
 	int		i;
-	int		j;
+	int		flag;
 
 	(void)av;
 	list = NULL;
@@ -29,16 +29,16 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		line = readline("minishin $ ");
-		ev = environment(env);
+		ev = environment(getenv("PATH"));
 		if (!line)
 			break ;
 		if (*line)
 		{
 			tokens = pipe_split(line, '|');
-			j = count_ac(tokens);
+			flag = count_ac(tokens);
 			while (*tokens)
 			{
-				list = create_list(list, *tokens, ev, j);
+				list = create_list(list, *tokens, ev, flag);
 				printf("Command :	[%s]\n", list->command);
 				printf("Path :		[%s]\n", list->path);
 				printf("Output file :	[%s]\n", list->output_file);
@@ -46,12 +46,12 @@ int	main(int ac, char **av, char **env)
 				printf("Pipe_out :	[%d]\n", list->pipe_out);
 				i = -1;
 				while (list->args[++i])
-					printf("-----------> Args : {%s}\n", list->args[i]);
+					printf("-------> Args : {%s}\n", list->args[i]);
 				tokens++;
-				j--;
+				flag--;
 			}
 			add_history(line);
 		}
-			execute_command(list);
+			// execute_command(list);
 	}
 }
