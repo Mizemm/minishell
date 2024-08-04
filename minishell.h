@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/08/03 15:15:44 by mizem            ###   ########.fr       */
+/*   Updated: 2024/08/04 01:06:24 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_cmd
 	char	*heredoc_content;   // Content of heredoc
 	int		pipe_out;            // 1 if command pipes to next, 0 otherwise
 	char	**environment;
-	struct s_cmd *next;      // Pointer to next command in pipeline
+	struct s_cmd *next;      	// Pointer to next command in pipeline
 }					t_cmd;
 
 void 				execute_command(t_cmd *commands);
@@ -58,3 +58,5 @@ void				parse(char *line);
 t_cmd				*create_list(t_cmd *list, char *tokens, char **ev, int flag);
 
 #endif
+
+// ls -la | wc -l
