@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 10:17:07 by abdennac          #+#    #+#             */
-/*   Updated: 2024/08/04 04:56:42 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/08/05 17:07:52 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ setup_redirections(t_cmd *commands,int prev_pipe, int curr_pipe)
 {
 	
 }
-
 void execute_command(t_cmd *commands)
 {
 	int prev_pipe[2] = {-1, -1};
