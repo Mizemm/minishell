@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/08/04 01:06:34 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/08/07 16:28:28 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	main(int ac, char **av)
 			break ;
 		if (*line)
 		{
+			if (db_quotes_counter(line) % 2 != 0 || sg_quotes_counter(line) % 2 != 0)
+				exit(1);
 			tokens = pipe_split(line, '|');
 			flag = count_ac(tokens);
 			while (*tokens)

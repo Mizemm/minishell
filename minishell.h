@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/08/04 01:06:24 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/08/07 15:30:13 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-// void				ft_lstclear(t_list **lst, void (*del)(void *));
-// int					ft_lstsize(t_list *lst);
+/* ################################################################### */
 
 int					ft_strlen(char *str);
 int					ft_isalnum(int c);
@@ -31,6 +30,8 @@ char				*ft_strdup(char *src);
 char				*ft_strjoin(char *s1, char *s2);
 int					count_wc(char *str, char c);
 char				**pipe_split(char *str, char c);
+int					quotes_counter(char *str);
+int					sg_quotes_counter(char *str);
 
 /* ################################################################### */
 
@@ -50,13 +51,13 @@ typedef struct s_cmd
 	struct s_cmd *next;      	// Pointer to next command in pipeline
 }					t_cmd;
 
-void 				execute_command(t_cmd *commands);
+/* ################################################################### */
+
 void				ft_lstadd_back(t_cmd **head, t_cmd *new);
+void 				execute_command(t_cmd *commands);
 int					count_ac(char **str);
 char				**environment(char *env);
 void				parse(char *line);
 t_cmd				*create_list(t_cmd *list, char *tokens, char **ev, int flag);
 
 #endif
-
-// ls -la | wc -l

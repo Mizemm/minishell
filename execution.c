@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 10:17:07 by abdennac          #+#    #+#             */
-/*   Updated: 2024/08/05 17:07:52 by mizem            ###   ########.fr       */
+/*   Updated: 2024/08/07 15:44:24 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void execute_single_command(t_cmd *cmd)
 	execve(cmd->path, cmd->args, cmd->environment);
 }
 
-setup_redirections(t_cmd *commands,int prev_pipe, int curr_pipe)
-{
+// setup_redirections(t_cmd *commands,int prev_pipe, int curr_pipe)
+// {
 	
-}
+// }
 void execute_command(t_cmd *commands)
 {
 	int prev_pipe[2] = {-1, -1};
@@ -41,7 +41,7 @@ void execute_command(t_cmd *commands)
 		if (pid == 0)
 		{
 			// Child process
-			setup_redirections(commands, prev_pipe, curr_pipe);
+			// setup_redirections(commands, prev_pipe, curr_pipe);
 			execute_single_command(commands);
 		}
 		commands = commands->next;
