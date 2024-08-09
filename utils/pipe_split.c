@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 12:29:36 by mizem             #+#    #+#             */
-/*   Updated: 2024/08/07 15:43:32 by mizem            ###   ########.fr       */
+/*   Updated: 2024/08/09 17:39:40 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	count_wc(char *str, char c)
 		return (0);
 	while (str[i])
 	{
-		if (str[i] == '"')
+		if (str[i] == '"' || str[i] == 39)
 			flag = !flag;
 		if (!flag && str[i] == c)
 		{
@@ -65,7 +65,7 @@ int	count_wc(char *str, char c)
 			wc++;
 			while (str[i] && (flag || str[i] != c))
 			{
-				if (str[i] == '"')
+				if (str[i] == '"' || str[i] == 39)
 					flag = !flag;
 				i++;
 			}
@@ -96,7 +96,7 @@ char	**pipe_split(char *str, char c)
 		start = i;
 		while (str[i])
 		{
-			if (str[i] == '"')
+			if (str[i] == '"' || str[i] == 39)
 				flag = !flag;
 			else if (str[i] == c && !flag)
 				break ;

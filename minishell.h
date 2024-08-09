@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/08/07 15:30:13 by mizem            ###   ########.fr       */
+/*   Updated: 2024/08/09 17:32:19 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char				*ft_strdup(char *src);
 char				*ft_strjoin(char *s1, char *s2);
 int					count_wc(char *str, char c);
 char				**pipe_split(char *str, char c);
-int					quotes_counter(char *str);
+int					db_quotes_counter(char *str);
 int					sg_quotes_counter(char *str);
 
 /* ################################################################### */
