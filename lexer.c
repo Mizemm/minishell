@@ -1,17 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/08/03 16:52:54 by mizem            ###   ########.fr       */
+/*   Updated: 2024/08/10 16:18:48 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+char *last_arg(t_cmd *list, int i)
+{
+	char *tmp;
+	while (list->args[i] != NULL)
+	{
+		tmp = list->args[i];
+		i++;
+	}
+	return tmp;
+}
 int count_ac(char **str)
 {
 	int i;
@@ -63,19 +72,19 @@ char *return_path(char **ev, char *str)
 	}
 	return (0);
 }
-void redirections(t_cmd *cmd)
+void redirections(t_cmd *list)
 {
 	int i = 0;
-	while (cmd->args[i])
+	while (list->args[i])
 	{
-		if (ft_strcmp(cmd->args[i], "<") == 0)
+		if (ft_strcmp(list->args[i], "<") == 0)
 		{
-			cmd->input_file = ft_strdup(cmd->args[++i]);
+			list->input_file = ft_strdup(last_arg(list, ++i));
 			break;
 		}
-		else if (ft_strcmp(cmd->args[i], ">") == 0)
+		else if (ft_strcmp(list->args[i], ">") == 0)
 		{
-			cmd->output_file = ft_strdup(cmd->args[++i]);
+			list->output_file = ft_strdup(last_arg(list, ++i));
 			break;
 		}
 		i++;
