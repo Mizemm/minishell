@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/08/10 16:18:48 by mizem            ###   ########.fr       */
+/*   Updated: 2024/08/11 16:36:34 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,20 @@ void redirections(t_cmd *list)
 	while (list->args[i])
 	{
 		if (ft_strcmp(list->args[i], "<") == 0)
-		{
 			list->input_file = ft_strdup(last_arg(list, ++i));
-			break;
-		}
 		else if (ft_strcmp(list->args[i], ">") == 0)
 		{
-			list->output_file = ft_strdup(last_arg(list, ++i));
+			list->output_file = ft_strdup(list->args[++i]);
+			break;
+		}
+		else if (ft_strcmp(list->args[i], ">>") == 0)
+		{
+			list->append_file = ft_strdup(list->args[++i]);
+			break;
+		}
+		else if (ft_strcmp(list->args[i], "<<") == 0)
+		{
+			list->heredoc_delimiter = ft_strdup(list->args[++i]);
 			break;
 		}
 		i++;
@@ -100,6 +107,7 @@ t_cmd *create_list(t_cmd *list, char *tokens, char **ev, int flag)
 
 	i = 0;
 	str = pipe_split(tokens, ' ');
+	printf("<<%s>\n", str[0]);
 	ac = count_ac(str);
 	cmd = malloc(sizeof(t_cmd));
 	
@@ -112,10 +120,9 @@ t_cmd *create_list(t_cmd *list, char *tokens, char **ev, int flag)
     cmd->pipe_out = 0;
     cmd->arg_count = ac;
     cmd->next = NULL;
-
+	
 	if (!cmd)
 		return NULL;
-
 	cmd->command = ft_strdup(str[0]);
 	cmd->path = return_path(ev, cmd->command);
 	cmd->arg_count = ac;
