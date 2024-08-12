@@ -16,6 +16,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>
+# include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
 
@@ -59,5 +60,9 @@ int					count_ac(char **str);
 char				**environment(char *env);
 void				parse(char *line);
 t_cmd				*create_list(t_cmd *list, char *tokens, char **ev, int flag);
+
+/* ################################################################### */
+
+void exec_echo(t_cmd *cmd, int if_exit);
 
 #endif

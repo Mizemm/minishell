@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/08/11 16:45:56 by mizem            ###   ########.fr       */
+/*   Updated: 2024/08/09 17:33:39 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,7 @@ int	main(int ac, char **av)
 				printf("Path :		[%s]\n", list->path);
 				printf("Output file :	[%s]\n", list->output_file);
 				printf("Input file :	[%s]\n", list->input_file);
-				printf("Append file :	[%s]\n", list->append_file);
-				printf("Heredoc delimiter : [%s]\n", list->heredoc_delimiter);
-				printf("Pipe out :	[%d]\n", list->pipe_out);
+				printf("Pipe_out :	[%d]\n", list->pipe_out);
 				i = -1;
 				while (list->args[++i])
 					printf("-------> Args : {%s}\n", list->args[i]);
@@ -56,6 +54,6 @@ int	main(int ac, char **av)
 			}
 			add_history(line);
 		}
-			// execute_command(list);
+			execute_command(list);
 	}
 }
