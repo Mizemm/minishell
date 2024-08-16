@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/08/11 16:36:34 by mizem            ###   ########.fr       */
+/*   Updated: 2024/08/15 19:42:53 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,46 +98,48 @@ void redirections(t_cmd *list)
 	}
 }
 
+void create(t_cmd *tmp_list, char **str, int ac)
+{
+	int i;
+	
+	i = 0;
+	tmp_list->args = malloc(sizeof(char *) * (ac + 1));
+	while (i < ac)
+	{
+		tmp_list->args[i] = ft_strdup(str[i]);
+		i++;
+	}
+	tmp_list->args[i] = NULL;
+}
+
 t_cmd *create_list(t_cmd *list, char *tokens, char **ev, int flag)
 {
-	int		i;
-	t_cmd	*cmd;
+	t_cmd	*tmp_list;
 	char	**str;
-	int		ac;
+	int		i;
 
 	i = 0;
 	str = pipe_split(tokens, ' ');
-	printf("<<%s>\n", str[0]);
-	ac = count_ac(str);
-	cmd = malloc(sizeof(t_cmd));
-	
-	cmd->command = NULL;
-    cmd->path = NULL;
-    cmd->input_file = NULL;
-    cmd->output_file = NULL;
-    cmd->append_file = NULL;
-    cmd->heredoc_delimiter = NULL;
-    cmd->pipe_out = 0;
-    cmd->arg_count = ac;
-    cmd->next = NULL;
-	
-	if (!cmd)
+	tmp_list = malloc(sizeof(t_cmd));
+	if (!tmp_list)
 		return NULL;
-	cmd->command = ft_strdup(str[0]);
-	cmd->path = return_path(ev, cmd->command);
-	cmd->arg_count = ac;
-	cmd->args = malloc(sizeof(char *) * (ac + 1));
-	while (i < ac)
-	{
-		cmd->args[i] = ft_strdup(str[i]);
-		i++;
-	}
-	cmd->args[i] = NULL;
-	if (flag > 1)
-		cmd->pipe_out = 1;
-
-	redirections(cmd);	
 	
-	ft_lstadd_back(&list, cmd);
-	return (cmd);
+	tmp_list->command = NULL;
+    tmp_list->path = NULL;
+    tmp_list->input_file = NULL;
+    tmp_list->output_file = NULL;
+    tmp_list->append_file = NULL;
+    tmp_list->heredoc_delimiter = NULL;
+	tmp_list->pipe_out = 0;
+    tmp_list->next = NULL;
+	
+	tmp_list->command = ft_strdup(str[0]);
+	tmp_list->path = return_path(ev, tmp_list->command);
+	tmp_list->arg_count = count_ac(str);
+	if (flag > 1)
+		tmp_list->pipe_out = 1;
+	create(tmp_list, str, count_ac(str));
+	redirections(tmp_list);	
+	ft_lstadd_back(&list, tmp_list);
+	return (tmp_list);
 }

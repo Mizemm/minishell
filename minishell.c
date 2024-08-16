@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/08/09 17:33:39 by mizem            ###   ########.fr       */
+/*   Updated: 2024/08/15 13:51:13 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ int	main(int ac, char **av)
 			}
 			add_history(line);
 		}
-			execute_command(list);
+			// execute_command(list);
 	}
 }
