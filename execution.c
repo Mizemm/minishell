@@ -18,12 +18,32 @@ void error(char *str)
 	exit(1);
 }
 
+void execute_builtins(t_cmd *cmd)
+{
+    if (ft_strcmp("echo", cmd->command) == 0)
+	    exec_echo(cmd);
+	else if (ft_strcmp("cd", cmd->command) == 0)
+		return ;
+	else if (ft_strcmp("pwd", cmd->command) == 0)
+		excec_pwd;
+	else if (ft_strcmp("export", cmd->command) == 0)
+		return ;
+	else if (ft_strcmp("unset", cmd->command) == 0)
+		return ;
+	else if (ft_strcmp("env", cmd->command) == 0)
+		return ;
+	else if (ft_strcmp("exit", cmd->command) == 0)
+		return ;
+}
+
 void execute_single_command(t_cmd *cmd)
 {
 	if (!cmd->path)
 		error("Command not found\n");
-	exec_echo(cmd, 0);
-	// execve(cmd->path, cmd->args, cmd->environment);
+    if (!check_if_builtin(cmd->command))
+        execute_builtins(cmd);
+    else
+	    execve(cmd->path, cmd->args, cmd->environment);
 }
 
 void setup_redirections(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2]) 
@@ -45,7 +65,7 @@ void setup_redirections(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2])
     }
     if (cmd->output_file) 
     {
-        fd = open(cmd->output_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        fd = open(cmd->output_file, O_WRONLY | O_CREAT, 0644);
         dup2(fd, STDOUT_FILENO);
         close(fd);
     } 
@@ -83,6 +103,21 @@ void execute_command(t_cmd *commands)
 			setup_redirections(commands, prev_pipe, curr_pipe);
 			execute_single_command(commands);
 		}
+        else if (pid < 0)
+            error("fork error");
+        else
+        {
+            //parent process
+            // clean(prev_pipe, curr_pipe);//hmmmmmmmmmmmm
+            if(!commands->pipe_out)
+                waitpid(pid, NULL, 0);
+        }
+
+        if (commands->pipe_out) 
+        {
+            prev_pipe[0] = curr_pipe[0];
+            prev_pipe[1] = curr_pipe[1];
+        }
 		commands = commands->next;
 	}
 }

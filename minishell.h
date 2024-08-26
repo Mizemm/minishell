@@ -17,11 +17,13 @@
 # include <readline/readline.h>
 # include <stdio.h>
 # include <fcntl.h>
+# include <sys/wait.h>
 # include <stdlib.h>
 # include <unistd.h>
 
 /* ################################################################### */
 
+void				error(char *str);
 int					ft_strlen(char *str);
 int					ft_isalnum(int c);
 char				*ft_strchr(const char *s, int c);
@@ -54,6 +56,7 @@ typedef struct s_cmd
 
 /* ################################################################### */
 
+int					check_if_builtin(char *str);
 void				ft_lstadd_back(t_cmd **head, t_cmd *new);
 void 				execute_command(t_cmd *commands);
 int					count_ac(char **str);
@@ -63,6 +66,7 @@ t_cmd				*create_list(t_cmd *list, char *tokens, char **ev, int flag);
 
 /* ################################################################### */
 
-void exec_echo(t_cmd *cmd, int if_exit);
+void exec_echo(t_cmd *cmd);
+void excec_pwd(void);
 
 #endif

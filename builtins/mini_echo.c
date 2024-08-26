@@ -37,7 +37,7 @@ int check_flag(char *str)
     return (1);
 }
 
-void exec_echo(t_cmd *cmd, int if_exit) //ba9i fiha chi l3ibat
+void exec_echo(t_cmd *cmd) //ba9i fiha chi l3ibat
 {
     int i = 0;
     int flag_n = 0;
@@ -56,8 +56,4 @@ void exec_echo(t_cmd *cmd, int if_exit) //ba9i fiha chi l3ibat
     if (!flag_n)
             printf("%c", '\n');
 
-    if (if_exit)
-    {
-        
-    }
 }
