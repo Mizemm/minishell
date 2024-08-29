@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini_echo.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/26 22:55:01 by abdennac          #+#    #+#             */
+/*   Updated: 2024/08/26 22:55:01 by abdennac         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	check_if_builtin(char *str)
@@ -55,5 +67,4 @@ void exec_echo(t_cmd *cmd) //ba9i fiha chi l3ibat
     // Print a newline if the -n flag was not used.
     if (!flag_n)
             printf("%c", '\n');
-
 }

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 10:17:07 by abdennac          #+#    #+#             */
-/*   Updated: 2024/08/10 16:04:28 by mizem            ###   ########.fr       */
+/*   Updated: 2024/08/29 10:09:40 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void error(char *str)
 {
@@ -25,7 +25,7 @@ void execute_builtins(t_cmd *cmd)
 	else if (ft_strcmp("cd", cmd->command) == 0)
 		return ;
 	else if (ft_strcmp("pwd", cmd->command) == 0)
-		excec_pwd;
+		excec_pwd();
 	else if (ft_strcmp("export", cmd->command) == 0)
 		return ;
 	else if (ft_strcmp("unset", cmd->command) == 0)
@@ -46,48 +46,6 @@ void execute_single_command(t_cmd *cmd)
 	    execve(cmd->path, cmd->args, cmd->environment);
 }
 
-void setup_redirections(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2]) 
-{
-    int fd;
-    int pipefd[2];
-
-    if (cmd->input_file) 
-    {
-        fd = open(cmd->input_file, O_RDONLY);
-        dup2(fd, STDIN_FILENO);
-        close(fd);
-    } 
-    else if (prev_pipe[0] != -1) 
-    {
-        dup2(prev_pipe[0], STDIN_FILENO);
-        close(prev_pipe[0]);
-        close(prev_pipe[1]);
-    }
-    if (cmd->output_file) 
-    {
-        fd = open(cmd->output_file, O_WRONLY | O_CREAT, 0644);
-        dup2(fd, STDOUT_FILENO);
-        close(fd);
-    } 
-    else if (cmd->append_file) 
-    {
-        fd = open(cmd->append_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-        dup2(fd, STDOUT_FILENO);
-        close(fd);
-    } 
-    else if (cmd->pipe_out) 
-    {
-        dup2(curr_pipe[1], STDOUT_FILENO);
-        close(curr_pipe[0]);
-        close(curr_pipe[1]);
-    }
-    if (cmd->heredoc_content) 
-    {
-		//ba9i
-    }
-}
-
-
 void execute_command(t_cmd *commands)
 {
 	int prev_pipe[2] = {-1, -1};
@@ -97,23 +55,20 @@ void execute_command(t_cmd *commands)
 		if (commands->pipe_out)
 			pipe(curr_pipe);
 		pid_t pid = fork();
-		if (pid == 0)
+        if (pid < 0)
+            error("fork error");
+		else if (pid == 0)
 		{
-			// Child process
 			setup_redirections(commands, prev_pipe, curr_pipe);
 			execute_single_command(commands);
 		}
-        else if (pid < 0)
-            error("fork error");
         else
         {
-            //parent process
-            // clean(prev_pipe, curr_pipe);//hmmmmmmmmmmmm
+            // cleanup(commands, prev_pipe, curr_pipe);
             if(!commands->pipe_out)
                 waitpid(pid, NULL, 0);
         }
-
-        if (commands->pipe_out) 
+        if (commands->pipe_out)
         {
             prev_pipe[0] = curr_pipe[0];
             prev_pipe[1] = curr_pipe[1];
