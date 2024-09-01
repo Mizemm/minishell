@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/08/31 23:57:07 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/02 00:42:08 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,14 @@ int main(int ac, char **av, char **env)
 				list = create_list(list, *tokens, environment(getenv("PATH")), flag);
 				list->full_env = env;
 				list->env = enviroment_variable(env);
-				// printf("Command :	[%s]\n", list->command);
-				// printf("Path :		[%s]\n", list->path);
-				// printf("Output file :	[%s]\n", list->output_file);
-				// printf("Input file :	[%s]\n", list->input_file);
-				// printf("Pipe_out :	[%d]\n", list->pipe_out);
-				// i = -1;
-				// while (list->args[++i])
-				// 	printf("-------> Args : {%s}\n", list->args[i]);
+				printf("Command :	[%s]\n", list->command);
+				printf("Path :		[%s]\n", list->path);
+				printf("Output file :	[%s]\n", list->output_file);
+				printf("Input file :	[%s]\n", list->input_file);
+				printf("Pipe_out :	[%d]\n", list->pipe_out);
+				i = -1;
+				while (list->args[++i])
+					printf("-------> Args : {%s}\n", list->args[i]);
 				tokens++;
 				flag--;
 			}
