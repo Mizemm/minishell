@@ -6,31 +6,11 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 12:29:36 by mizem             #+#    #+#             */
-/*   Updated: 2024/08/01 09:51:28 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/08/31 22:45:27 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	count_wc(char *str, char c)
-{
-	int	i;
-	int	wc;
-
-	i = 0;
-	wc = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-	{
-		while (str[i] && str[i] == c)
-			i++;
-		wc++;
-		while (str[i] && str[i] != c)
-			i++;
-	}
-	return (wc);
-}
 
 char	**ft_split(char *str, char c)
 {

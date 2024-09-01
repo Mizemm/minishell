@@ -12,25 +12,6 @@
 
 #include "../minishell.h"
 
-int	check_if_builtin(char *str)
-{
-	if (ft_strcmp("echo", str) == 0)
-		return (0);
-	if (ft_strcmp("cd", str) == 0)
-		return (0);
-	if (ft_strcmp("pwd", str) == 0)
-		return (0);
-	if (ft_strcmp("export", str) == 0)
-		return (0);
-	if (ft_strcmp("unset", str) == 0)
-		return (0);
-	if (ft_strcmp("env", str) == 0)
-		return (0);
-	if (ft_strcmp("exit", str) == 0)
-		return (0);
-	return (1);
-}
-
 int check_flag(char *str)
 {
     int i;

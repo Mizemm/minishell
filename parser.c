@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/08/15 19:42:53 by mizem            ###   ########.fr       */
+/*   Updated: 2024/08/30 22:31:44 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void redirections(t_cmd *list)
 void create(t_cmd *tmp_list, char **str, int ac)
 {
 	int i;
-	
+
 	i = 0;
 	tmp_list->args = malloc(sizeof(char *) * (ac + 1));
 	while (i < ac)
@@ -114,32 +114,32 @@ void create(t_cmd *tmp_list, char **str, int ac)
 
 t_cmd *create_list(t_cmd *list, char *tokens, char **ev, int flag)
 {
-	t_cmd	*tmp_list;
-	char	**str;
-	int		i;
+	t_cmd *tmp_list;
+	char **str;
+	int i;
 
 	i = 0;
 	str = pipe_split(tokens, ' ');
 	tmp_list = malloc(sizeof(t_cmd));
 	if (!tmp_list)
 		return NULL;
-	
+
 	tmp_list->command = NULL;
-    tmp_list->path = NULL;
-    tmp_list->input_file = NULL;
-    tmp_list->output_file = NULL;
-    tmp_list->append_file = NULL;
-    tmp_list->heredoc_delimiter = NULL;
+	tmp_list->path = NULL;
+	tmp_list->input_file = NULL;
+	tmp_list->output_file = NULL;
+	tmp_list->append_file = NULL;
+	tmp_list->heredoc_delimiter = NULL;
 	tmp_list->pipe_out = 0;
-    tmp_list->next = NULL;
-	
+	tmp_list->next = NULL;
+
 	tmp_list->command = ft_strdup(str[0]);
 	tmp_list->path = return_path(ev, tmp_list->command);
 	tmp_list->arg_count = count_ac(str);
 	if (flag > 1)
 		tmp_list->pipe_out = 1;
 	create(tmp_list, str, count_ac(str));
-	redirections(tmp_list);	
+	redirections(tmp_list);
 	ft_lstadd_back(&list, tmp_list);
 	return (tmp_list);
 }
