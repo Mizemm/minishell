@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 10:17:07 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/01 01:01:35 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/02 01:22:09 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,66 +36,66 @@ int check_if_builtin(char *str)
 	return (1);
 }
 
-void execute_builtins(t_cmd *cmd)
+void execute_builtins(t_main *main)
 {
-	if (ft_strcmp("echo", cmd->command) == 0)
-		exec_echo(cmd);
-	else if (ft_strcmp("cd", cmd->command) == 0)
-		exec_cd(cmd);
-	else if (ft_strcmp("pwd", cmd->command) == 0)
+	if (ft_strcmp("echo", main->cmd->command) == 0)
+		exec_echo(main);
+	else if (ft_strcmp("cd", main->cmd->command) == 0)
+		exec_cd(main);
+	else if (ft_strcmp("pwd", main->cmd->command) == 0)
 		excec_pwd();
-	else if (ft_strcmp("export", cmd->command) == 0)
+	else if (ft_strcmp("export", main->cmd->command) == 0)
 		return;
-	else if (ft_strcmp("unset", cmd->command) == 0)
+	else if (ft_strcmp("unset", main->cmd->command) == 0)
 		return;
-	else if (ft_strcmp("env", cmd->command) == 0)
-		exec_env(cmd);
-	else if (ft_strcmp("exit", cmd->command) == 0)
+	else if (ft_strcmp("env", main->cmd->command) == 0)
+		exec_env(main);
+	else if (ft_strcmp("exit", main->cmd->command) == 0)
 		return;
 }
 
-void execute_single_command(t_cmd *cmd)
+void execute_single_command(t_main *main)
 {
-	if (!cmd->path)
+	if (!main->cmd->path)
 		error("Command not found\n");
-	if (!check_if_builtin(cmd->command))
+	if (!check_if_builtin(main->cmd->command))
 	{
 		printf("$$$$$$$$$\n");
-		execute_builtins(cmd);
+		execute_builtins(main);
 	}
 	else
-		execve(cmd->path, cmd->args, cmd->full_env);
+		execve(main->cmd->path, main->cmd->args, main->full_env);
 }
 
-void execute_command(t_cmd *commands)
+void execute_command(t_main *main)
 {
 	int prev_pipe[2] = {-1, -1};
 	int curr_pipe[2];
 	pid_t pid;
 
-	while (commands)
+	while (main->cmd)
 	{
-		if (commands->pipe_out)
+		if (main->cmd->pipe_out)
 			pipe(curr_pipe);
 		pid = fork();
 		if (pid < 0)
 			error("fork error");
 		else if (pid == 0)
 		{
-			setup_redirections(commands, prev_pipe, curr_pipe);
-			execute_single_command(commands);
+			setup_redirections(main->cmd, prev_pipe, curr_pipe);
+			execute_single_command(main);
 		}
 		else
 		{
-			// cleanup(commands, prev_pipe, curr_pipe);
-			if (!commands->pipe_out)
+			// cleanup(main->cmd, prev_pipe, curr_pipe);
+			if (!main->cmd->pipe_out)
 				waitpid(pid, NULL, 0);
 		}
-		if (commands->pipe_out)
+		if (main->cmd->pipe_out)
 		{
 			prev_pipe[0] = curr_pipe[0];
 			prev_pipe[1] = curr_pipe[1];
 		}
-		commands = commands->next;
+		main->cmd = main->cmd->next;
 	}
 }

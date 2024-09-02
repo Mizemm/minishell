@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/02 00:42:08 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/02 01:01:49 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,15 @@ t_env *enviroment_variable(char **ev)
 
 int main(int ac, char **av, char **env)
 {
-	t_cmd *list;
+	t_main *main;
 	char *line;
 	char **tokens;
 	int i;
 	int flag;
 
+	main = malloc(sizeof(t_main));
 	(void)av;
-	list = NULL;
+	main->cmd = NULL;
 	if (ac < 1)
 		exit(1);
 	using_history();
@@ -62,22 +63,22 @@ int main(int ac, char **av, char **env)
 			flag = count_ac(tokens);
 			while (*tokens)
 			{
-				list = create_list(list, *tokens, environment(getenv("PATH")), flag);
-				list->full_env = env;
-				list->env = enviroment_variable(env);
-				printf("Command :	[%s]\n", list->command);
-				printf("Path :		[%s]\n", list->path);
-				printf("Output file :	[%s]\n", list->output_file);
-				printf("Input file :	[%s]\n", list->input_file);
-				printf("Pipe_out :	[%d]\n", list->pipe_out);
+				main->cmd = create_list(main->cmd, *tokens, environment(getenv("PATH")), flag);
+				main->full_env = env;
+				main->env = enviroment_variable(env);
+				printf("Command :	[%s]\n", main->cmd->command);
+				printf("Path :		[%s]\n", main->cmd->path);
+				printf("Output file :	[%s]\n", main->cmd->output_file);
+				printf("Input file :	[%s]\n", main->cmd->input_file);
+				printf("Pipe_out :	[%d]\n", main->cmd->pipe_out);
 				i = -1;
-				while (list->args[++i])
-					printf("-------> Args : {%s}\n", list->args[i]);
+				while (main->cmd->args[++i])
+					printf("-------> Args : {%s}\n", main->cmd->args[i]);
 				tokens++;
 				flag--;
 			}
 			add_history(line);
 		}
-		execute_command(list);
+		execute_command(main);
 	}
 }
