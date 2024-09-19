@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/02 01:10:52 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/19 23:47:07 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,9 @@ typedef struct s_main
 	char **full_env; // full env variable
 
 } t_main;
-/* ################################################################### */
 
-char **ft_split(char *str, char c);
-void error(char *str);
+/* LIBFT FUNCTIONS */
+
 int ft_strlen(char *str);
 int ft_isalnum(int c);
 char *ft_strchr(const char *s, int c);
@@ -65,23 +64,32 @@ int ft_strcmp(char *s1, char *s2);
 void ft_strncpy(char *s1, char *s2, int len);
 char *ft_strdup(char *src);
 char *ft_strjoin(char *s1, char *s2);
+char **ft_split(char *str, char c);
+void ft_lstadd_back(t_cmd **head, t_cmd *new);
 int count_wc(char *str, char c);
 char **pipe_split(char *str, char c);
 int db_quotes_counter(char *str);
 int sg_quotes_counter(char *str);
 
-/* ################################################################### */
+/* PARSING FUNCTIONS */
 
-int check_if_builtin(char *str);
-void ft_lstadd_back(t_cmd **head, t_cmd *new);
-void execute_command(t_main *main);
+char *last_arg(t_cmd *list, int i);
+int path_check(char *s);
+char **environment(char *env);
+char *return_path(char **ev, char *str);
 int count_ac(char **str);
 char **environment(char *env);
 t_cmd *create_list(t_cmd *list, char *tokens, char **ev, int flag);
+
+/* EXECUTION FUNCTIONS */
+
+int check_if_builtin(char *str);
+void execute_command(t_main *main);
 void setup_redirections(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2]);
 void cleanup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2]);
+void error(char *str);
 
-/* ################################################################### */
+/* A77 */
 
 void exec_echo(t_main *main);
 void excec_pwd(void);

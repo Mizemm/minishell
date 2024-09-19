@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+         #
+#    By: mizem <mizem@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/20 22:27:04 by abdennac          #+#    #+#              #
-#    Updated: 2024/09/01 01:02:17 by abdennac         ###   ########.fr        #
+#    Updated: 2024/09/19 23:47:49 by mizem            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,11 +15,11 @@ CC = cc
 CFLAGS = #-Wall -Wextra -Werror #-fsanitize=address
 
 MINISHELL_C = minishell.c
-UTILS_C = parser.c execution/execution.c execution/redirections.c utils/pipe_split.c \
-			utils/ft_lstadd_back_bonus.c builtins/mini_cd.c\
-			utils/quotes_counter.c utils/ft_isalnum.c utils/ft_strdup.c \
-			utils/ft_strchr.c utils/ft_strcmp.c builtins/mini_echo.c builtins/mini_pwd.c \
-			builtins/mini_env.c utils/ft_strjoin.c utils/ft_strlen.c utils/ft_split.c\
+UTILS_C = parsing/parser.c parsing/parsing_utils.c execution/execution.c execution/redirections.c libft_utils/pipe_split.c \
+			libft_utils/ft_lstadd_back_bonus.c builtins/mini_cd.c\
+			libft_utils/quotes_counter.c libft_utils/ft_isalnum.c libft_utils/ft_strdup.c \
+			libft_utils/ft_strchr.c libft_utils/ft_strcmp.c builtins/mini_echo.c builtins/mini_pwd.c \
+			builtins/mini_env.c libft_utils/ft_strjoin.c libft_utils/ft_strlen.c libft_utils/ft_split.c\
 
 MINISHELL_O = $(MINISHELL_C:.c=.o)
 UTILS_O = $(UTILS_C:.c=.o)

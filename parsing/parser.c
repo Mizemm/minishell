@@ -3,75 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/08/30 22:31:44 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/19 23:41:10 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-char *last_arg(t_cmd *list, int i)
-{
-	char *tmp;
-	while (list->args[i] != NULL)
-	{
-		tmp = list->args[i];
-		i++;
-	}
-	return tmp;
-}
-int count_ac(char **str)
-{
-	int i;
+#include "../minishell.h"
 
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
-}
-
-int path_check(char *s)
-{
-	int i;
-	char str[5] = "PATH";
-
-	i = 0;
-	while (s[i] && s[i] == str[i])
-		i++;
-	if (i == 4)
-		return (1);
-	return (0);
-}
-char **environment(char *env)
-{
-	int i;
-	char **tmp;
-
-	tmp = NULL;
-	i = 0;
-	if (env)
-		tmp = pipe_split(&env[i], ':');
-	return (tmp);
-}
-char *return_path(char **ev, char *str)
-{
-	int i;
-	char *tmp;
-
-	i = 0;
-	while (ev[i])
-	{
-		tmp = ft_strjoin(ev[i], str);
-		if (access(tmp, X_OK) == 0)
-			return (tmp);
-		free(tmp);
-		i++;
-	}
-	return (0);
-}
 void redirections(t_cmd *list)
 {
 	int i = 0;
