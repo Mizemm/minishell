@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:57:53 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/01 00:00:34 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/20 13:49:12 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void setup_redirections(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2])
     }
     if (cmd->output_file)
     {
-        fd = open(cmd->output_file, O_WRONLY | O_CREAT, 0644);
+        fd = open(*(cmd->output_file), O_WRONLY | O_CREAT, 0644);
         dup2(fd, STDOUT_FILENO);
         close(fd);
     }

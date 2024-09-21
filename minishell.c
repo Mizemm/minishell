@@ -3,15 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/02 01:01:49 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/21 14:47:19 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void handle_sigint(int sig)
+{
+    (void)sig;
+    exit(0);
+}
+
+void leaks(void)
+{
+	system("leaks minishell");
+}
 t_env *enviroment_variable(char **ev)
 {
     int i = -1;
@@ -38,6 +48,8 @@ t_env *enviroment_variable(char **ev)
 
 int main(int ac, char **av, char **env)
 {
+	atexit(leaks);
+	signal(SIGINT, handle_sigint);
 	t_main *main;
 	char *line;
 	char **tokens;
@@ -58,7 +70,7 @@ int main(int ac, char **av, char **env)
 		if (*line)
 		{
 			if (db_quotes_counter(line) % 2 != 0 || sg_quotes_counter(line) % 2 != 0)
-				break;
+				break ;
 			tokens = pipe_split(line, '|');
 			flag = count_ac(tokens);
 			while (*tokens)
@@ -68,17 +80,29 @@ int main(int ac, char **av, char **env)
 				main->env = enviroment_variable(env);
 				printf("Command :	[%s]\n", main->cmd->command);
 				printf("Path :		[%s]\n", main->cmd->path);
-				printf("Output file :	[%s]\n", main->cmd->output_file);
+				i = 0;
+				if (main->cmd->output_file)
+				{
+				while (main->cmd->output_file[i])
+				{
+					printf("Output file :	[%s]\n", main->cmd->output_file[i]);
+					i++;
+				}
+				}
 				printf("Input file :	[%s]\n", main->cmd->input_file);
 				printf("Pipe_out :	[%d]\n", main->cmd->pipe_out);
-				i = -1;
-				while (main->cmd->args[++i])
+				i = 0;
+				while (main->cmd->args[i])
+				{
 					printf("-------> Args : {%s}\n", main->cmd->args[i]);
+					i++;
+				}
 				tokens++;
 				flag--;
 			}
 			add_history(line);
 		}
-		execute_command(main);
+		// execute_command(main);
+		// clear_cmd_list(main->cmd);
 	}
 }

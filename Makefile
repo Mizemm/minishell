@@ -6,16 +6,16 @@
 #    By: mizem <mizem@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/20 22:27:04 by abdennac          #+#    #+#              #
-#    Updated: 2024/09/19 23:47:49 by mizem            ###   ########.fr        #
+#    Updated: 2024/09/21 13:24:02 by mizem            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 MINISHELL = minishell
 CC = cc
-CFLAGS = #-Wall -Wextra -Werror #-fsanitize=address
+CFLAGS = #-Wall -Wextra -Werror -fsanitize=address
 
 MINISHELL_C = minishell.c
-UTILS_C = parsing/parser.c parsing/parsing_utils.c execution/execution.c execution/redirections.c libft_utils/pipe_split.c \
+UTILS_C = parsing/clear.c parsing/parser.c parsing/parsing_utils.c execution/execution.c execution/redirections.c libft_utils/pipe_split.c \
 			libft_utils/ft_lstadd_back_bonus.c builtins/mini_cd.c\
 			libft_utils/quotes_counter.c libft_utils/ft_isalnum.c libft_utils/ft_strdup.c \
 			libft_utils/ft_strchr.c libft_utils/ft_strcmp.c builtins/mini_echo.c builtins/mini_pwd.c \

@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/19 23:47:07 by mizem            ###   ########.fr       */
+/*   Updated: 2024/09/21 13:25:15 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_cmd
 	char **args;
 	int arg_count;
 	char *input_file;		 // For input redirection (<)
-	char *output_file;		 // For output redirection (>)
+	char **output_file;		 // For output redirection (>)
 	char *append_file;		 // For append redirection (>>)
 	char *heredoc_delimiter; // For heredoc (<<)
 	char *heredoc_content;	 // Content of heredoc
@@ -80,6 +80,8 @@ char *return_path(char **ev, char *str);
 int count_ac(char **str);
 char **environment(char *env);
 t_cmd *create_list(t_cmd *list, char *tokens, char **ev, int flag);
+void dp_free(char **ptr);
+void clear_cmd_list(t_cmd *head);
 
 /* EXECUTION FUNCTIONS */
 
