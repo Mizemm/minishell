@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/21 13:25:15 by mizem            ###   ########.fr       */
+/*   Updated: 2024/09/22 02:51:25 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_cmd
 	char *path;
 	char **args;
 	int arg_count;
-	char *input_file;		 // For input redirection (<)
+	char **input_file;		 // For input redirection (<)
 	char **output_file;		 // For output redirection (>)
 	char *append_file;		 // For append redirection (>>)
 	char *heredoc_delimiter; // For heredoc (<<)

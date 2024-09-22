@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:57:53 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/20 13:49:12 by mizem            ###   ########.fr       */
+/*   Updated: 2024/09/22 02:53:21 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 void setup_redirections(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2])
 {
     int fd;
+    int i;
     int pipefd[2];
 
     // cmd->stdin_backup = dup(STDIN_FILENO);
     // cmd->stdout_backup = dup(STDOUT_FILENO);
     if (cmd->input_file) 
     {
-        fd = open(cmd->input_file, O_RDONLY);
+        fd = open(*(cmd->input_file), O_RDONLY);
         dup2(fd, STDIN_FILENO);
         close(fd);
     }
@@ -33,7 +34,9 @@ void setup_redirections(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2])
     }
     if (cmd->output_file)
     {
-        fd = open(*(cmd->output_file), O_WRONLY | O_CREAT, 0644);
+        i = -1;
+        while(cmd->output_file[++i])
+            fd = open((cmd->output_file[i]), O_WRONLY | O_CREAT, 0644);
         dup2(fd, STDOUT_FILENO);
         close(fd);
     }

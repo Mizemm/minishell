@@ -6,13 +6,13 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/21 14:46:05 by mizem            ###   ########.fr       */
+/*   Updated: 2024/09/22 02:51:58 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int count_red(t_cmd *list)
+int count_out(t_cmd *list)
 {
 	int i;
 	int count;
@@ -27,19 +27,48 @@ int count_red(t_cmd *list)
 	}
 	return (count);
 }
+int count_in(t_cmd *list)
+{
+	int i;
+	int count;
+	
+	i = 0;
+	count = 0;
+	while (list->args[i])
+	{
+		if (ft_strcmp(list->args[i], "<") == 0)
+			count++;
+		i++;
+	}
+	return (count);
+}
 void redirections(t_cmd *list)
 {
 	int i = 0;
 	int j = 0;
+	int y = 0;
 
 	while (list->args[i])
 	{
 		if (ft_strcmp(list->args[i], "<") == 0)
-			list->input_file = ft_strdup(last_arg(list, ++i));
+		{
+			free(list->args[i]);
+			list->args[i] = NULL;
+			list->input_file[y] = ft_strdup(last_arg(list, ++i));
+			list->input_file[y+1] = NULL;
+			free(list->args[i]);
+			list->args[i] = NULL;
+			y++;
+		}
 		else if (ft_strcmp(list->args[i], ">") == 0)
 		{
+			
+			free(list->args[i]);
+			list->args[i] = NULL;
 			list->output_file[j] = ft_strdup(list->args[++i]);
 			list->output_file[j + 1] = NULL;
+			free(list->args[i]);
+			list->args[i] = NULL;
 			j++;
 		}
 		else if (ft_strcmp(list->args[i], ">>") == 0)
@@ -83,8 +112,10 @@ t_cmd *create_list(t_cmd *list, char *tokens, char **ev, int flag)
 	tmp_list->path = NULL;
 	tmp_list->input_file = NULL;
 	tmp_list->output_file = NULL;
-	if (count_red(tmp_list) > 0)
-		tmp_list->output_file = malloc(sizeof(char *) * (count_red(tmp_list) + 1));
+	if (count_out(tmp_list) > 0)
+		tmp_list->output_file = malloc(sizeof(char *) * (count_out(tmp_list) + 1));
+	if (count_in(tmp_list) > 0)
+		tmp_list->input_file = malloc(sizeof(char *) * (count_in(tmp_list) + 1));
 	tmp_list->append_file = NULL;
 	tmp_list->heredoc_delimiter = NULL;
 	tmp_list->heredoc_content = NULL;

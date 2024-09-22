@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/21 14:47:19 by mizem            ###   ########.fr       */
+/*   Updated: 2024/09/22 02:54:21 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int main(int ac, char **av, char **env)
 	using_history();
 	while (1)
 	{
-		line = readline("minishin $ ");
+		line = readline("lminishin $ ");
 		if (!line)
 			break;
 		if (*line)
@@ -89,7 +89,15 @@ int main(int ac, char **av, char **env)
 					i++;
 				}
 				}
-				printf("Input file :	[%s]\n", main->cmd->input_file);
+				i = 0;
+				if (main->cmd->input_file)
+				{
+				while (main->cmd->input_file[i])
+				{
+					printf("Input file :	[%s]\n", main->cmd->input_file[i]);
+					i++;
+				}
+				}
 				printf("Pipe_out :	[%d]\n", main->cmd->pipe_out);
 				i = 0;
 				while (main->cmd->args[i])
