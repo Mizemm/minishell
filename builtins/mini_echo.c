@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:55:01 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/23 03:25:15 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/23 11:25:57 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -32,7 +32,7 @@ int check_flag(char *str)
 
 void exec_echo(t_main *main) //ba9i fiha chi l3ibat
 {
-    int i = 1;
+    int i = 0;
     int flag_n = 0;
 
     while (++i < main->cmd->arg_count && check_flag(main->cmd->args[i]))
