@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 10:17:07 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/23 05:24:28 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/23 10:05:41 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -59,10 +59,7 @@ void execute_single_command(t_main *main)
 	if (!main->cmd->path)
 		error("Command not found\n");
 	if (!check_if_builtin(main->cmd->command))
-	{
-		// printf("$$$$$$$$$\n");
 		execute_builtins(main);
-	}
 	else
 		execve(main->cmd->path, main->cmd->args, main->full_env);
 }
@@ -76,14 +73,17 @@ void execute_command(t_main *main)
 	if (!check_if_builtin(main->cmd->command) && !main->cmd->input_file &&
 			!main->cmd->output_file && !main->cmd->pipe_out)
 	{
-		printf("******* exec in parent*********\n");
+		printf("\n******* exec in parent*********\n\n");
 		execute_builtins(main);
 	}
+	
 	else
 	{
-		printf("******* exec in child*********\n");
+		printf("\n******* exec in child*********\n\n");
 		while (main->cmd)
 		{
+			// printf("pipe[0] = %d\n", curr_pipe[0]);
+			// printf("pipe[1] = %d\n", curr_pipe[1]);
 			if (main->cmd->pipe_out)
 				pipe(curr_pipe);
 			pid = fork();

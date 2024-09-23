@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:57:53 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/23 04:57:19 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/23 10:06:38 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -17,8 +17,8 @@ void setup_redirections(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2])
     int fdin;
     int fdout;
     int i;
-    // int pipefd[2];
 
+    cmd->pipe_out = 1;
     cmd->stdin_backup = dup(STDIN_FILENO);
     cmd->stdout_backup = dup(STDOUT_FILENO);
     if (cmd->input_file) 
@@ -29,7 +29,6 @@ void setup_redirections(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2])
     }
     else if (prev_pipe[0] != -1) 
     {
-        printf("**********\n");
         dup2(prev_pipe[0], STDIN_FILENO);
         close(prev_pipe[0]);
         close(prev_pipe[1]);
@@ -47,12 +46,14 @@ void setup_redirections(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2])
         fdout = open(cmd->append_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
         dup2(fdout, STDOUT_FILENO);
         close(fdout);
-    } 
+    }
     else if (cmd->pipe_out) 
     {
+				printf("\n*******-----*********\n\n");
         dup2(curr_pipe[1], STDOUT_FILENO);
         close(curr_pipe[0]);
         close(curr_pipe[1]);
+        cmd->pipe_out = 0;
     }
     if (cmd->heredoc_content) 
     {
