@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   mini_cd.c                                          :+:      :+:    :+:   */
@@ -6,38 +6,11 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:55:26 by abdennac          #+#    #+#             */
-/*   Updated: 2024/08/26 22:55:26 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/23 03:46:43 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../minishell.h"
-
-void update_full_env(t_main *main)
-{
-	int count = 0;
-	t_env *current = main->env;
-
-	while (current)
-	{
-		count++;
-		current = current->next;
-	}
-	main->full_env = malloc((count + 1) * sizeof(char *));
-	if (!main->full_env)
-		return; 
-	current = main->env;
-	for (int i = 0; i < count; i++)
-	{
-		char *entry = malloc(ft_strlen(current->name) + ft_strlen(current->value) + 2); 
-		if (entry)
-		{
-			sprintf(entry, "%s=%s", current->name, current->value);
-			main->full_env[i] = entry;
-		}
-		current = current->next;
-	}
-	main->full_env[count] = NULL;
-}
 
 char *get_env_value(t_env *env_list, char *name)
 {
@@ -51,17 +24,18 @@ char *get_env_value(t_env *env_list, char *name)
 	return NULL;
 }
 
-void update_env_value(t_env *env_list, char *name, char *value)
+void update_env_value(t_main *main, char *name, char *value)
 {
-	t_env *current = env_list;
-	while (current)
+	while (main->env)
 	{
-		if (ft_strcmp(current->name, name) == 0)
+		if (ft_strcmp(main->env->name, name) == 0)
 		{
-			current->value = ft_strdup(value);
+			// printf("old pwd = %s\n", main->env->value);
+			free(main->env->value);
+			main->env->value = ft_strdup(value);
 			return;
 		}
-		current = current->next;
+		main->env = main->env->next;
 	}
 }
 
@@ -82,7 +56,6 @@ int exec_cd(t_main *main)
 		error("cd error");
 	if (getcwd(cwd, sizeof(cwd)) == NULL) // Get new directory
 		error("getcwd error");
-	update_env_value(main->env, "PWD", cwd); // Update PWD
-	update_full_env(main);
+	update_env_value(main, "PWD", cwd); // Update PWD
 	return 0;
 }

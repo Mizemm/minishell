@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/22 02:54:21 by mizem            ###   ########.fr       */
+/*   Updated: 2024/09/23 04:09:43 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -48,7 +48,7 @@ t_env *enviroment_variable(char **ev)
 
 int main(int ac, char **av, char **env)
 {
-	atexit(leaks);
+	// atexit(leaks);
 	signal(SIGINT, handle_sigint);
 	t_main *main;
 	char *line;
@@ -110,7 +110,7 @@ int main(int ac, char **av, char **env)
 			}
 			add_history(line);
 		}
-		// execute_command(main);
+		execute_command(main);
 		// clear_cmd_list(main->cmd);
 	}
 }

@@ -1,33 +1,35 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:57:53 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/22 02:53:21 by mizem            ###   ########.fr       */
+/*   Updated: 2024/09/23 04:57:19 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../minishell.h"
 
 void setup_redirections(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2])
 {
-    int fd;
+    int fdin;
+    int fdout;
     int i;
-    int pipefd[2];
+    // int pipefd[2];
 
-    // cmd->stdin_backup = dup(STDIN_FILENO);
-    // cmd->stdout_backup = dup(STDOUT_FILENO);
+    cmd->stdin_backup = dup(STDIN_FILENO);
+    cmd->stdout_backup = dup(STDOUT_FILENO);
     if (cmd->input_file) 
     {
-        fd = open(*(cmd->input_file), O_RDONLY);
-        dup2(fd, STDIN_FILENO);
-        close(fd);
+        fdin = open(*(cmd->input_file), O_RDONLY);
+        dup2(fdin, STDIN_FILENO);
+        close(fdin);
     }
     else if (prev_pipe[0] != -1) 
     {
+        printf("**********\n");
         dup2(prev_pipe[0], STDIN_FILENO);
         close(prev_pipe[0]);
         close(prev_pipe[1]);
@@ -36,15 +38,15 @@ void setup_redirections(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2])
     {
         i = -1;
         while(cmd->output_file[++i])
-            fd = open((cmd->output_file[i]), O_WRONLY | O_CREAT, 0644);
-        dup2(fd, STDOUT_FILENO);
-        close(fd);
+            fdout = open((cmd->output_file[i]), O_WRONLY | O_CREAT, 0644);
+        dup2(fdout, STDOUT_FILENO);
+        close(fdout);
     }
     else if (cmd->append_file) 
     {
-        fd = open(cmd->append_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-        dup2(fd, STDOUT_FILENO);
-        close(fd);
+        fdout = open(cmd->append_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+        dup2(fdout, STDOUT_FILENO);
+        close(fdout);
     } 
     else if (cmd->pipe_out) 
     {
@@ -58,26 +60,26 @@ void setup_redirections(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2])
     }
 }
 
-// void cleanup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2])
-// {
-//     if (cmd->stdin_backup != -1)
-//     {
-//         dup2(cmd->stdin_backup, STDIN_FILENO);
-//         close(cmd->stdin_backup);
-//     }
-//     if (cmd->stdout_backup != -1) 
-//     {
-//         dup2(cmd->stdout_backup, STDOUT_FILENO);
-//         close(cmd->stdout_backup);
-//     }
-//     if (prev_pipe[0] != -1) 
-//     {
-//         close(prev_pipe[0]);
-//         close(prev_pipe[1]);
-//     }
-//     if (curr_pipe[0] != -1) 
-//     {
-//         close(curr_pipe[0]);
-//         close(curr_pipe[1]);
-//     }
-// }
+void cleanup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2])
+{
+    if (cmd->stdin_backup != -1)
+    {
+        dup2(cmd->stdin_backup, STDIN_FILENO);
+        close(cmd->stdin_backup);
+    }
+    if (cmd->stdout_backup != -1) 
+    {
+        dup2(cmd->stdout_backup, STDOUT_FILENO);
+        close(cmd->stdout_backup);
+    }
+    if (prev_pipe[0] != -1) 
+    {
+        close(prev_pipe[0]);
+        close(prev_pipe[1]);
+    }
+    if (curr_pipe[0] != -1) 
+    {
+        close(curr_pipe[0]);
+        close(curr_pipe[1]);
+    }
+}

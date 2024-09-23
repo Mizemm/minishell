@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
@@ -6,9 +6,9 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 10:17:07 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/02 01:22:09 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/23 05:24:28 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../minishell.h"
 
@@ -60,7 +60,7 @@ void execute_single_command(t_main *main)
 		error("Command not found\n");
 	if (!check_if_builtin(main->cmd->command))
 	{
-		printf("$$$$$$$$$\n");
+		// printf("$$$$$$$$$\n");
 		execute_builtins(main);
 	}
 	else
@@ -73,29 +73,39 @@ void execute_command(t_main *main)
 	int curr_pipe[2];
 	pid_t pid;
 
-	while (main->cmd)
+	if (!check_if_builtin(main->cmd->command) && !main->cmd->input_file &&
+			!main->cmd->output_file && !main->cmd->pipe_out)
 	{
-		if (main->cmd->pipe_out)
-			pipe(curr_pipe);
-		pid = fork();
-		if (pid < 0)
-			error("fork error");
-		else if (pid == 0)
+		printf("******* exec in parent*********\n");
+		execute_builtins(main);
+	}
+	else
+	{
+		printf("******* exec in child*********\n");
+		while (main->cmd)
 		{
-			setup_redirections(main->cmd, prev_pipe, curr_pipe);
-			execute_single_command(main);
+			if (main->cmd->pipe_out)
+				pipe(curr_pipe);
+			pid = fork();
+			if (pid < 0)
+				error("fork error");
+			else if (pid == 0)
+			{
+				setup_redirections(main->cmd, prev_pipe, curr_pipe);
+				execute_single_command(main);
+			}
+			else
+			{
+				// cleanup(main->cmd, prev_pipe, curr_pipe);
+				if (!main->cmd->pipe_out)
+					waitpid(pid, NULL, 0);
+			}
+			if (main->cmd->pipe_out)
+			{
+				prev_pipe[0] = curr_pipe[0];
+				prev_pipe[1] = curr_pipe[1];
+			}
+			main->cmd = main->cmd->next;
 		}
-		else
-		{
-			// cleanup(main->cmd, prev_pipe, curr_pipe);
-			if (!main->cmd->pipe_out)
-				waitpid(pid, NULL, 0);
-		}
-		if (main->cmd->pipe_out)
-		{
-			prev_pipe[0] = curr_pipe[0];
-			prev_pipe[1] = curr_pipe[1];
-		}
-		main->cmd = main->cmd->next;
 	}
 }

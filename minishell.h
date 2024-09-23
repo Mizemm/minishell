@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/22 02:51:25 by mizem            ###   ########.fr       */
+/*   Updated: 2024/09/23 04:12:49 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
@@ -42,8 +42,8 @@ typedef struct s_cmd
 	char *heredoc_delimiter; // For heredoc (<<)
 	char *heredoc_content;	 // Content of heredoc
 	int pipe_out;			 // 1 if command pipes to next, 0 otherwise
-	// int stdin_backup;
-	// int stdout_backup;
+	int stdin_backup;
+	int stdout_backup;
 	struct s_cmd *next; // Pointer to next command in pipeline
 } t_cmd;
 
@@ -52,7 +52,6 @@ typedef struct s_main
 	t_cmd *cmd;		 // command list
 	t_env *env;		 // list of envirement variables separate by name and value
 	char **full_env; // full env variable
-
 } t_main;
 
 /* LIBFT FUNCTIONS */
