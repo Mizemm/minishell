@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/23 12:02:44 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/24 10:28:29 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -51,6 +51,7 @@ int main(int ac, char **av, char **env)
 	// atexit(leaks);
 	signal(SIGINT, handle_sigint);
 	t_main *main;
+	t_cmd *tmp;
 	char *line;
 	char **tokens;
 	int i;
@@ -76,6 +77,7 @@ int main(int ac, char **av, char **env)
 			while (*tokens)
 			{
 				main->cmd = create_list(main->cmd, *tokens, environment(getenv("PATH")), flag);
+			tmp = main->cmd;
 				main->full_env = env;
 				main->env = enviroment_variable(env);
 				printf("Command :	[%s]\n", main->cmd->command);
@@ -107,15 +109,15 @@ int main(int ac, char **av, char **env)
 				}
 				tokens++;
 				flag--;
+		// while (tmp)
+		// {
+		// 	printf("\n*******-----*********pipe out : %d\n\n", tmp->pipe_out);
+		// 	tmp = tmp->next;
+		// }
+		execute_command(main);
 			}
 			add_history(line);
 		}
-		// while (main->cmd)
-		// {
-		// 		printf("\n*******-----*********pipe out : %d\n\n", main->cmd->pipe_out);
-		// 	main->cmd = main->cmd->next;
-		// }
-		execute_command(main);
 		// clear_cmd_list(main->cmd);
 	}
 }

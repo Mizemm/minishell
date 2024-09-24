@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/23 12:02:18 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/24 09:51:40 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -86,8 +86,9 @@ void clear_cmd_list(t_cmd *head);
 
 int check_if_builtin(char *str);
 void execute_command(t_main *main);
-// void setup_redirections(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2]);
-// void cleanup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2]);
+void redirections_setup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2]);
+void pipe_cleanup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2]);
+void pipe_setup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2]);
 void simple_redirections(t_cmd *cmd);
 void simple_cleanup(t_cmd *cmd);
 void execute_builtins(t_main *main);

@@ -6,11 +6,19 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 10:17:07 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/23 12:37:45 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:22:05 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "../minishell.h"
+
+void execute_single_command(t_main *main)
+{
+	if (check_if_builtin(main->cmd->command))
+		execute_builtins(main);
+	else
+		execve(main->cmd->path, main->cmd->args, main->full_env);
+}
 
 void pipe_exec(t_main *main)
 {
@@ -26,7 +34,10 @@ void pipe_exec(t_main *main)
 		error("fork error");
 	else if (pid == 0)
 	{
-		pipe_redirections(main->cmd, prev_pipe, curr_pipe);
+		if (main->cmd->input_file || main->cmd->output_file || main->cmd->append_file)
+			redirections_setup(main->cmd, prev_pipe, curr_pipe);
+		else
+			pipe_setup(main->cmd, prev_pipe, curr_pipe);
 		execute_single_command(main);
 	}
 	else
@@ -75,10 +86,17 @@ void execute_command(t_main *main)
 {
 	while (main->cmd)
 	{
+		printf("pipe out : %d\n", main->cmd->pipe_out);
+		main->cmd->pipe_out = 1;
 		if (!main->cmd->pipe_out)
+		{
 			simple_exec(main);
+		}
 		else
+		{
+			printf("\n********\n\n");
 			pipe_exec(main);
+		}
 		main->cmd = main->cmd->next;
 	}
 }
