@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:57:53 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/24 10:57:36 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:33:00 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -30,7 +30,7 @@ void pipe_setup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2])
     }
     if (cmd->pipe_out)
     {
-		printf("setting pipes\n");
+		// printf("setting pipes\n");
         dup2(curr_pipe[1], STDOUT_FILENO);
         close(curr_pipe[0]);
         close(curr_pipe[1]);

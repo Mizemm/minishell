@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 10:17:07 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/24 11:22:05 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:26:37 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -42,7 +42,7 @@ void pipe_exec(t_main *main)
 	}
 	else
 	{
-		// pipe_cleanup(main->cmd, prev_pipe, curr_pipe);
+		pipe_cleanup(main->cmd, prev_pipe, curr_pipe);
 		if (!main->cmd->pipe_out)
 			waitpid(pid, NULL, 0);
 	}
