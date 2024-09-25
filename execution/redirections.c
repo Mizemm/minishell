@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:57:53 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/24 11:33:00 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/25 18:10:43 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -15,12 +15,11 @@
 
 void pipe_setup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2])
 {
-    int fd_in;
-    int fd_out;
-    int i;
+    // int fd_in;
+    // int fd_out;
+    // int i;
 
-    cmd->stdin_backup = dup(STDIN_FILENO);
-    cmd->stdout_backup = dup(STDOUT_FILENO);
+
     
     if (prev_pipe[0] != -1)
     {
@@ -30,7 +29,7 @@ void pipe_setup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2])
     }
     if (cmd->pipe_out)
     {
-		// printf("setting pipes\n");
+		printf("setting pipes\n");
         dup2(curr_pipe[1], STDOUT_FILENO);
         close(curr_pipe[0]);
         close(curr_pipe[1]);
@@ -70,9 +69,9 @@ void pipe_cleanup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2])
 
 void redirections_setup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2])
 {
-    int fd_in;
-    int fd_out;
-    int i;
+    // int fd_in;
+    // int fd_out;
+    // int i;
 
     cmd->pipe_out = 1;
     cmd->stdin_backup = dup(STDIN_FILENO);

@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 10:17:07 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/24 11:26:37 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/25 20:55:06 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -20,15 +20,19 @@ void execute_single_command(t_main *main)
 		execve(main->cmd->path, main->cmd->args, main->full_env);
 }
 
-void pipe_exec(t_main *main)
+void pipe_exec(t_main *main, int prev_pipe[2])
 {
 	pid_t pid;
 
-	int prev_pipe[2] = {-1, -1};
 	int curr_pipe[2];
 
 	if (main->cmd->pipe_out)
 		pipe(curr_pipe);
+	if (main->cmd->pipe_out)
+	{
+		prev_pipe[0] = curr_pipe[0];
+		prev_pipe[1] = curr_pipe[1];
+	}
 	pid = fork();
 	if (pid < 0)
 		error("fork error");
@@ -42,14 +46,10 @@ void pipe_exec(t_main *main)
 	}
 	else
 	{
+
 		pipe_cleanup(main->cmd, prev_pipe, curr_pipe);
 		if (!main->cmd->pipe_out)
 			waitpid(pid, NULL, 0);
-	}
-	if (main->cmd->pipe_out)
-	{
-		prev_pipe[0] = curr_pipe[0];
-		prev_pipe[1] = curr_pipe[1];
 	}
 }
 
@@ -84,18 +84,20 @@ void simple_exec(t_main *main)
 
 void execute_command(t_main *main)
 {
+	int prev_pipe[2] = {-1, -1};
+	main->cmd->stdin_backup = dup(STDIN_FILENO);
+    main->cmd->stdout_backup = dup(STDOUT_FILENO);
 	while (main->cmd)
 	{
 		printf("pipe out : %d\n", main->cmd->pipe_out);
 		main->cmd->pipe_out = 1;
+		printf("ggggggg %d ggggggggg\n",prev_pipe[0]);
 		if (!main->cmd->pipe_out)
-		{
 			simple_exec(main);
-		}
 		else
 		{
-			printf("\n********\n\n");
-			pipe_exec(main);
+			printf("\n*******vckjvckjvkl*\n\n");
+			pipe_exec(main, prev_pipe);
 		}
 		main->cmd = main->cmd->next;
 	}

@@ -6,13 +6,13 @@
 #    By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/20 22:27:04 by abdennac          #+#    #+#              #
-#    Updated: 2024/09/24 09:14:19 by abdennac         ###   ########.fr        #
+#    Updated: 2024/09/25 17:45:39 by abdennac         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 MINISHELL = minishell
 CC = cc
-CFLAGS = #-Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 MINISHELL_C = minishell.c
 UTILS_C = parsing/clear.c parsing/parser.c parsing/parsing_utils.c \
