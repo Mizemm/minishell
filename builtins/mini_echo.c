@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:55:01 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/23 11:25:57 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/27 12:34:09 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -35,17 +35,16 @@ void exec_echo(t_main *main) //ba9i fiha chi l3ibat
     int i = 0;
     int flag_n = 0;
 
-    while (++i < main->cmd->arg_count && check_flag(main->cmd->args[i]))
+    while (main->cmd->args[++i] && check_flag(main->cmd->args[i]))
         flag_n = 1;
-    // Print argument, separated by space.
-    while (i < main->cmd->arg_count)
+    i = 0;
+    while (main->cmd->args[++i])
     {
-        printf("%s", main->cmd->args[i]);
-        if (i < main->cmd->arg_count - 1)
+        if (ft_strcmp(main->cmd->args[i], "-n") && main->cmd->args[i])
+            printf("%s", main->cmd->args[i]);
+        if (main->cmd->args[i + 1])
             printf("%c", ' ');
-        i++;
     }
-    // Print a newline if the -n flag was not used.
     if (!flag_n)
             printf("%c", '\n');
 }

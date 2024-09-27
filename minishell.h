@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/24 09:51:40 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/27 12:18:11 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -69,6 +69,7 @@ int count_wc(char *str, char c);
 char **pipe_split(char *str, char c);
 int db_quotes_counter(char *str);
 int sg_quotes_counter(char *str);
+int	ft_atoi(char *str);
 
 /* PARSING FUNCTIONS */
 
@@ -84,11 +85,14 @@ void clear_cmd_list(t_cmd *head);
 
 /* EXECUTION FUNCTIONS */
 
+void handle_input_redirection(t_cmd *cmd, int *prev_pipe_fd);
+void handle_output_redirection(t_cmd *cmd, int *pipe_fd);
 int check_if_builtin(char *str);
 void execute_command(t_main *main);
 void redirections_setup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2]);
 void pipe_cleanup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2]);
 void pipe_setup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2]);
+void simple_exec(t_main *main);
 void simple_redirections(t_cmd *cmd);
 void simple_cleanup(t_cmd *cmd);
 void execute_builtins(t_main *main);
@@ -96,9 +100,10 @@ void error(char *str);
 
 /* A77 */
 
-void exec_echo(t_main *main);
-void excec_pwd(void);
-void exec_env(t_main *main);
-int exec_cd(t_main *main);
+void 	exec_echo(t_main *main);
+void 	excec_pwd(void);
+void 	exec_env(t_main *main);
+int 	exec_cd(t_main *main);
+void 	exec_exit(t_main *main);
 
 #endif

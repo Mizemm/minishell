@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 13:15:50 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/25 17:46:41 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/27 11:57:39 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -30,7 +30,7 @@ void clear_cmd_list(t_cmd *head)
     t_cmd *tmp;
     // int i;
 
-    while (head != NULL)
+    while (head != NULL && head->next)
     {
         tmp = head;
         if (tmp->command)

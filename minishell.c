@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/25 17:10:57 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/27 12:24:14 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -54,18 +54,19 @@ int main(int ac, char **av, char **env)
 	t_cmd *tmp;
 	char *line;
 	char **tokens;
-	int i;
 	int flag;
 
-	main = malloc(sizeof(t_main));
 	(void)av;
+	main = malloc(sizeof(t_main));
 	main->cmd = NULL;
 	if (ac < 1)
 		exit(1);
 	using_history();
+	main->env = enviroment_variable(env);
+	main->full_env = env;
 	while (1)
 	{
-		line = readline("lminishin🤸🤸 $ ");
+		line = readline("lminishin🤸$ ");
 		if (!line)
 			break;
 		if (*line)
@@ -78,46 +79,12 @@ int main(int ac, char **av, char **env)
 			{
 				main->cmd = create_list(main->cmd, *tokens, environment(getenv("PATH")), flag);
 				tmp = main->cmd;
-				main->full_env = env;
-				main->env = enviroment_variable(env);
-				printf("Command :	[%s]\n", main->cmd->command);
-				printf("Path :		[%s]\n", main->cmd->path);
-				i = 0;
-				if (main->cmd->output_file)
-				{
-					while (main->cmd->output_file[i])
-					{
-						printf("Output file :	[%s]\n", main->cmd->output_file[i]);
-						i++;
-					}
-				}
-				i = 0;
-				if (main->cmd->input_file)
-				{
-					while (main->cmd->input_file[i])
-					{
-						printf("Input file :	[%s]\n", main->cmd->input_file[i]);
-						i++;
-					}
-				}
-				printf("Pipe_out :	[%d]\n", main->cmd->pipe_out);
-				i = 0;
-				while (main->cmd->args[i])
-				{
-					printf("-------> Args : {%s}\n", main->cmd->args[i]);
-					i++;
-				}
 				tokens++;
 				flag--;
-				// while (tmp)
-				// {
-				// 	printf("\n*******-----*********pipe out : %d\n\n", tmp->pipe_out);
-				// 	tmp = tmp->next;
-				// }
-				execute_command(main);
 			}
 			add_history(line);
+			execute_command(main);
+			clear_cmd_list(main->cmd);
 		}
-		// clear_cmd_list(main->cmd);
 	}
 }

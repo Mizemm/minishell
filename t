@@ -1,9 +1,0 @@
-Makefile
-builtins
-execution
-libft_utils
-minishell
-minishell.c
-minishell.h
-parsing
-t

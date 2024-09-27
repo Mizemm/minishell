@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/23 02:52:50 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/26 11:28:34 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -131,5 +131,7 @@ t_cmd *create_list(t_cmd *list, char *tokens, char **ev, int flag)
 		tmp_list->pipe_out = 1;
 	redirections(tmp_list);
 	ft_lstadd_back(&list, tmp_list);
-	return (tmp_list);
+	return (list);
 }
+
+

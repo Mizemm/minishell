@@ -3,4 +3,4 @@ minishell
 *.a
 .DS_Store
 .vscode
-t
+backup.c

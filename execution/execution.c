@@ -4,100 +4,117 @@
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
+/*                                                 +#+#+#+#+#+  
+	+#+           */
 /*   Created: 2024/08/01 10:17:07 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/25 20:55:06 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/26 11:22:35 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "../minishell.h"
 
-void execute_single_command(t_main *main)
+void	execute_single_command(t_main *main, t_cmd *cmd)
 {
-	if (check_if_builtin(main->cmd->command))
+	if (check_if_builtin(cmd->command))
 		execute_builtins(main);
 	else
-		execve(main->cmd->path, main->cmd->args, main->full_env);
+		execve(cmd->path, cmd->args, main->full_env);
 }
 
-void pipe_exec(t_main *main, int prev_pipe[2])
+int	count_commands(t_cmd *cmd)
 {
-	pid_t pid;
+	int		count;
+	t_cmd	*tmp;
 
-	int curr_pipe[2];
-
-	if (main->cmd->pipe_out)
-		pipe(curr_pipe);
-	if (main->cmd->pipe_out)
+	count = 0;
+	tmp = cmd;
+	while (tmp)
 	{
-		prev_pipe[0] = curr_pipe[0];
-		prev_pipe[1] = curr_pipe[1];
+		count++;
+		tmp = tmp->next;
 	}
-	pid = fork();
-	if (pid < 0)
-		error("fork error");
-	else if (pid == 0)
-	{
-		if (main->cmd->input_file || main->cmd->output_file || main->cmd->append_file)
-			redirections_setup(main->cmd, prev_pipe, curr_pipe);
-		else
-			pipe_setup(main->cmd, prev_pipe, curr_pipe);
-		execute_single_command(main);
-	}
-	else
-	{
-
-		pipe_cleanup(main->cmd, prev_pipe, curr_pipe);
-		if (!main->cmd->pipe_out)
-			waitpid(pid, NULL, 0);
-	}
+	return (count);
 }
 
-/***********************************************************************************/
-
-void simple_exec(t_main *main)
+void	pipe_exec_with_redirection(t_main *main)
 {
-	pid_t pid;
+	pid_t	pid;
+	int		pipe_fd[2];
+	int		prev_pipe_fd[2] = {-1, -1};
+	t_cmd	*cmd;
+	int		cmd_count;
+	pid_t	*child_pids;
+	int		i;
 
-	if (check_if_builtin(main->cmd->command))
+	cmd = main->cmd;
+	cmd_count = count_commands(cmd);
+	child_pids = malloc(sizeof(pid_t) * cmd_count);
+	i = 0;
+	while (cmd)
 	{
-		simple_redirections(main->cmd);
-		execute_builtins(main);
-		simple_cleanup(main->cmd);
-	}
-	else
-	{
+		if (cmd->next && pipe(pipe_fd) < 0)
+			error("pipe error");
 		pid = fork();
 		if (pid < 0)
 			error("fork error");
-		else if (pid == 0)
+		else if (pid == 0) // Child process
 		{
-			simple_redirections(main->cmd);
-			if (!main->cmd->path)
-				error("Command not found\n");
-			execve(main->cmd->path, main->cmd->args, main->full_env);
+			handle_input_redirection(cmd, prev_pipe_fd);
+			handle_output_redirection(cmd, pipe_fd);
+			execute_single_command(main, cmd);
+			exit(0);
 		}
-		else
-			waitpid(pid, NULL, 0);
+		else // Parent process
+		{
+			child_pids[i++] = pid;
+			if (prev_pipe_fd[0] != -1)
+			{
+				close(prev_pipe_fd[0]);
+				close(prev_pipe_fd[1]);
+			}
+			if (cmd->next)
+			{
+				prev_pipe_fd[0] = pipe_fd[0];
+				prev_pipe_fd[1] = pipe_fd[1];
+			}
+		}
+		cmd = cmd->next;
 	}
+	if (prev_pipe_fd[0] != -1) // Close remaining pipes
+	{
+		close(prev_pipe_fd[0]);
+		close(prev_pipe_fd[1]);
+	}
+	i = -1;
+	while (++i < cmd_count) // Wait for all child processes to finish
+		waitpid(child_pids[i], NULL, 0);
+	free(child_pids);
 }
+// void	execute_command(t_main *main)
+// {
+// 	main->cmd->stdin_backup = dup(STDIN_FILENO);
+// 	main->cmd->stdout_backup = dup(STDOUT_FILENO);
 
-void execute_command(t_main *main)
+// 		if (!main->cmd->next && main->cmd)
+// 			simple_exec(main);
+// 		else if (main->cmd)
+// 			pipe_exec_with_redirection(main);
+// }
+
+void	execute_command(t_main *main)
 {
-	int prev_pipe[2] = {-1, -1};
 	main->cmd->stdin_backup = dup(STDIN_FILENO);
-    main->cmd->stdout_backup = dup(STDOUT_FILENO);
+	main->cmd->stdout_backup = dup(STDOUT_FILENO);
 	while (main->cmd)
 	{
-		printf("pipe out : %d\n", main->cmd->pipe_out);
-		main->cmd->pipe_out = 1;
-		printf("ggggggg %d ggggggggg\n",prev_pipe[0]);
-		if (!main->cmd->pipe_out)
+		if (!main->cmd->next)
 			simple_exec(main);
 		else
 		{
-			printf("\n*******vckjvckjvkl*\n\n");
-			pipe_exec(main, prev_pipe);
+			pipe_exec_with_redirection(main);
+			// Skip to the end of the command list
+			while (main->cmd->next)
+				main->cmd = main->cmd->next;
 		}
 		main->cmd = main->cmd->next;
 	}
