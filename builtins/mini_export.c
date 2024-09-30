@@ -6,11 +6,39 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 23:24:06 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/30 23:44:11 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/30 23:56:06 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "../minishell.h"
+
+t_env	*ft_lstlast2(t_env *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next != NULL)
+		lst = lst->next;
+	return (lst);
+}
+
+void	ft_lstadd2_back(t_env **head, t_env *new)
+{
+	t_env *tmp;
+
+	tmp = NULL;	
+	if (!head || !new)
+		return ;
+	else if (!*head)
+	{
+		*head = new;
+		return ;
+	}
+	else
+	{
+		tmp = ft_lstlast2(*head);
+		tmp->next = new;
+	}	
+}
 
 void print_export(t_main *main)
 {
@@ -34,7 +62,6 @@ void print_export(t_main *main)
 
 void add_to_env(t_main *main, char *str)
 {
-	t_env *tmp;
 	t_env *new;
 	char **split;
 	split = ft_split(str, '=');
@@ -43,16 +70,7 @@ void add_to_env(t_main *main, char *str)
 	new->name = ft_strdup(split[0]);
 	new->value = ft_strdup(split[1]);
 	new->next = NULL;
-	tmp = main->env;
-	if (!tmp)
-		main->env = new;
-	else
-	{
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
-	}
-	free(split);
+	ft_lstadd2_back(&main->env, new);
 }
 
 void exec_export(t_main *main)
