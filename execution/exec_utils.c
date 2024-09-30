@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:45:55 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/27 12:08:27 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/30 23:34:26 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -27,7 +27,7 @@ void	execute_builtins(t_main *main)
 	else if (ft_strcmp("pwd", main->cmd->command) == 0)
 		excec_pwd();
 	else if (ft_strcmp("export", main->cmd->command) == 0)
-		return ;
+		exec_export(main);
 	else if (ft_strcmp("unset", main->cmd->command) == 0)
 		return ;
 	else if (ft_strcmp("env", main->cmd->command) == 0)

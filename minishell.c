@@ -6,11 +6,14 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/27 12:24:14 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/30 10:24:48 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "minishell.h"
+
+
+
 
 void handle_sigint(int sig)
 {

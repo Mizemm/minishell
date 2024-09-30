@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/27 12:18:11 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/30 23:31:29 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -21,7 +21,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-/* ################################################################### */
+
+typedef struct s_expo
+{
+	char *value;
+	char *name;
+	int is_export;
+	struct s_expo *next;
+} t_expo;
 
 typedef struct s_env
 {
@@ -51,6 +58,7 @@ typedef struct s_main
 {
 	t_cmd *cmd;		 // command list
 	t_env *env;		 // list of envirement variables separate by name and value
+	t_expo *export; // list of export variables separate by name and value
 	char **full_env; // full env variable
 } t_main;
 
@@ -105,5 +113,6 @@ void 	excec_pwd(void);
 void 	exec_env(t_main *main);
 int 	exec_cd(t_main *main);
 void 	exec_exit(t_main *main);
+void 	exec_export(t_main *main);
 
 #endif

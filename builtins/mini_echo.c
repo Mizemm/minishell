@@ -6,11 +6,23 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:55:01 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/27 12:34:09 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/09/30 10:41:00 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "../minishell.h"
+
+void ft_print(char *str)
+{
+    int i;
+
+    i = -1;
+    while (str[++i])
+    {
+        if(!(str[i] == '\\' && str[i - 1] != '\\'))
+            printf("%c", str[i]);
+    }
+}
 
 int check_flag(char *str)
 {
@@ -30,21 +42,26 @@ int check_flag(char *str)
     return (1);
 }
 
-void exec_echo(t_main *main) //ba9i fiha chi l3ibat
+void exec_echo(t_main *main)
 {
-    int i = 0;
+    int i = 1;
     int flag_n = 0;
 
-    while (main->cmd->args[++i] && check_flag(main->cmd->args[i]))
-        flag_n = 1;
-    i = 0;
-    while (main->cmd->args[++i])
+    while (main->cmd->args[i] && check_flag(main->cmd->args[i]))
     {
-        if (ft_strcmp(main->cmd->args[i], "-n") && main->cmd->args[i])
-            printf("%s", main->cmd->args[i]);
-        if (main->cmd->args[i + 1])
-            printf("%c", ' ');
+        flag_n = 1;
+        i++;
     }
+
+    while (main->cmd->args[i])
+    {
+        ft_print(main->cmd->args[i]);
+        if (main->cmd->args[i + 1])
+            printf(" ");
+        i++;
+    }
+
     if (!flag_n)
-            printf("%c", '\n');
+        printf("\n");
 }
+

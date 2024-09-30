@@ -6,7 +6,7 @@
 #    By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/20 22:27:04 by abdennac          #+#    #+#              #
-#    Updated: 2024/09/27 12:18:30 by abdennac         ###   ########.fr        #
+#    Updated: 2024/09/30 23:32:01 by abdennac         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -21,6 +21,7 @@ UTILS_C = parsing/clear.c parsing/parser.c parsing/parsing_utils.c execution/sim
 			libft_utils/quotes_counter.c libft_utils/ft_isalnum.c libft_utils/ft_strdup.c \
 			libft_utils/ft_atoi.c libft_utils/ft_strchr.c libft_utils/ft_strcmp.c builtins/mini_echo.c builtins/mini_exit.c builtins/mini_pwd.c \
 			builtins/mini_env.c libft_utils/ft_strjoin.c libft_utils/ft_strlen.c libft_utils/ft_split.c\
+			builtins/mini_export.c
 
 MINISHELL_O = $(MINISHELL_C:.c=.o)
 UTILS_O = $(UTILS_C:.c=.o)

@@ -12,6 +12,36 @@
 /******************************************************************************/
 
 #include "../minishell.h"
+void print_cmd(t_cmd *cmd)
+{
+    int i;
+
+    printf("Command: %s\n", cmd->command);
+    printf("Path: %s\n", cmd->path);
+    printf("Argument count: %d\n", cmd->arg_count);
+    printf("Arguments:\n");
+    for (i = 0; i < cmd->arg_count; i++)
+    {
+        printf("  [%d]: %s\n", i, cmd->args[i]);
+    }
+    printf("Input files:\n");
+    for (i = 0; cmd->input_file && cmd->input_file[i]; i++)
+    {
+        printf("  [%d]: %s\n", i, cmd->input_file[i]);
+    }
+    printf("Output files:\n");
+    for (i = 0; cmd->output_file && cmd->output_file[i]; i++)
+    {
+        printf("  [%d]: %s\n", i, cmd->output_file[i]);
+    }
+    // printf("Append file: %s\n", cmd->append_file ? cmd->append_file : "None");
+    // printf("Heredoc delimiter: %s\n", cmd->heredoc_delimiter ? cmd->heredoc_delimiter : "None");
+    // printf("Heredoc content: %s\n", cmd->heredoc_content ? cmd->heredoc_content : "None");
+    // printf("Pipe out: %s\n", cmd->pipe_out ? "Yes" : "No");
+    // printf("stdin backup: %d\n", cmd->stdin_backup);
+    // printf("stdout backup: %d\n", cmd->stdout_backup);
+    // printf("Next command: %s\n", cmd->next ? "Yes" : "No");
+}
 
 void	execute_single_command(t_main *main, t_cmd *cmd)
 {
@@ -90,6 +120,7 @@ void	pipe_exec_with_redirection(t_main *main)
 		waitpid(child_pids[i], NULL, 0);
 	free(child_pids);
 }
+
 // void	execute_command(t_main *main)
 // {
 // 	main->cmd->stdin_backup = dup(STDIN_FILENO);
@@ -103,6 +134,7 @@ void	pipe_exec_with_redirection(t_main *main)
 
 void	execute_command(t_main *main)
 {
+	// print_cmd(main->cmd);
 	main->cmd->stdin_backup = dup(STDIN_FILENO);
 	main->cmd->stdout_backup = dup(STDOUT_FILENO);
 	while (main->cmd)
