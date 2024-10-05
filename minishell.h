@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/05 17:26:35 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/05 18:01:23 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ char	**pipe_split(char *str, char c);
 t_lexer	*add_node(char *str);
 void	ft_lstadd_back(t_cmd **head, t_cmd *new);
 void 	ft_lstadd_back2(t_lexer **head, t_lexer *new);
+void            ft_putstr_fd(char *s, int fd);
+void            *ft_free(char **str);
 
 /* PARSING FUNCTIONS */
 
@@ -137,21 +139,27 @@ void handle_output_redirection(t_cmd *cmd, int *pipe_fd);
 int check_if_builtin(char *str);
 void execute_command(t_main *main);
 void redirections_setup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2]);
-void pipe_cleanup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2]);
 void pipe_setup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2]);
 void simple_exec(t_main *main);
 void simple_redirections(t_cmd *cmd);
 void simple_cleanup(t_cmd *cmd);
 void execute_builtins(t_main *main);
 void error(char *str);
+t_env   *ft_lstlast_env(t_env *lst);
+void    ft_lstadd_back_env(t_env **head, t_env *new);
+void update_env_value(t_env **env, char *name, char *value);
+int is_export(char **split, t_main *main);
+void print_export(t_main *main);
+int check_export(char **split);
 
 /* A77 */
 
-void 	exec_echo(t_main *main);
-void 	excec_pwd(void);
-void 	exec_env(t_main *main);
-int 	exec_cd(t_main *main);
-void 	exec_exit(t_main *main);
-void 	exec_export(t_main *main);
+void    exec_echo(t_main *main);
+void    excec_pwd(void);
+void    exec_env(t_main *main);
+int     exec_cd(t_main *main);
+void    exec_exit(t_main *main);
+void    exec_export(t_main *main);
+void    exec_unset(t_main *main);
 
 #endif

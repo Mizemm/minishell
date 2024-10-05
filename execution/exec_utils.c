@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:45:55 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/30 23:34:26 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/04 23:00:36 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -14,7 +14,8 @@
 
 void	error(char *str)
 {
-	printf("%s\n", str);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd("\n", 2);
 	exit(1);
 }
 
@@ -29,7 +30,7 @@ void	execute_builtins(t_main *main)
 	else if (ft_strcmp("export", main->cmd->command) == 0)
 		exec_export(main);
 	else if (ft_strcmp("unset", main->cmd->command) == 0)
-		return ;
+		exec_unset(main);
 	else if (ft_strcmp("env", main->cmd->command) == 0)
 		exec_env(main);
 	else if (ft_strcmp("exit", main->cmd->command) == 0)
