@@ -6,33 +6,11 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:38:00 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/19 23:46:34 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/05 17:14:18 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char *last_arg(t_cmd *list, int i)
-{
-	char *tmp;
-	while (list->args[i] != NULL)
-	{
-		tmp = list->args[i];
-		i++;
-	}
-	return tmp;
-}
-int count_ac(char **str)
-{
-	int i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
-}
 
 int path_check(char *s)
 {

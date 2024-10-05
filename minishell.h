@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/30 23:31:29 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/05 17:26:35 by mizem            ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
@@ -20,6 +20,7 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 
 typedef struct s_expo
@@ -54,6 +55,37 @@ typedef struct s_cmd
 	struct s_cmd *next; // Pointer to next command in pipeline
 } t_cmd;
 
+enum					e_type
+{
+	WORD = -1,
+	WHITE_SPACE = ' ',
+	ENV = '$',
+	PIPE_LINE = '|',
+	REDIR_IN = '<',
+	REDIR_OUT = '>',
+	HERE_DOC,
+	APPEND,
+};
+enum					e_state
+{
+	IN_QUOTE = '\'',
+	IN_DQUOTE = '\"',
+	GENERAL,
+};
+
+typedef struct s_lexer
+{
+	char				*content;
+	int					len;
+	bool				in_quotes;
+	bool				err_quotes;
+	bool				syntax_error;
+	enum e_type			type;
+	enum e_state		state;
+	struct s_lexer		*prev;
+	struct s_lexer		*next;
+}						t_lexer;
+
 typedef struct s_main
 {
 	t_cmd *cmd;		 // command list
@@ -64,32 +96,39 @@ typedef struct s_main
 
 /* LIBFT FUNCTIONS */
 
-int ft_strlen(char *str);
-int ft_isalnum(int c);
-char *ft_strchr(const char *s, int c);
-int ft_strcmp(char *s1, char *s2);
-void ft_strncpy(char *s1, char *s2, int len);
-char *ft_strdup(char *src);
-char *ft_strjoin(char *s1, char *s2);
-char **ft_split(char *str, char c);
-void ft_lstadd_back(t_cmd **head, t_cmd *new);
-int count_wc(char *str, char c);
-char **pipe_split(char *str, char c);
-int db_quotes_counter(char *str);
-int sg_quotes_counter(char *str);
+int		ft_strlen(char *str);
+int		ft_isalnum(int c);
+char	*ft_strchr(char *s, int c);
+int		ft_strcmp(char *s1, char *s2);
 int	ft_atoi(char *str);
+void	ft_strncpy(char *s1, char *s2, int len);
+char	*ft_strncoco(char *str, int size);
+char	*ft_strdup(char *src);
+char	*ft_substr(char *s, int start, int len);
+char	*ft_strtrim(char *s1, char *set);
+char	*ft_strjoin(char *s1, char *s2);
+int		count_wc(char *str, char c);
+char	**ft_split(char *str, char c);
+char	**pipe_split(char *str, char c);
+t_lexer	*add_node(char *str);
+void	ft_lstadd_back(t_cmd **head, t_cmd *new);
+void 	ft_lstadd_back2(t_lexer **head, t_lexer *new);
 
 /* PARSING FUNCTIONS */
 
-char *last_arg(t_cmd *list, int i);
-int path_check(char *s);
-char **environment(char *env);
-char *return_path(char **ev, char *str);
-int count_ac(char **str);
-char **environment(char *env);
-t_cmd *create_list(t_cmd *list, char *tokens, char **ev, int flag);
-void dp_free(char **ptr);
-void clear_cmd_list(t_cmd *head);
+int 	special_char(char c);
+int		path_check(char *s);
+char	**environment(char *env);
+char 	*return_path(char **ev, char *str);
+char 	**environment(char *env);
+t_cmd 	*create_list(t_cmd *list, char *tokens, char **ev, int flag);
+t_lexer *tokenize(char *str, t_main *main);
+void	expand(t_lexer *list, t_main *main);
+int 	count_redir_out(t_lexer *list);
+int 	count_redir_in(t_lexer *list);
+int 	count_her(t_lexer *list);
+int 	count_append(t_lexer *list);
+void 	clear_cmd_list(t_cmd *head);
 
 /* EXECUTION FUNCTIONS */
 

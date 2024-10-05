@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/30 10:24:48 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/05 17:24:54 by mizem            ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -52,42 +52,68 @@ t_env *enviroment_variable(char **ev)
 int main(int ac, char **av, char **env)
 {
 	// atexit(leaks);
-	signal(SIGINT, handle_sigint);
+	// signal(SIGINT, handle_sigint);
 	t_main *main;
-	t_cmd *tmp;
+	t_lexer *lex_list;
 	char *line;
-	char **tokens;
-	int flag;
 
-	(void)av;
 	main = malloc(sizeof(t_main));
+	(void)av;
 	main->cmd = NULL;
-	if (ac < 1)
-		exit(1);
+	lex_list = NULL;
 	using_history();
-	main->env = enviroment_variable(env);
-	main->full_env = env;
+	if (ac < 1)
+		return 0;
 	while (1)
 	{
-		line = readline("lminishin🤸$ ");
+		line = readline("lminishin $ ");
 		if (!line)
 			break;
 		if (*line)
 		{
-			if (db_quotes_counter(line) % 2 != 0 || sg_quotes_counter(line) % 2 != 0)
-				break;
-			tokens = pipe_split(line, '|');
-			flag = count_ac(tokens);
-			while (*tokens)
-			{
-				main->cmd = create_list(main->cmd, *tokens, environment(getenv("PATH")), flag);
-				tmp = main->cmd;
-				tokens++;
-				flag--;
+				main->env = enviroment_variable(env);
+				main->full_env = env;
+				lex_list = tokenize(line, main);
+				printf("%d\n", count_redir_out(lex_list));
+				printf("%d\n", count_redir_in(lex_list));
+				printf("%d\n", count_her(lex_list));
+				printf("%d\n", count_append(lex_list));
+				if (lex_list != NULL && lex_list->syntax_error == false)
+				{
+					while(lex_list)
+					{
+						printf("%s --> ", lex_list->content);
+						if (lex_list->state == IN_DQUOTE)
+						printf("In double quotes : ");
+						if (lex_list->state == IN_QUOTE)
+							printf("In single quotes : ");
+						if (lex_list->state == GENERAL)
+							printf("General : ");
+						if (lex_list->type == WORD)
+							printf("Word");
+						else if (lex_list->type == ENV)
+							printf("Env");
+						else if (lex_list->type == WHITE_SPACE)
+							printf("White Space");
+						else if (lex_list->type == PIPE_LINE)
+							printf("Pipe");
+						else if (lex_list->type == REDIR_IN)
+							printf("Redirection in");
+						else if (lex_list->type == REDIR_OUT)
+							printf("Redirection out");
+						else if (lex_list->type == HERE_DOC)
+							printf("Heredoc");
+						else if (lex_list->type == APPEND)
+							printf("Append");
+						printf("\n");
+						lex_list = lex_list->next;
+					// execute_command(main);
+					}
+				}
+				else
+					printf("Syntax error\n"); 
 			}
 			add_history(line);
-			execute_command(main);
 			clear_cmd_list(main->cmd);
 		}
-	}
 }

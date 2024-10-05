@@ -1,6 +1,0 @@
-minishell
-*.o
-*.a
-.DS_Store
-.vscode
-backup.c

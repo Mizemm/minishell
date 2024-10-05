@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_strncoco.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/10 16:54:51 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/30 13:32:53 by mizem            ###   ########.fr       */
+/*   Created: 2024/09/29 18:39:36 by mizem             #+#    #+#             */
+/*   Updated: 2024/09/29 18:45:00 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strchr(char *s, int c)
+char	*ft_strncoco(char *str, int size)
 {
-	int	i;
+	int		i;
+	char	*s;
 
 	i = 0;
-	if (s[i] == '\0' && (char)c == '\0')
-		return ((char *)s + i);
-	while (s[i])
+	s = malloc((size + 1) * sizeof(char));
+	if (!s)
+		return (NULL);
+	while (i < size && str[i])
 	{
-		if (s[i] == (char)c)
-			return ((char *)s + i);
+		s[i] = str[i];
 		i++;
-		if (s[i] == '\0' && (char)c == '\0')
-			return ((char *)s + i);
 	}
-	return (NULL);
+	s[i] = '\0';
+	return (s);
 }

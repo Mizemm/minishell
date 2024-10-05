@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   clear.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 13:15:50 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/27 11:57:39 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/05 17:15:53 by mizem            ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -28,9 +28,8 @@ void dp_free(char **ptr)
 void clear_cmd_list(t_cmd *head)
 {
     t_cmd *tmp;
-    // int i;
 
-    while (head != NULL && head->next)
+    while (head != NULL)
     {
         tmp = head;
         if (tmp->command)
@@ -52,4 +51,28 @@ void clear_cmd_list(t_cmd *head)
         head = head->next;
         free(tmp);
     }
+}
+void clear_env_list(t_env *head)
+{
+    t_env *tmp;
+
+    while (head != NULL)
+    {
+        tmp = head;
+        if (tmp->value)
+            free(tmp->value);
+        if (tmp->name)
+            free(tmp->name);
+        head = head->next;
+        free(tmp);
+    }
+}
+void clear(t_main *main, char *str, char **ptr)
+{
+    if (main->cmd)
+        clear_cmd_list(main->cmd);
+    if(str)
+        free(str);
+    if (ptr)
+        dp_free(ptr);
 }
