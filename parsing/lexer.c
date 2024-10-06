@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:01:42 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/04 23:12:18 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/06 19:46:28 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,8 @@ int	flag(t_lexer *list)
 		return (2);
 	else if (list->type == APPEND)
 		return (2);
+	else if (list->type == PIPE_LINE)
+		return (2);
 	return (0);
 }
 void	re_lex_0(t_lexer **list)
@@ -221,6 +223,16 @@ int out_redirections_syntax(char *str)
 	}
 	return (j);
 }
+int next_false(t_lexer *list)
+{
+		if (!list)
+			return (1);
+		if (list->type == PIPE_LINE || list->type == REDIR_IN || list->type == REDIR_OUT || list->type == APPEND || list->type == HERE_DOC)
+			return (1);
+		else
+			return (0);
+}
+
 bool syntax_error(t_lexer *list)
 {
 	if (list->type == PIPE_LINE)
@@ -229,6 +241,9 @@ bool syntax_error(t_lexer *list)
 	{
 		if ((list->type == REDIR_IN || list->type == REDIR_OUT || list->type == HERE_DOC 
 			|| list->type == APPEND || list->type == PIPE_LINE) && list->next == NULL)
+			return (true);
+		if ((list->type == REDIR_IN || list->type == REDIR_OUT || list->type == HERE_DOC 
+			|| list->type == APPEND) && (next_false(list->next) || (list->next->type == WHITE_SPACE && next_false(list->next->next))))
 			return (true);
 		else if (list->err_quotes == true || (list->type == PIPE_LINE && pipe_syntax(list->content) == 1))
 				return (true);

@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:38:00 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/05 17:14:18 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/06 23:09:36 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,12 @@ char *return_path(char **ev, char *str)
 	i = 0;
 	while (ev[i])
 	{
-		tmp = ft_strjoin(ev[i], str);
+		tmp = ft_strjoin(ev[i], ft_strdup("/"));
+		tmp = ft_strjoin(tmp, str);
 		if (access(tmp, X_OK) == 0)
+		{
 			return (tmp);
+		}
 		free(tmp);
 		i++;
 	}

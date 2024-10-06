@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:19:35 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/04 17:26:46 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/06 23:33:15 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,22 +77,24 @@ char	*expand_2(t_lexer *list, char *result, int *i)
 	tmp_arr = NULL;
 	return (result);
 }
-void	fill_node(t_lexer **list,char *result)
+void	fill_node(t_lexer **list, char *result)
 {
 	free((*list)->content);
 	(*list)->content = ft_strdup(result);
-	free(result);
-	result = NULL;
+	// free(result);
+	// result = NULL;
 }
 void	expand(t_lexer *list, t_main *main)
 {
 	char *result;
 	int i;
+	int flag;
 	
 	i = 0;
 	result = NULL;
 	while (list)
 	{
+		flag = 0;
 		if (list->type == ENV && list->state != IN_QUOTE)
 		{
 			if (list->prev && list->prev->prev && (list->prev->type == HERE_DOC || (list->prev->prev->type == HERE_DOC && list->prev->type == WHITE_SPACE)))
@@ -101,22 +103,24 @@ void	expand(t_lexer *list, t_main *main)
 					list = list->next;
 				if (!list->next)
 				{
-					if (result)
-						free(result);
+					free(result);
 					return ;
 				}
 			}
 			i = 0;
 			while (i < ft_strlen(list->content) && list->content[i])
 			{
+				flag = 1;
 				if (list->content[i] == '$')
 					result = expand_1(list, main, result, &i);
 				else
 					result = expand_2(list, result, &i);
 			}
+			if (flag)
+				fill_node(&list, result);
 		}
-		if (list->type == ENV && list->state != IN_QUOTE)
-			fill_node(&list, result);
+		free(result);
+		result = NULL;
 		list = list->next;
 	}
 }

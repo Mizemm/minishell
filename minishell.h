@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/05 18:01:23 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/06 23:02:17 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ typedef struct s_cmd
 	int arg_count;
 	char **input_file;		 // For input redirection (<)
 	char **output_file;		 // For output redirection (>)
-	char *append_file;		 // For append redirection (>>)
-	char *heredoc_delimiter; // For heredoc (<<)
+	char **append_file;		 // For append redirection (>>)
+	char **heredoc_delimiter; // For heredoc (<<)
 	char *heredoc_content;	 // Content of heredoc
 	int pipe_out;			 // 1 if command pipes to next, 0 otherwise
 	int stdin_backup;
@@ -118,19 +118,19 @@ void            *ft_free(char **str);
 
 /* PARSING FUNCTIONS */
 
+void 	clear_cmd_list(t_cmd *head);
 int 	special_char(char c);
 int		path_check(char *s);
 char	**environment(char *env);
 char 	*return_path(char **ev, char *str);
-char 	**environment(char *env);
-t_cmd 	*create_list(t_cmd *list, char *tokens, char **ev, int flag);
+t_cmd 	*create_list(t_cmd *list, t_lexer *lexer, char **ev);
 t_lexer *tokenize(char *str, t_main *main);
 void	expand(t_lexer *list, t_main *main);
 int 	count_redir_out(t_lexer *list);
 int 	count_redir_in(t_lexer *list);
 int 	count_her(t_lexer *list);
 int 	count_append(t_lexer *list);
-void 	clear_cmd_list(t_cmd *head);
+int 	count_args(t_lexer *list);
 
 /* EXECUTION FUNCTIONS */
 
