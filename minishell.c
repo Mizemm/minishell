@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/06 22:57:12 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/06 23:48:28 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int main(int ac, char **av, char **env)
 		return 0;
 	while (1)
 	{
+		// handle_signals();
 		line = readline("lminishin $ ");
 		if (!line)
 			break;
@@ -105,46 +106,46 @@ int main(int ac, char **av, char **env)
 					// 	lex_list = lex_list->next;
 					// }
 					main->cmd = create_list(main->cmd, lex_list, environment(getenv("PATH")));
-					while(main->cmd)
-					{
-						printf("COMMAND : %s\n", main->cmd->command);
-						printf("PATH : %s\n", main->cmd->path);
-						printf("ARG COUNT : %d\n", main->cmd->arg_count);
-						printf("PIPE OUT : %d\n", main->cmd->pipe_out);
-						int i = -1;
-						if (main->cmd->args)
-						{
-						while(main->cmd->args[++i])
-							printf("ARGS : %s\n", main->cmd->args[i]);
-						}
-						if (main->cmd->input_file)
-						{
-						i = -1;
-						while(main->cmd->input_file[++i])
-							printf("INPUT FILES : %s\n", main->cmd->input_file[i]);
-						}
-						if (main->cmd->output_file)
-						{
-						i = -1;
-						while(main->cmd->output_file[++i])
-							printf("OUTPUT FILES : %s\n", main->cmd->output_file[i]);
-						}
-						if (main->cmd->append_file)
-						{
-						i = -1;
-						while(main->cmd->append_file[++i])
-							printf("APPEND FILES : %s\n", main->cmd->append_file[i]);
-						}
-						if (main->cmd->heredoc_delimiter)
-						{
-						i = -1;
-						while(main->cmd->heredoc_delimiter[++i])
-							printf("HERDOC FILES : %s\n", main->cmd->heredoc_delimiter[i]);
-						}
-						printf("###############\n");
-						main->cmd = main->cmd->next;
-					}
-					// execute_command(main);
+					// while(main->cmd)
+					// {
+					// 	printf("COMMAND : %s\n", main->cmd->command);
+					// 	printf("PATH : %s\n", main->cmd->path);
+					// 	printf("ARG COUNT : %d\n", main->cmd->arg_count);
+					// 	printf("PIPE OUT : %d\n", main->cmd->pipe_out);
+					// 	int i = -1;
+					// 	if (main->cmd->args)
+					// 	{
+					// 	while(main->cmd->args[++i])
+					// 		printf("ARGS : %s\n", main->cmd->args[i]);
+					// 	}
+					// 	if (main->cmd->input_file)
+					// 	{
+					// 	i = -1;
+					// 	while(main->cmd->input_file[++i])
+					// 		printf("INPUT FILES : %s\n", main->cmd->input_file[i]);
+					// 	}
+					// 	if (main->cmd->output_file)
+					// 	{
+					// 	i = -1;
+					// 	while(main->cmd->output_file[++i])
+					// 		printf("OUTPUT FILES : %s\n", main->cmd->output_file[i]);
+					// 	}
+					// 	if (main->cmd->append_file)
+					// 	{
+					// 	i = -1;
+					// 	while(main->cmd->append_file[++i])
+					// 		printf("APPEND FILES : %s\n", main->cmd->append_file[i]);
+					// 	}
+					// 	if (main->cmd->heredoc_delimiter)
+					// 	{
+					// 	i = -1;
+					// 	while(main->cmd->heredoc_delimiter[++i])
+					// 		printf("HERDOC FILES : %s\n", main->cmd->heredoc_delimiter[i]);
+					// 	}
+					// 	printf("###############\n");
+					// 	main->cmd = main->cmd->next;
+					// }
+					execute_command(main);
 				}
 				else
 					printf("Syntax error\n");

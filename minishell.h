@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/06 23:02:17 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/06 23:44:48 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ void update_env_value(t_env **env, char *name, char *value);
 int is_export(char **split, t_main *main);
 void print_export(t_main *main);
 int check_export(char **split);
+void handle_signals(void);
 
 /* A77 */
 

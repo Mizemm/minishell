@@ -34,13 +34,6 @@ void print_cmd(t_cmd *cmd)
     {
         printf("  [%d]: %s\n", i, cmd->output_file[i]);
     }
-    // printf("Append file: %s\n", cmd->append_file ? cmd->append_file : "None");
-    // printf("Heredoc delimiter: %s\n", cmd->heredoc_delimiter ? cmd->heredoc_delimiter : "None");
-    // printf("Heredoc content: %s\n", cmd->heredoc_content ? cmd->heredoc_content : "None");
-    // printf("Pipe out: %s\n", cmd->pipe_out ? "Yes" : "No");
-    // printf("stdin backup: %d\n", cmd->stdin_backup);
-    // printf("stdout backup: %d\n", cmd->stdout_backup);
-    // printf("Next command: %s\n", cmd->next ? "Yes" : "No");
 }
 
 void	execute_single_command(t_main *main, t_cmd *cmd)
@@ -89,6 +82,7 @@ void	pipe_exec_with_redirection(t_main *main)
 			error("fork error");
 		else if (pid == 0) // Child process
 		{
+			signal(SIGINT, SIG_DFL);
 			handle_input_redirection(cmd, prev_pipe_fd);
 			handle_output_redirection(cmd, pipe_fd);
 			execute_single_command(main, cmd);
@@ -135,6 +129,7 @@ void	pipe_exec_with_redirection(t_main *main)
 void	execute_command(t_main *main)
 {
 	// print_cmd(main->cmd);
+	signal(SIGINT, SIG_IGN);
 	main->cmd->stdin_backup = dup(STDIN_FILENO);
 	main->cmd->stdout_backup = dup(STDOUT_FILENO);
 	while (main->cmd)
