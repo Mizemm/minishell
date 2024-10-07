@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:19:35 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/06 23:33:15 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/07 23:56:16 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,13 @@ void	expand(t_lexer *list, t_main *main)
 			while (i < ft_strlen(list->content) && list->content[i])
 			{
 				flag = 1;
-				if (list->content[i] == '$')
+				if (list->content[i] == '$' && (list->content[i + 1] == '?' || (list->content[i + 1] >= 48 && list->content[i + 1] <= 57)))
+				{
+					if(list->content[i + 1] == '?')
+						result = ft_strjoin(result, ft_itoa(main->exit_status));
+					i += 2;
+				}
+				else if (list->content[i] == '$')
 					result = expand_1(list, main, result, &i);
 				else
 					result = expand_2(list, result, &i);

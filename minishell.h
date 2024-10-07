@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/06 23:44:48 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/07 23:27:19 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ typedef struct s_lexer
 
 typedef struct s_main
 {
+	int exit_status; // exit status of last command
 	t_cmd *cmd;		 // command list
 	t_env *env;		 // list of envirement variables separate by name and value
 	t_expo *export; // list of export variables separate by name and value
@@ -100,7 +101,7 @@ int		ft_strlen(char *str);
 int		ft_isalnum(int c);
 char	*ft_strchr(char *s, int c);
 int		ft_strcmp(char *s1, char *s2);
-int	ft_atoi(char *str);
+int		ft_atoi(char *str);
 void	ft_strncpy(char *s1, char *s2, int len);
 char	*ft_strncoco(char *str, int size);
 char	*ft_strdup(char *src);
@@ -113,8 +114,9 @@ char	**pipe_split(char *str, char c);
 t_lexer	*add_node(char *str);
 void	ft_lstadd_back(t_cmd **head, t_cmd *new);
 void 	ft_lstadd_back2(t_lexer **head, t_lexer *new);
-void            ft_putstr_fd(char *s, int fd);
-void            *ft_free(char **str);
+void	ft_putstr_fd(char *s, int fd);
+void	*ft_free(char **str);
+char	*ft_itoa(int n);
 
 /* PARSING FUNCTIONS */
 
