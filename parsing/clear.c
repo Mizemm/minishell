@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 13:15:50 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/06 14:13:30 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/11 21:33:23 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,28 @@ void clear_cmd_list(t_cmd *head)
         if (tmp->args)
 			ft_free(tmp->args);
         if (tmp->input_file)
-            free(tmp->input_file);
+            ft_free(tmp->input_file);
         if (tmp->output_file)
 			ft_free(tmp->output_file);
         if (tmp->append_file)
-            free(tmp->append_file);
+            ft_free(tmp->append_file);
         if (tmp->heredoc_delimiter)
-            free(tmp->heredoc_delimiter);
+            ft_free(tmp->heredoc_delimiter);
         if (tmp->heredoc_content)
             free(tmp->heredoc_content);
+        head = head->next;
+        free(tmp);
+    }
+}
+void clear_lexer_list(t_lexer *head)
+{
+    t_lexer *tmp;
+
+    while (head != NULL)
+    {
+        tmp = head;
+        if (*(tmp->content))
+            free(tmp->content);
         head = head->next;
         free(tmp);
     }
@@ -54,12 +67,15 @@ void clear_env_list(t_env *head)
         free(tmp);
     }
 }
-void clear(t_main *main, char *str, char **ptr)
+void clear(t_main *main, t_lexer *lexer, char *line)
 {
     if (main->cmd)
+    {
         clear_cmd_list(main->cmd);
-    if(str)
-        free(str);
-    if (ptr)
-        ft_free(ptr);
+        free(main);
+    }
+    if (lexer)
+        clear_lexer_list(lexer);
+    if(*line)
+        free(line);
 }

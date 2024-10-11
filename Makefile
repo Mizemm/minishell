@@ -6,13 +6,13 @@
 #    By: mizem <mizem@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/20 22:27:04 by abdennac          #+#    #+#              #
-#    Updated: 2024/10/07 23:31:02 by mizem            ###   ########.fr        #
+#    Updated: 2024/10/08 23:33:10 by mizem            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 MINISHELL = minishell
 CC = cc
-CFLAGS = -fsanitize=address
+CFLAGS = #-fsanitize=address
 
 MINISHELL_C = minishell.c
 UTILS_C = parsing/clear.c parsing/parser.c parsing/parsing_utils.c parsing/lexer.c parsing/expand.c\

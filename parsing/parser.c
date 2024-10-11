@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/06 23:35:57 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/11 18:19:20 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ t_cmd *create_args(t_lexer **lexer, char **ev)
 	out = 0;
 	app = 0;
 	her = 0;
-	
 	if (count_args((*lexer)) > 0)
 		tmp_list->args = malloc(sizeof(char *) * (count_args((*lexer)) + 1));
 	if (count_redir_in((*lexer)) > 0)
@@ -179,6 +178,9 @@ t_cmd *create_args(t_lexer **lexer, char **ev)
 
 t_cmd *create_list(t_cmd *list, t_lexer *lexer, char **ev)
 {
+	t_lexer *head;
+	
+	head = lexer;
 	while (lexer && lexer->type != PIPE_LINE)
 	{
 		ft_lstadd_back(&list, create_args(&lexer, ev));
@@ -186,6 +188,6 @@ t_cmd *create_list(t_cmd *list, t_lexer *lexer, char **ev)
 			break;
 		lexer = lexer->next;
 	}
-	// ft_free(ev);
+	lexer = head;
 	return (list);
 }

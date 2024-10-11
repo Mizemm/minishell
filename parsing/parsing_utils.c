@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:38:00 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/06 23:09:36 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/09 00:14:35 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,21 @@ char *return_path(char **ev, char *str)
 {
 	int i;
 	char *tmp;
+	char *tmp2;
+	char *slash;
 
 	i = 0;
+	slash = ft_strdup("/");
 	while (ev[i])
 	{
-		tmp = ft_strjoin(ev[i], ft_strdup("/"));
-		tmp = ft_strjoin(tmp, str);
+		tmp2 = ft_strjoin(ev[i], slash);
+		tmp = ft_strjoin(tmp2, str);
+		free(tmp2);
 		if (access(tmp, X_OK) == 0)
-		{
-			return (tmp);
-		}
+			return (free(slash), tmp);
 		free(tmp);
 		i++;
 	}
+	free(slash);
 	return (0);
 }

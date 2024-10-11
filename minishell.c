@@ -6,14 +6,11 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/07 23:43:30 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/11 21:59:12 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
-
 
 void handle_sigint(int sig)
 {
@@ -51,19 +48,13 @@ t_env *enviroment_variable(char **ev)
 
 int main(int ac, char **av, char **env)
 {
-	// atexit(leaks);
-	// signal(SIGINT, handle_sigint);
+	signal(SIGINT, handle_sigint);
+	atexit(leaks);
 	t_main *main;
 	t_lexer *lex_list;
 	char *line;
 
 	(void)av;
-	main = malloc(sizeof(t_main));
-	main->exit_status = 0;
-	main->cmd = NULL;
-	lex_list = NULL;
-	main->env = enviroment_variable(env);
-	main->full_env = env;
 	using_history();
 	if (ac < 1)
 		return 0;
@@ -71,87 +62,63 @@ int main(int ac, char **av, char **env)
 	{
 		// handle_signals();
 		line = readline("lminishin $ ");
-		if (!line)
-			break;
 		if (*line)
 		{
-				lex_list = tokenize(line, main);
-				if (lex_list != NULL && lex_list->syntax_error == false)
-				{
-					// while(lex_list)
-					// {
-					// 	printf("%s --> ", lex_list->content);
-					// 	if (lex_list->state == IN_DQUOTE)
-					// 	printf("In double quotes : ");
-					// 	if (lex_list->state == IN_QUOTE)
-					// 		printf("In single quotes : ");
-					// 	if (lex_list->state == GENERAL)
-					// 		printf("General : ");
-					// 	if (lex_list->type == WORD)
-					// 		printf("Word");
-					// 	else if (lex_list->type == ENV)
-					// 		printf("Env");
-					// 	else if (lex_list->type == WHITE_SPACE)
-					// 		printf("White Space");
-					// 	else if (lex_list->type == PIPE_LINE)
-					// 		printf("Pipe");
-					// 	else if (lex_list->type == REDIR_IN)
-					// 		printf("Redirection in");
-					// 	else if (lex_list->type == REDIR_OUT)
-					// 		printf("Redirection out");
-					// 	else if (lex_list->type == HERE_DOC)
-					// 		printf("Heredoc");
-					// 	else if (lex_list->type == APPEND)
-					// 		printf("Append");
-					// 	printf("\n");
-					// 	lex_list = lex_list->next;
-					// }
-					main->cmd = create_list(main->cmd, lex_list, environment(getenv("PATH")));
-					while(main->cmd)
-					{
-						printf("COMMAND : %s\n", main->cmd->command);
-						printf("PATH : %s\n", main->cmd->path);
-						printf("ARG COUNT : %d\n", main->cmd->arg_count);
-						printf("PIPE OUT : %d\n", main->cmd->pipe_out);
-						int i = -1;
-						if (main->cmd->args)
-						{
-						while(main->cmd->args[++i])
-							printf("ARGS : %s\n", main->cmd->args[i]);
-						}
-						if (main->cmd->input_file)
-						{
-						i = -1;
-						while(main->cmd->input_file[++i])
-							printf("INPUT FILES : %s\n", main->cmd->input_file[i]);
-						}
-						if (main->cmd->output_file)
-						{
-						i = -1;
-						while(main->cmd->output_file[++i])
-							printf("OUTPUT FILES : %s\n", main->cmd->output_file[i]);
-						}
-						if (main->cmd->append_file)
-						{
-						i = -1;
-						while(main->cmd->append_file[++i])
-							printf("APPEND FILES : %s\n", main->cmd->append_file[i]);
-						}
-						if (main->cmd->heredoc_delimiter)
-						{
-						i = -1;
-						while(main->cmd->heredoc_delimiter[++i])
-							printf("HERDOC FILES : %s\n", main->cmd->heredoc_delimiter[i]);
-						}
-						printf("###############\n");
-						main->cmd = main->cmd->next;
-					}
-					// execute_command(main);
-				}
-				else
-					printf("Syntax error\n");
+			main = malloc(sizeof(t_main));
+			main->exit_status = 0;
+			main->env = enviroment_variable(env);
+			main->full_env = env;
+			lex_list = NULL;
+			main->cmd = NULL;
+			lex_list = tokenize(line, main);
+			if (lex_list != NULL && lex_list->syntax_error == false)
+			{
+				main->cmd = create_list(main->cmd, lex_list, environment(getenv("PATH")));
+				// while(main->cmd)
+				// {
+				// 	printf("COMMAND : %s\n", main->cmd->command);
+				// 	printf("PATH : %s\n", main->cmd->path);
+				// 	printf("ARG COUNT : %d\n", main->cmd->arg_count);
+				// 	printf("PIPE OUT : %d\n", main->cmd->pipe_out);
+				// 	int i = -1;
+				// 	if (main->cmd->args)
+				// 	{
+				// 	while(main->cmd->args[++i])
+				// 		printf("ARGS : %s\n", main->cmd->args[i]);
+				// 	}
+				// 	if (main->cmd->input_file)
+				// 	{
+				// 	i = -1;
+				// 	while(main->cmd->input_file[++i])
+				// 		printf("INPUT FILES : %s\n", main->cmd->input_file[i]);
+				// 	}
+				// 	if (main->cmd->output_file)
+				// 	{
+				// 	i = -1;
+				// 	while(main->cmd->output_file[++i])
+				// 		printf("OUTPUT FILES : %s\n", main->cmd->output_file[i]);
+				// 	}
+				// 	if (main->cmd->append_file)
+				// 	{
+				// 	i = -1;
+				// 	while(main->cmd->append_file[++i])
+				// 		printf("APPEND FILES : %s\n", main->cmd->append_file[i]);
+				// 	}
+				// 	if (main->cmd->heredoc_delimiter)
+				// 	{
+				// 	i = -1;
+				// 	while(main->cmd->heredoc_delimiter[++i])
+				// 		printf("HERDOC FILES : %s\n", main->cmd->heredoc_delimiter[i]);
+				// 	}
+				// 	printf("###############\n");
+				// 	main->cmd = main->cmd->next;
+				// }
+				// execute_command(main);
 			}
-			add_history(line);
-			clear_cmd_list(main->cmd);
+			else
+				printf("Syntax error\n");
+			clear(main, lex_list, line);
 		}
+		add_history(line);
+	}
 }

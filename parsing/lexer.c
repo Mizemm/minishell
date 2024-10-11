@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:01:42 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/06 19:46:28 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/11 22:04:22 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,5 +296,6 @@ t_lexer *tokenize(char *str, t_main *main)
 	list->syntax_error = syntax_error(list);
 	expand(list, main);
 	re_lex(list);
+	free(str);
 	return (list);
 }
