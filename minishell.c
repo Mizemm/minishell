@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/11 21:59:12 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/12 13:56:15 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,13 @@ int main(int ac, char **av, char **env)
 	t_main *main;
 	t_lexer *lex_list;
 	char *line;
+	int flag;
 
 	(void)av;
 	using_history();
+	main = malloc(sizeof(t_main));
+	flag = 1;
+	main->exit_status = 0;
 	if (ac < 1)
 		return 0;
 	while (1)
@@ -64,8 +68,9 @@ int main(int ac, char **av, char **env)
 		line = readline("lminishin $ ");
 		if (*line)
 		{
-			main = malloc(sizeof(t_main));
-			main->exit_status = 0;
+			if (flag != 1)
+				main = malloc(sizeof(t_main));
+			flag = 0;
 			main->env = enviroment_variable(env);
 			main->full_env = env;
 			lex_list = NULL;
@@ -113,12 +118,15 @@ int main(int ac, char **av, char **env)
 				// 	printf("###############\n");
 				// 	main->cmd = main->cmd->next;
 				// }
-				// execute_command(main);
+				execute_command(main);
 			}
 			else
+			{
+				main->exit_status = 258;
 				printf("Syntax error\n");
+			}
+			add_history(line);
 			clear(main, lex_list, line);
 		}
-		add_history(line);
 	}
 }

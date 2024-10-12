@@ -6,14 +6,14 @@
 #    By: mizem <mizem@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/20 22:27:04 by abdennac          #+#    #+#              #
-#    Updated: 2024/10/08 23:33:10 by mizem            ###   ########.fr        #
+#    Updated: 2024/10/12 13:52:12 by mizem            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-MINISHELL = minishell
+NAME = minishell
 CC = cc
-CFLAGS = #-fsanitize=address
-
+CFLAGS = #-fsanitize=address #-Wall -Wextra -Werror 
+LDFLAGS = -lreadline
 MINISHELL_C = minishell.c
 UTILS_C = parsing/clear.c parsing/parser.c parsing/parsing_utils.c parsing/lexer.c parsing/expand.c\
 			execution/simple_exec.c execution/execution.c execution/redirections.c execution/exec_utils.c\
@@ -25,18 +25,18 @@ UTILS_C = parsing/clear.c parsing/parser.c parsing/parsing_utils.c parsing/lexer
 MINISHELL_O = $(MINISHELL_C:.c=.o)
 UTILS_O = $(UTILS_C:.c=.o)
 
-all: $(MINISHELL)
+all: $(NAME)
 
 $(MINISHELL_O): minishell.h
 $(UTILS_O): minishell.h
 
-$(MINISHELL): $(MINISHELL_O) $(UTILS_O) minishell.h
-	$(CC) $(CFLAGS) $(MINISHELL_O) $(UTILS_O) -o minishell -lreadline
+$(NAME): $(MINISHELL_O) $(UTILS_O) minishell.h
+	$(CC) $(CFLAGS) $(LDFLAGS) $(MINISHELL_O) $(UTILS_O) -o minishell
 
 clean:
 	rm -rf $(MINISHELL_O) $(UTILS_O)
 
 fclean: clean
-	rm -rf $(MINISHELL)
+	rm -rf $(NAME)
 
-re: fclean all 
+re: fclean all
