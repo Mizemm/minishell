@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:19:35 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/07 23:56:16 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/13 18:40:01 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,6 @@ char	*put_value(t_main *main, char *output)
 	}
 	main->env = tmp_env; 
 	return (NULL);
-}
-
-int valid_name(char c)
-{
-	if((c >= 48 && c <= 58) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122) || c == '_')
-		return 1;
-	return 0;
-}
-int heredoc_breakers(char c)
-{
-	if(c == '>' || c == '<' || c == '\t' || c == ' ')
-		return 1;
-	return 0;
 }
 char	*expand_1(t_lexer *list, t_main *main, char *result, int *i)
 {
@@ -77,20 +64,33 @@ char	*expand_2(t_lexer *list, char *result, int *i)
 	tmp_arr = NULL;
 	return (result);
 }
-void	fill_node(t_lexer **list, char *result)
+char *big_expand(t_lexer *list, t_main *main, char *result, int *flag)
 {
-	free((*list)->content);
-	(*list)->content = ft_strdup(result);
-	// free(result);
-	// result = NULL;
+	int i;
+
+	i = 0;
+	while (i < ft_strlen(list->content) && list->content[i])
+	{
+		*flag = 1;
+		if (list->content[i] == '$' && (list->content[i + 1] == '?' || (list->content[i + 1] >= 48 && list->content[i + 1] <= 57)))
+		{
+			if(list->content[i + 1] == '?')
+				result = ft_strjoin(result, ft_itoa(main->exit_status));
+			i += 2;
+		}
+		else if (list->content[i] == '$')
+			result = expand_1(list, main, result, &i);
+		else
+			result = expand_2(list, result, &i);
+	}
+	return (result);
 }
 void	expand(t_lexer *list, t_main *main)
 {
 	char *result;
 	int i;
 	int flag;
-	
-	i = 0;
+
 	result = NULL;
 	while (list)
 	{
@@ -99,29 +99,11 @@ void	expand(t_lexer *list, t_main *main)
 		{
 			if (list->prev && list->prev->prev && (list->prev->type == HERE_DOC || (list->prev->prev->type == HERE_DOC && list->prev->type == WHITE_SPACE)))
 			{
-				while(heredoc_breakers(list->content[0]) != 1 && list->next)
-					list = list->next;
+				skip_her(&list, result);
 				if (!list->next)
-				{
-					free(result);
 					return ;
-				}
 			}
-			i = 0;
-			while (i < ft_strlen(list->content) && list->content[i])
-			{
-				flag = 1;
-				if (list->content[i] == '$' && (list->content[i + 1] == '?' || (list->content[i + 1] >= 48 && list->content[i + 1] <= 57)))
-				{
-					if(list->content[i + 1] == '?')
-						result = ft_strjoin(result, ft_itoa(main->exit_status));
-					i += 2;
-				}
-				else if (list->content[i] == '$')
-					result = expand_1(list, main, result, &i);
-				else
-					result = expand_2(list, result, &i);
-			}
+			result = big_expand(list, main, result, &flag);
 			if (flag)
 				fill_node(&list, result);
 		}

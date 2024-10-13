@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/12 13:28:44 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/13 18:42:10 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,10 @@ int					count_her(t_lexer *list);
 int					count_append(t_lexer *list);
 int					count_args(t_lexer *list);
 void				clear(t_main *main, t_lexer *lexer, char *line);
+int					valid_name(char c);
+int					heredoc_breakers(char c);
+void				fill_node(t_lexer **list, char *result);
+void				skip_her(t_lexer **list, char *result);
 
 /* EXECUTION FUNCTIONS */
 

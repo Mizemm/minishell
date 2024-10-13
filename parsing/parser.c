@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/11 18:19:20 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/13 22:15:40 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,8 +169,11 @@ t_cmd *create_args(t_lexer **lexer, char **ev)
 			(*lexer) = (*lexer)->next;
 		}
 	}
-	tmp_list->command = ft_strdup(tmp_list->args[0]);
-	tmp_list->path = return_path(ev, tmp_list->command);
+	if (tmp_list->args)
+	{
+		tmp_list->command = ft_strdup(tmp_list->args[0]);
+		tmp_list->path = return_path(ev, tmp_list->command);
+	}
 	if ((*lexer) && (*lexer)->type == PIPE_LINE)
 		tmp_list->pipe_out = 1;
 	return (tmp_list);

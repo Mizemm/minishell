@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/12 13:56:15 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/13 23:18:54 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ t_env *enviroment_variable(char **ev)
 
 int main(int ac, char **av, char **env)
 {
-	signal(SIGINT, handle_sigint);
-	atexit(leaks);
+	// signal(SIGINT, handle_sigint);
+	// atexit(leaks);
 	t_main *main;
 	t_lexer *lex_list;
 	char *line;
@@ -58,8 +58,8 @@ int main(int ac, char **av, char **env)
 	(void)av;
 	using_history();
 	main = malloc(sizeof(t_main));
-	flag = 1;
 	main->exit_status = 0;
+	flag = 1;
 	if (ac < 1)
 		return 0;
 	while (1)
