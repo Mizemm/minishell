@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/13 23:18:54 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/13 23:30:12 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ int main(int ac, char **av, char **env)
 				// 	printf("###############\n");
 				// 	main->cmd = main->cmd->next;
 				// }
+				
+				handle_heredoc(main);
 				execute_command(main);
 			}
 			else

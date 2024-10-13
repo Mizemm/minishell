@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/13 18:42:10 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/13 23:29:00 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,13 @@ typedef struct s_lexer
 
 typedef struct s_main
 {
-	int				exit_status;
-	t_cmd			*cmd;
-	t_env			*env;
-	t_expo			*export;
-	char			**full_env;
-}					t_main;
+    int exit_status;
+    t_cmd *cmd;
+    t_env *env;
+    t_expo *export;
+    char **full_env;
+    char **heredoc_files;
+} t_main;
 
 /* LIBFT FUNCTIONS */
 
@@ -141,25 +142,23 @@ void				skip_her(t_lexer **list, char *result);
 
 /* EXECUTION FUNCTIONS */
 
-void				handle_input_redirection(t_cmd *cmd, int *prev_pipe_fd);
-void				handle_output_redirection(t_cmd *cmd, int *pipe_fd);
-int					check_if_builtin(char *str);
-void				execute_command(t_main *main);
-void				redirections_setup(t_cmd *cmd, 
-						int prev_pipe[2], int curr_pipe[2]);
-void				pipe_setup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2]);
-void				simple_exec(t_main *main);
-void				simple_redirections(t_cmd *cmd);
-void				simple_cleanup(t_cmd *cmd);
-void				execute_builtins(t_main *main);
-void				error(char *str);
-t_env				*ft_lstlast_env(t_env *lst);
-void				ft_lstadd_back_env(t_env **head, t_env *new);
-void				update_env_value(t_env **env, char *name, char *value);
-int					is_export(char **split, t_main *main);
-void				print_export(t_main *main);
-int					check_export(char **split);
-void				handle_signals(void);
+void            handle_input_redirection(t_main *main, int *prev_pipe_fd, int file_count);
+void handle_output_redirection(t_cmd *cmd, int *pipe_fd);
+int check_if_builtin(char *str);
+void execute_command(t_main *main);
+void pipe_setup(t_cmd *cmd, int prev_pipe[2], int curr_pipe[2]);
+void simple_exec(t_main *main);
+void simple_cleanup(t_cmd *cmd);
+void execute_builtins(t_main *main);
+void error(char *str);
+t_env *ft_lstlast_env(t_env *lst);
+void ft_lstadd_back_env(t_env **head, t_env *new);
+void update_env_value(t_env **env, char *name, char *value);
+void print_export(t_main *main);
+int check_export(char **split);
+void handle_signals(void);
+void handle_heredoc(t_main *main);
+int    count_commands(t_cmd *cmd);
 
 /* A77 */
 
