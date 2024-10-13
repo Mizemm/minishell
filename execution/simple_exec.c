@@ -1,45 +1,29 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   simple_exec.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:10:51 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/06 23:42:25 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/13 22:34:38 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../minishell.h"
 
-void	handle_simple_heredoc(t_cmd *cmd)
+void simple_input(t_cmd *cmd)
 {
-	int		fd;
-	char	*line;	
-
-	fd = open(".heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	while (1)
-	{
-		line = readline("> ");
-		// if (line[0] == '$')
-			// line = expand;
-		if (ft_strcmp(line, *(cmd->heredoc_delimiter)) == 0)
-			break;
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-	}
-	close(fd);
-
-}
-void	simple_input(t_cmd *cmd)
-{
-	int	fd_in;
-	int	i;
+	int fd_in;
+	int i;
 
 	if (cmd->heredoc_delimiter)
-		handle_simple_heredoc(cmd);
-	
+	{
+		fd_in = open("/tmp/heredoc", O_RDONLY);
+		dup2(fd_in, STDIN_FILENO);
+		close(fd_in);
+	}
+
 	if (cmd->input_file)
 	{
 		i = -1;
@@ -50,10 +34,10 @@ void	simple_input(t_cmd *cmd)
 	}
 }
 
-void	simple_output(t_cmd *cmd)
+void simple_output(t_cmd *cmd)
 {
-	int	fd_out;
-	int	i;
+	int fd_out;
+	int i;
 
 	if (cmd->output_file)
 	{
@@ -71,8 +55,10 @@ void	simple_output(t_cmd *cmd)
 	}
 }
 
-void	simple_cleanup(t_cmd *cmd)
+void simple_cleanup(t_cmd *cmd)
 {
+	if (cmd->heredoc_delimiter)
+		unlink("/tmp/heredoc0");
 	if (cmd->stdin_backup != -1)
 	{
 		dup2(cmd->stdin_backup, STDIN_FILENO);
@@ -85,11 +71,10 @@ void	simple_cleanup(t_cmd *cmd)
 	}
 }
 
-void	simple_exec(t_main *main)
+void simple_exec(t_main *main)
 {
-	pid_t	pid;
-	
-	// main->cmd->heredoc_delimiter = "bazinga";
+	pid_t pid;
+
 	if (check_if_builtin(main->cmd->command))
 	{
 		simple_input(main->cmd);
@@ -113,5 +98,7 @@ void	simple_exec(t_main *main)
 		}
 		else
 			waitpid(pid, NULL, 0);
+		if (main->cmd->heredoc_delimiter)
+			unlink("/tmp/heredoc0");
 	}
 }

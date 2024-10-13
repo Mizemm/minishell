@@ -12,29 +12,6 @@
 /******************************************************************************/
 
 #include "../minishell.h"
-void print_cmd(t_cmd *cmd)
-{
-    int i;
-
-    printf("Command: %s\n", cmd->command);
-    printf("Path: %s\n", cmd->path);
-    printf("Argument count: %d\n", cmd->arg_count);
-    printf("Arguments:\n");
-    for (i = 0; i < cmd->arg_count; i++)
-    {
-        printf("  [%d]: %s\n", i, cmd->args[i]);
-    }
-    printf("Input files:\n");
-    for (i = 0; cmd->input_file && cmd->input_file[i]; i++)
-    {
-        printf("  [%d]: %s\n", i, cmd->input_file[i]);
-    }
-    printf("Output files:\n");
-    for (i = 0; cmd->output_file && cmd->output_file[i]; i++)
-    {
-        printf("  [%d]: %s\n", i, cmd->output_file[i]);
-    }
-}
 
 void	execute_single_command(t_main *main, t_cmd *cmd)
 {
@@ -42,21 +19,6 @@ void	execute_single_command(t_main *main, t_cmd *cmd)
 		execute_builtins(main);
 	else
 		execve(cmd->path, cmd->args, main->full_env);
-}
-
-int	count_commands(t_cmd *cmd)
-{
-	int		count;
-	t_cmd	*tmp;
-
-	count = 0;
-	tmp = cmd;
-	while (tmp)
-	{
-		count++;
-		tmp = tmp->next;
-	}
-	return (count);
 }
 
 void	pipe_exec_with_redirection(t_main *main)
@@ -68,13 +30,17 @@ void	pipe_exec_with_redirection(t_main *main)
 	int		cmd_count;
 	pid_t	*child_pids;
 	int		i;
+	int		file_count;
 
 	cmd = main->cmd;
 	cmd_count = count_commands(cmd);
 	child_pids = malloc(sizeof(pid_t) * cmd_count);
 	i = 0;
+	file_count = -1;
 	while (cmd)
 	{
+		if (cmd->heredoc_delimiter)
+			file_count++;
 		if (cmd->next && pipe(pipe_fd) < 0)
 			error("pipe error");
 		pid = fork();
@@ -83,7 +49,7 @@ void	pipe_exec_with_redirection(t_main *main)
 		else if (pid == 0) // Child process
 		{
 			signal(SIGINT, SIG_DFL);
-			handle_input_redirection(cmd, prev_pipe_fd);
+			handle_input_redirection(main, prev_pipe_fd, file_count);
 			handle_output_redirection(cmd, pipe_fd);
 			execute_single_command(main, cmd);
 			exit(0);

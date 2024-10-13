@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:45:55 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/04 23:00:36 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/13 13:51:21 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -54,4 +54,18 @@ int	check_if_builtin(char *str)
 	if (ft_strcmp("exit", str) == 0)
 		return (1);
 	return (0);
+}
+int	count_commands(t_cmd *cmd)
+{
+	int		count;
+	t_cmd	*tmp;
+
+	count = 0;
+	tmp = cmd;
+	while (tmp)
+	{
+		count++;
+		tmp = tmp->next;
+	}
+	return (count);
 }
