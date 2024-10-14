@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/13 23:29:00 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/14 13:43:09 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ int					valid_name(char c);
 int					heredoc_breakers(char c);
 void				fill_node(t_lexer **list, char *result);
 void				skip_her(t_lexer **list, char *result);
+char				*put_value(t_main *main, char *output);
 
 /* EXECUTION FUNCTIONS */
 
@@ -159,6 +160,7 @@ int check_export(char **split);
 void handle_signals(void);
 void handle_heredoc(t_main *main);
 int    count_commands(t_cmd *cmd);
+char	*her_expand(char *str, t_main *main);
 
 /* A77 */
 

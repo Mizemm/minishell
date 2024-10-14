@@ -1,16 +1,32 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 13:47:36 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/13 23:10:24 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/14 13:47:40 by mizem            ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "../minishell.h"
+
+int dollar_count(char *str)
+{
+	int i;
+	int count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+			count++;
+		i++;
+	}
+	return count;
+}
 
 char **make_file_name(t_cmd *cmd)
 {
@@ -85,7 +101,7 @@ void handle_piped_heredoc(t_main *main, t_cmd *cmd)
 	}
 }
 
-void handle_simple_heredoc(t_cmd *cmd)
+void handle_simple_heredoc(t_cmd *cmd, t_main *main)
 {
 	char *line;
 	int fd;
@@ -103,8 +119,8 @@ void handle_simple_heredoc(t_cmd *cmd)
 				line = readline("> ");
 				if (!line)
 					break;
-				// if (line[0] == '$')
-				// line = expand;
+				if (dollar_count(line) > 0)
+					line = her_expand(line, main);
 				if (ft_strcmp(line, (cmd->heredoc_delimiter[j])) == 0)
 					break;
 				write(fd, line, ft_strlen(line));
@@ -120,7 +136,7 @@ void handle_simple_heredoc(t_cmd *cmd)
 void handle_heredoc(t_main *main)
 {
 	if (!main->cmd->next)
-		handle_simple_heredoc(main->cmd);
+		handle_simple_heredoc(main->cmd, main);
 	else
 		handle_piped_heredoc(main, main->cmd);
 }
