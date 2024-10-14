@@ -49,8 +49,8 @@ void	pipe_exec_with_redirection(t_main *main)
 		else if (pid == 0) // Child process
 		{
 			signal(SIGINT, SIG_DFL);
-			handle_input_redirection(main, prev_pipe_fd, file_count);
 			handle_output_redirection(cmd, pipe_fd);
+			handle_input_redirection(cmd, main, prev_pipe_fd, file_count);
 			execute_single_command(main, cmd);
 			exit(0);
 		}
@@ -79,6 +79,11 @@ void	pipe_exec_with_redirection(t_main *main)
 	while (++i < cmd_count) // Wait for all child processes to finish
 		waitpid(child_pids[i], NULL, 0);
 	free(child_pids);
+	if (main->cmd->heredoc_delimiter)
+	{
+		while (main->heredoc_files[++file_count])
+			unlink(main->heredoc_files[file_count]);
+	}
 }
 
 // void	execute_command(t_main *main)

@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/14 17:41:32 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/14 23:12:50 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -129,32 +129,21 @@ char				*return_path(char **ev, char *str);
 t_cmd				*create_list(t_cmd *list, t_lexer *lexer, char **ev);
 t_lexer				*tokenize(char *str, t_main *main);
 void				expand(t_lexer *list, t_main *main);
+int					count_redir_out(t_lexer *list);
+int					count_redir_in(t_lexer *list);
+int					count_her(t_lexer *list);
+int					count_append(t_lexer *list);
+int					count_args(t_lexer *list);
 void				clear(t_main *main, t_lexer *lexer, char *line);
 int					valid_name(char c);
 int					heredoc_breakers(char c);
 void				fill_node(t_lexer **list, char *result);
 void				skip_her(t_lexer **list, char *result);
 char				*put_value(t_main *main, char *output);
-int					special_char(char c);
-int					find_dollar(char *str);
-int					pipe_syntax(char *str);
-int					in_redirections_syntax(char *str);
-int					out_redirections_syntax(char *str);
-int					next_false(t_lexer *list);
-bool				syntax_error(t_lexer *list);
-enum				e_type add_type(t_lexer *list);
-int					flag(t_lexer *list);
-void				give_type(t_lexer *list);
-int					count_args(t_lexer *list);
-int					count_redir_out(t_lexer *list);
-int					count_redir_in(t_lexer *list);
-int					count_her(t_lexer *list);
-int					count_append(t_lexer *list);
-
 
 /* EXECUTION FUNCTIONS */
 
-void            handle_input_redirection(t_main *main, int *prev_pipe_fd, int file_count);
+void            handle_input_redirection(t_cmd *cmd, t_main *main, int *prev_pipe_fd, int file_count);
 void handle_output_redirection(t_cmd *cmd, int *pipe_fd);
 int check_if_builtin(char *str);
 void execute_command(t_main *main);
