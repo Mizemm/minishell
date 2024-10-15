@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:45:55 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/13 13:51:21 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:41:12 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -19,10 +19,10 @@ void	error(char *str)
 	exit(1);
 }
 
-void	execute_builtins(t_main *main)
+void	execute_builtins(t_main *main, t_cmd *cmd)
 {
-	if (ft_strcmp("echo", main->cmd->command) == 0)
-		exec_echo(main);
+	if (ft_strcmp("echo", cmd->command) == 0)
+		exec_echo(cmd);
 	else if (ft_strcmp("cd", main->cmd->command) == 0)
 		exec_cd(main);
 	else if (ft_strcmp("pwd", main->cmd->command) == 0)

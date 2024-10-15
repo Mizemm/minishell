@@ -1,27 +1,22 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/14 13:50:26 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/15 21:34:25 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
-
-void handle_sigint(int sig)
-{
-	(void)sig;
-	exit(0);
-}
 
 void leaks(void)
 {
 	system("leaks minishell");
 }
+
 t_env *enviroment_variable(char **ev)
 {
 	int i = -1;
@@ -63,7 +58,7 @@ int main(int ac, char **av, char **env)
 		return 0;
 	while (1)
 	{
-		// handle_signals();
+		handle_signals();
 		line = readline("lminishin $ ");
 		if (*line)
 		{

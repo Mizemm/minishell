@@ -16,7 +16,7 @@
 void	execute_single_command(t_main *main, t_cmd *cmd)
 {
 	if (check_if_builtin(cmd->command))
-		execute_builtins(main);
+		execute_builtins(main, cmd);
 	else
 		execve(cmd->path, cmd->args, main->full_env);
 }
@@ -106,7 +106,10 @@ void	execute_command(t_main *main)
 	while (main->cmd)
 	{
 		if (!main->cmd->next)
+		{
+			dprintf(2, "%s\n", main->cmd->command);
 			simple_exec(main);
+		}
 		else
 		{
 			pipe_exec_with_redirection(main);

@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:10:51 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/13 22:34:38 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/15 15:05:55 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -79,7 +79,7 @@ void simple_exec(t_main *main)
 	{
 		simple_input(main->cmd);
 		simple_output(main->cmd);
-		execute_builtins(main);
+		execute_builtins(main, main->cmd);
 		simple_cleanup(main->cmd);
 	}
 	else
@@ -93,7 +93,7 @@ void simple_exec(t_main *main)
 			simple_input(main->cmd);
 			simple_output(main->cmd);
 			if (!main->cmd->path)
-				error("Command not found\n");
+				error("Command not found");
 			execve(main->cmd->path, main->cmd->args, main->full_env);
 		}
 		else

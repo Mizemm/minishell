@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:57:53 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/14 23:13:32 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/15 13:57:49 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -18,7 +18,6 @@ void handle_input_redirection(t_cmd *cmd, t_main *main, int *prev_pipe_fd, int f
 
     if (prev_pipe_fd[0] != -1)
     {
-		write(1, "prev_pipe_fd\n", 14);
         dup2(prev_pipe_fd[0], STDIN_FILENO);
         close(prev_pipe_fd[0]);
         close(prev_pipe_fd[1]);
@@ -34,9 +33,7 @@ void handle_input_redirection(t_cmd *cmd, t_main *main, int *prev_pipe_fd, int f
     if (cmd->input_file)
     {
 		int i = -1;
-		write(1, "input_file\n", 12);
 		while (cmd->input_file[++i]){
-			dprintf(2, "input files -> %s\n", cmd->input_file[i]);
         	fd_in = open(cmd->input_file[i], O_RDONLY);
         	if (fd_in < 0)
             	error("Input file open error");
@@ -54,7 +51,6 @@ void handle_output_redirection(t_cmd *cmd, int *pipe_fd)
 
 	if (cmd->next)
 	{
-		write(1, "pipe\n", 5);
 		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);

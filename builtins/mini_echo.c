@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:55:01 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/30 10:41:00 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/15 21:27:47 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -20,7 +20,7 @@ void ft_print(char *str)
     while (str[++i])
     {
         if(!(str[i] == '\\' && str[i - 1] != '\\'))
-            printf("%c", str[i]);
+            write(1, &str[i], 1);
     }
 }
 
@@ -42,26 +42,29 @@ int check_flag(char *str)
     return (1);
 }
 
-void exec_echo(t_main *main)
+void exec_echo(t_cmd *cmd)
 {
-    int i = 1;
+    int i = 0;
     int flag_n = 0;
 
-    while (main->cmd->args[i] && check_flag(main->cmd->args[i]))
+    i = 1;
+    while (cmd->args[i] && check_flag(cmd->args[i]))
     {
         flag_n = 1;
         i++;
     }
 
-    while (main->cmd->args[i])
+    while (cmd->args[i])
     {
-        ft_print(main->cmd->args[i]);
-        if (main->cmd->args[i + 1])
+        ft_print(cmd->args[i]);
+        if (cmd->args[i + 1])
             printf(" ");
         i++;
     }
 
     if (!flag_n)
         printf("\n");
+    else
+        printf("");
 }
 
