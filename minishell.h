@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/16 23:53:44 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/17 00:45:16 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -51,11 +51,6 @@ typedef struct s_cmd
 	int				pipe_out;
 	int				stdin_backup;
 	int				stdout_backup;
-	int				arg_index;
-	int				in_index;
-	int				out_index;
-	int				app_index;
-	int				her_index;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -156,18 +151,15 @@ int					count_redir_in(t_lexer *list);
 int					count_her(t_lexer *list);
 int					count_append(t_lexer *list);
 int					valid_syntax_condition(t_lexer *list, int flag);
+void				re_lex_1(t_lexer **list);
 void				re_lex_2(t_lexer **list);
 void				re_lex(t_lexer *list);
-void				fill_input_file(t_lexer **lexer, t_cmd *tmp_list);
-void				fill_output_file(t_lexer **lexer, t_cmd *tmp_list);
-void				fill_append_file(t_lexer **lexer, t_cmd *tmp_list);
-void				fill_heredoc(t_lexer **lexer, t_cmd *tmp_list);
-void				fill_args(t_lexer **lexer, t_cmd *tmp_list);
-
 
 
 /* EXECUTION FUNCTIONS */
 
+void 				child_exec(t_main *main, t_cmd *cmd, int *prev_pipe_fd, int file_count, int *pipe_fd);
+void				execute_single_command(t_main *main, t_cmd *cmd);
 void            	handle_input_redirection(t_cmd *cmd, t_main *main, int *prev_pipe_fd, int file_count);
 void				handle_output_redirection(t_cmd *cmd, int *pipe_fd);
 int					check_if_builtin(char *str);
@@ -188,12 +180,12 @@ t_env				*ft_lstlast_env(t_env *lst);
 
 /* A77 */
 
-void				exec_echo(t_cmd *cmd);
-void				excec_pwd(void);
-void				exec_env(t_main *main);
+int					exec_echo(t_cmd *cmd);
+int					excec_pwd(void);
+int					exec_env(t_main *main);
 int					exec_cd(t_main *main);
-void				exec_exit(t_main *main);
-void				exec_export(t_main *main);
-void				exec_unset(t_main *main);
+int					exec_exit(t_main *main);
+int					exec_export(t_main *main);
+int					exec_unset(t_main *main);
 
 #endif

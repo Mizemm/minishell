@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:55:01 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/15 21:27:47 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/17 00:48:02 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -42,7 +42,7 @@ int check_flag(char *str)
     return (1);
 }
 
-void exec_echo(t_cmd *cmd)
+int exec_echo(t_cmd *cmd)
 {
     int i = 0;
     int flag_n = 0;
@@ -53,7 +53,6 @@ void exec_echo(t_cmd *cmd)
         flag_n = 1;
         i++;
     }
-
     while (cmd->args[i])
     {
         ft_print(cmd->args[i]);
@@ -61,10 +60,10 @@ void exec_echo(t_cmd *cmd)
             printf(" ");
         i++;
     }
-
     if (!flag_n)
         printf("\n");
     else
         printf("");
+    return (0);
 }
 

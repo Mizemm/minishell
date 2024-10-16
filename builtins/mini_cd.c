@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:55:26 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/30 09:39:55 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/17 00:46:49 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -46,28 +46,28 @@ int exec_cd(t_main *main)
     char new_cwd[1024];
 
     if (getcwd(old_cwd, sizeof(old_cwd)) == NULL)
-        error("getcwd error");
+        return(error("getcwd error"), 1);
     if (main->cmd->arg_count < 2)
     {
         dir = get_env_value(main->env, "HOME");
         if (!dir)
-            error("cd error: HOME not set");
+            return(error("cd error: HOME not set"), 1);
     }
     else if (ft_strcmp(main->cmd->args[1], "-") == 0)
     {
         dir = get_env_value(main->env, "OLDPWD");
         if (!dir)
-            error("cd: OLDPWD not set");
+            return(error("cd: OLDPWD not set"), 1);
         printf("%s\n", dir);
     }
     else 
         dir = main->cmd->args[1];
     if (chdir(dir) != 0)
-        error("cd error");
+        return(error("cd error"), 1);
     update_env_value(&main->env, "OLDPWD", old_cwd);
     if (getcwd(new_cwd, sizeof(new_cwd)) == NULL)
-        error("getcwd error");
+        return(error("getcwd error"), 1);
     update_env_value(&main->env, "PWD", new_cwd);
-    return 0;
+    return (0);
 }
 

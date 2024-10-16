@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:56:43 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/04 21:51:04 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/17 00:51:38 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -74,7 +74,7 @@ void add_to_env(t_main *main, char **split)
 	ft_lstadd_back_env(&main->env, new);
 }
 
-void exec_export(t_main *main)
+int exec_export(t_main *main)
 {
 	int i;
 	char **split;
@@ -97,4 +97,5 @@ void exec_export(t_main *main)
 			ft_free(split);
 		}
 	}
+	return (0);
 }

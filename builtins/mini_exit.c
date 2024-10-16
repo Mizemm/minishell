@@ -6,13 +6,13 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 12:03:20 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/01 11:34:32 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/17 00:51:01 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "../minishell.h"
 
-void exec_exit(t_main *main)
+int exec_exit(t_main *main)
 {
     int exit_status;
 
@@ -35,9 +35,10 @@ void exec_exit(t_main *main)
         if (main->cmd->args[2])
         {
             ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-            return;
+            return (1);
         }
     }
     exit(exit_status);
+    return (0);
 }
 

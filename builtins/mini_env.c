@@ -6,24 +6,25 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 10:09:31 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/03 17:50:27 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/17 00:49:48 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "../minishell.h"
 
-void exec_env(t_main *main)
+int exec_env(t_main *main)
 {
-    t_env *env = main->env;
-    char *pwd = NULL;
-
+    t_env *env;
+    char *pwd;
+    
+    env = main->env;
+    pwd = NULL;
     while (env)
     {
         if (ft_strcmp(env->name, "PWD") == 0)
             pwd = env->value;
         env = env->next;
     }
-
     env = main->env;
     while (env)
     {
@@ -34,4 +35,5 @@ void exec_env(t_main *main)
             printf("%s=%s\n", env->name, env->value);
         env = env->next;
     }
+    return (0);
 }

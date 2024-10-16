@@ -23,12 +23,12 @@ void	execute_single_command(t_main *main, t_cmd *cmd)
 
 void	pipe_exec_with_redirection(t_main *main)
 {
+	t_cmd	*cmd;
 	pid_t	pid;
+	pid_t	*child_pids;
 	int		pipe_fd[2];
 	int		prev_pipe_fd[2] = {-1, -1};
-	t_cmd	*cmd;
 	int		cmd_count;
-	pid_t	*child_pids;
 	int		i;
 	int		file_count;
 
@@ -46,15 +46,9 @@ void	pipe_exec_with_redirection(t_main *main)
 		pid = fork();
 		if (pid < 0)
 			error("fork error");
-		else if (pid == 0) // Child process
-		{
-			signal(SIGINT, SIG_DFL);
-			handle_output_redirection(cmd, pipe_fd);
-			handle_input_redirection(cmd, main, prev_pipe_fd, file_count);
-			execute_single_command(main, cmd);
-			exit(0);
-		}
-		else // Parent process
+		else if (pid == 0)
+			child_exec(main, cmd, prev_pipe_fd, file_count, pipe_fd);
+		else
 		{
 			child_pids[i++] = pid;
 			if (prev_pipe_fd[0] != -1)
@@ -86,6 +80,29 @@ void	pipe_exec_with_redirection(t_main *main)
 	}
 }
 
+void	execute_command(t_main *main)
+{
+	t_cmd	*cmd;
+
+	cmd = main->cmd;
+	signal(SIGINT, SIG_IGN);
+	main->cmd->stdin_backup = dup(STDIN_FILENO);
+	main->cmd->stdout_backup = dup(STDOUT_FILENO);
+	while (main->cmd)
+	{
+		if (!main->cmd->next)
+			simple_exec(main);
+		else
+		{
+			pipe_exec_with_redirection(main);
+			while (main->cmd->next)
+				main->cmd = main->cmd->next;
+		}
+		main->cmd = main->cmd->next;
+	}
+	main->cmd = cmd;
+}
+
 // void	execute_command(t_main *main)
 // {
 // 	main->cmd->stdin_backup = dup(STDIN_FILENO);
@@ -96,29 +113,3 @@ void	pipe_exec_with_redirection(t_main *main)
 // 		else if (main->cmd)
 // 			pipe_exec_with_redirection(main);
 // }
-
-void	execute_command(t_main *main)
-{
-	t_cmd	*cmd;
-	cmd = main->cmd;
-	signal(SIGINT, SIG_IGN);
-	main->cmd->stdin_backup = dup(STDIN_FILENO);
-	main->cmd->stdout_backup = dup(STDOUT_FILENO);
-	while (main->cmd)
-	{
-		if (!main->cmd->next)
-		{
-			dprintf(2, "%s\n", main->cmd->command);
-			simple_exec(main);
-		}
-		else
-		{
-			pipe_exec_with_redirection(main);
-			// Skip to the end of the command list
-			while (main->cmd->next)
-				main->cmd = main->cmd->next;
-		}
-		main->cmd = main->cmd->next;
-	}
-	main->cmd = cmd;
-}
