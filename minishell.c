@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/16 13:50:15 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/16 23:54:16 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int main(int ac, char **av, char **env)
 	{
 		// handle_signals();
 		line = readline("lminishin $ ");
+		if (!line)
+			break ;
 		if (*line)
 		{
 			if (flag != 1)
@@ -126,7 +128,7 @@ int main(int ac, char **av, char **env)
 				printf("Syntax error\n");
 			}
 			add_history(line);
-			clear(main, lex_list, line);
+			// clear(main, lex_list, line);
 		}
 	}
 }

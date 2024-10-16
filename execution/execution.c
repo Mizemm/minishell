@@ -99,7 +99,8 @@ void	pipe_exec_with_redirection(t_main *main)
 
 void	execute_command(t_main *main)
 {
-	// print_cmd(main->cmd);
+	t_cmd	*cmd;
+	cmd = main->cmd;
 	signal(SIGINT, SIG_IGN);
 	main->cmd->stdin_backup = dup(STDIN_FILENO);
 	main->cmd->stdout_backup = dup(STDOUT_FILENO);
@@ -119,4 +120,5 @@ void	execute_command(t_main *main)
 		}
 		main->cmd = main->cmd->next;
 	}
+	main->cmd = cmd;
 }

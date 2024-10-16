@@ -6,93 +6,72 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/16 13:31:44 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/16 23:55:43 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+void initialize(t_cmd *cmd)
+{
+	cmd->command = NULL;
+	cmd->path = NULL;
+	cmd->args = NULL;
+	cmd->arg_count = 0;
+	cmd->input_file = NULL;
+	cmd->output_file = NULL;
+	cmd->append_file = NULL;
+	cmd->heredoc_delimiter = NULL;
+	cmd->heredoc_content = NULL;
+	cmd->pipe_out = 0;
+	cmd->stdin_backup = 0;
+	cmd->stdout_backup = 0;
+	cmd->arg_index = 0;
+	cmd->in_index = 0;
+	cmd->out_index = 0;
+	cmd->app_index = 0;
+	cmd->her_index = 0;
+	cmd->next = NULL;
+}
 
+void	allocate_list(t_cmd *list, t_lexer *lexer)
+{
+	if (count_args(lexer) > 0)
+		list->args = malloc(sizeof(char *) * (count_args(lexer) + 1));
+	if (count_redir_in(lexer) > 0)
+		list->input_file = malloc(sizeof(char *) * (count_redir_in(lexer) + 1));
+	if (count_redir_out(lexer) > 0)
+		list->output_file = malloc(sizeof(char *) * (count_redir_out(lexer) + 1));
+	if (count_append(lexer) > 0)
+		list->append_file = malloc(sizeof(char *) * (count_append(lexer) + 1));
+	if (count_her(lexer) > 0)
+		list->heredoc_delimiter = malloc(sizeof(char *) * (count_her(lexer) + 1));
+}
+void	fill_list(t_lexer **lexer, t_cmd *tmp_list)
+{
+	if ((*lexer)->type == WHITE_SPACE)
+		(*lexer) = (*lexer)->next;
+	else if ((*lexer)->type == REDIR_IN)
+		fill_input_file(lexer, tmp_list);
+	else if ((*lexer)->type == REDIR_OUT)
+		fill_output_file(lexer, tmp_list);
+	else if ((*lexer)->type == APPEND)
+		fill_append_file(lexer, tmp_list);
+	else if ((*lexer)->type == HERE_DOC)
+		fill_heredoc(lexer, tmp_list);
+	else
+		fill_args(lexer, tmp_list);
+}
 t_cmd *create_args(t_lexer **lexer, char **ev)
 {
 	t_cmd *tmp_list;
-	int arg;
-	int in;
-	int out;
-	int app;
-	int her;
-	
+
 	tmp_list = malloc(sizeof(t_cmd));
 	if (!tmp_list)
 		return NULL;
-	tmp_list->command = NULL;
-	tmp_list->path = NULL;
-	tmp_list->args = NULL;
-	tmp_list->arg_count = count_args((*lexer));
-	tmp_list->input_file = NULL;
-	tmp_list->output_file = NULL;
-	tmp_list->append_file = NULL;
-	tmp_list->heredoc_delimiter = NULL;
-	tmp_list->heredoc_content = NULL;
-	tmp_list->pipe_out = 0;
-	tmp_list->next = NULL;
-	arg = 0;
-	in = 0;
-	out = 0;
-	app = 0;
-	her = 0;
-	if (count_args((*lexer)) > 0)
-		tmp_list->args = malloc(sizeof(char *) * (count_args((*lexer)) + 1));
-	if (count_redir_in((*lexer)) > 0)
-		tmp_list->input_file = malloc(sizeof(char *) * (count_redir_in((*lexer)) + 1));
-	if (count_redir_out((*lexer)) > 0)
-		tmp_list->output_file = malloc(sizeof(char *) * (count_redir_out((*lexer)) + 1));
-	if (count_append((*lexer)) > 0)
-		tmp_list->append_file = malloc(sizeof(char *) * (count_append((*lexer)) + 1));
-	if (count_her((*lexer)) > 0)
-		tmp_list->heredoc_delimiter = malloc(sizeof(char *) * (count_her((*lexer)) + 1));
+	initialize(tmp_list);
+	allocate_list(tmp_list, (*lexer));
 	while ((*lexer) && (*lexer)->type != PIPE_LINE)
-	{
-		if ((*lexer)->type == WHITE_SPACE)
-			(*lexer) = (*lexer)->next;
-		else if ((*lexer)->type == REDIR_IN)
-		{
-			while ((*lexer) && (*lexer)->type != WORD && (*lexer)->type != ENV)
-				(*lexer) = (*lexer)->next;
-			tmp_list->input_file[in++] = ft_strdup((*lexer)->content);
-			tmp_list->input_file[in] = NULL;
-			(*lexer) = (*lexer)->next;
-		}
-		else if ((*lexer)->type == REDIR_OUT)
-		{
-			while ((*lexer) && (*lexer)->type != WORD && (*lexer)->type != ENV)
-					(*lexer) = (*lexer)->next;
-			tmp_list->output_file[out++] = ft_strdup((*lexer)->content);
-			tmp_list->output_file[out] = NULL;
-			(*lexer) = (*lexer)->next;
-		}
-		else if ((*lexer)->type == APPEND)
-		{
-			while ((*lexer) && (*lexer)->type != WORD && (*lexer)->type != ENV)
-				(*lexer) = (*lexer)->next;
-			tmp_list->append_file[app++] = ft_strdup((*lexer)->content);
-			tmp_list->append_file[app] = NULL;
-			(*lexer) = (*lexer)->next;
-		}
-		else if ((*lexer)->type == HERE_DOC)
-		{
-			while ((*lexer) && (*lexer)->type != WORD && (*lexer)->type != ENV)
-				(*lexer) = (*lexer)->next;
-			tmp_list->heredoc_delimiter[her++] = ft_strdup((*lexer)->content);
-			tmp_list->heredoc_delimiter[her] = NULL;
-			(*lexer) = (*lexer)->next;
-		}
-		else
-		{
-			tmp_list->args[arg++] = ft_strdup((*lexer)->content);
-			tmp_list->args[arg] = NULL;
-			(*lexer) = (*lexer)->next;
-		}
-	}
+		fill_list(lexer, tmp_list);
 	if (tmp_list->args)
 	{
 		tmp_list->command = ft_strdup(tmp_list->args[0]);

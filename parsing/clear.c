@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 13:15:50 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/14 22:57:10 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/16 23:27:17 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	clear_cmd_list(t_cmd *head)
 {
 	t_cmd	*tmp;
 
-	while (head != NULL)
+	while (head)
 	{
 		tmp = head;
 		if (tmp->command)
@@ -72,7 +72,7 @@ void	clear_env_list(t_env *head)
 
 void	clear(t_main *main, t_lexer *lexer, char *line)
 {
-	if (main->cmd)
+	if (main)
 	{
 		clear_cmd_list(main->cmd);
 		free(main);
