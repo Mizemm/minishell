@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:56:43 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/17 00:51:38 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/17 01:58:51 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -97,5 +97,6 @@ int exec_export(t_main *main)
 			ft_free(split);
 		}
 	}
+	
 	return (0);
 }

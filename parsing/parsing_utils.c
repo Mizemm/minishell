@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:38:00 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/16 13:49:49 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/17 02:51:09 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../minishell.h"
 
@@ -29,16 +29,18 @@ int	path_check(char *s)
 char	**environment(t_main *main)
 {
 	char	**tmp;
+	t_env	*env1;
 
+	env1 = main->env;
 	tmp = NULL;
-	while (main->env)
+	while (env1)
 	{
-		if (ft_strcmp(main->env->name, "PATH") == 0)
+		if (ft_strcmp(env1->name, "PATH") == 0)
 		{
-			tmp = ft_split(main->env->value, ':');
+			tmp = ft_split(env1->value, ':');
 			return (tmp);
 		}
-		main->env = main->env->next;
+		env1 = env1->next;
 	}
 	return (tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/17 00:45:16 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/17 00:58:03 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -51,6 +51,11 @@ typedef struct s_cmd
 	int				pipe_out;
 	int				stdin_backup;
 	int				stdout_backup;
+	int				arg_index;
+	int				in_index;
+	int				out_index;
+	int				app_index;
+	int				her_index;
 	struct s_cmd	*next;
 }					t_cmd;
 
@@ -151,10 +156,13 @@ int					count_redir_in(t_lexer *list);
 int					count_her(t_lexer *list);
 int					count_append(t_lexer *list);
 int					valid_syntax_condition(t_lexer *list, int flag);
-void				re_lex_1(t_lexer **list);
 void				re_lex_2(t_lexer **list);
 void				re_lex(t_lexer *list);
-
+void				fill_input_file(t_lexer **lexer, t_cmd *tmp_list);
+void				fill_output_file(t_lexer **lexer, t_cmd *tmp_list);
+void				fill_append_file(t_lexer **lexer, t_cmd *tmp_list);
+void				fill_heredoc(t_lexer **lexer, t_cmd *tmp_list);
+void				fill_args(t_lexer **lexer, t_cmd *tmp_list);
 
 /* EXECUTION FUNCTIONS */
 
