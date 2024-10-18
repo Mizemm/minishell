@@ -6,27 +6,11 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 13:47:36 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/17 00:08:06 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/18 14:24:06 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "../minishell.h"
-
-int dollar_count(char *str)
-{
-	int i;
-	int count;
-
-	i = 0;
-	count = 0;
-	while (str[i])
-	{
-		if (str[i] == '$')
-			count++;
-		i++;
-	}
-	return count;
-}
 
 char **make_file_name(t_cmd *cmd)
 {
@@ -56,6 +40,22 @@ char **make_file_name(t_cmd *cmd)
 	return files;
 }
 
+int dollar_count(char *str)
+{
+	int i;
+	int count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+			count++;
+		i++;
+	}
+	return count;
+}
+
 void handle_piped_heredoc(t_main *main, t_cmd *cmd)
 {
 	t_cmd *tmp;
@@ -64,8 +64,6 @@ void handle_piped_heredoc(t_main *main, t_cmd *cmd)
 	int i;
 	int j;
 
-	main->heredoc_files = make_file_name(cmd);
-	
 	tmp = cmd;
 	i = 0;
 	while (tmp)
@@ -81,9 +79,7 @@ void handle_piped_heredoc(t_main *main, t_cmd *cmd)
 				while (1)
 				{
 					line = readline("> ");
-					if (!line)
-						break;
-					if (ft_strcmp(line, (tmp->heredoc_delimiter[j])) == 0)
+					if (!line || (ft_strcmp(line, (cmd->heredoc_delimiter[j])) == 0))
 						break;
 					if (dollar_count(line) > 0)
 						line = her_expand(line, main);
@@ -115,9 +111,7 @@ void handle_simple_heredoc(t_cmd *cmd, t_main *main)
 			while (1)
 			{
 				line = readline("> ");
-				if (!line)
-					break;
-				if (ft_strcmp(line, (cmd->heredoc_delimiter[j])) == 0)
+				if (!line || (ft_strcmp(line, (cmd->heredoc_delimiter[j])) == 0))
 					break;
 				if (dollar_count(line) > 0)
 					line = her_expand(line, main);
@@ -134,34 +128,18 @@ void handle_simple_heredoc(t_cmd *cmd, t_main *main)
 void handle_heredoc(t_main *main)
 {
 	int pid;
+
+	main->heredoc_files = make_file_name(main->cmd);
 	pid = fork();
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
-	if (!main->cmd->next)
-		handle_simple_heredoc(main->cmd, main);
-	else
-		handle_piped_heredoc(main, main->cmd);
+		if (!main->cmd->next)
+			handle_simple_heredoc(main->cmd, main);
+		else
+			handle_piped_heredoc(main, main->cmd);
 		exit(0);
 	}
 	else
 		waitpid(pid, NULL, 0);
 }
-
-// void handle_heredoc(t_main *main)
-// {
-// 	int pid;
-	
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		signal(SIGINT, SIG_DFL);
-// 		if (!main->cmd->next)
-// 			handle_simple_heredoc(main->cmd, main);
-// 		else
-// 			handle_piped_heredoc(main, main->cmd);
-// 		exit(0);
-// 	}
-// 	else
-// 		waitpid(pid, NULL, 0);
-// }

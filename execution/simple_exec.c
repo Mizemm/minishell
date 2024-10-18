@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:10:51 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/17 02:01:47 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:59:34 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -49,7 +49,9 @@ void simple_output(t_cmd *cmd)
 	}
 	else if (cmd->append_file)
 	{
-		fd_out = open(*(cmd->append_file), O_WRONLY | O_CREAT | O_APPEND, 0644);
+		i = -1;
+		while (cmd->append_file[++i])
+			fd_out = open((cmd->append_file[i]), O_WRONLY | O_CREAT | O_APPEND, 0644);
 		dup2(fd_out, STDOUT_FILENO);
 		close(fd_out);
 	}
@@ -58,7 +60,7 @@ void simple_output(t_cmd *cmd)
 void simple_cleanup(t_cmd *cmd)
 {
 	if (cmd->heredoc_delimiter)
-		unlink("/tmp/heredoc0");
+		unlink("/tmp/heredoc");
 	if (cmd->stdin_backup != -1)
 	{
 		dup2(cmd->stdin_backup, STDIN_FILENO);
