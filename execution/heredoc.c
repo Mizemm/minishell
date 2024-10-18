@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 13:47:36 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/18 14:24:06 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/18 14:56:37 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -79,7 +79,9 @@ void handle_piped_heredoc(t_main *main, t_cmd *cmd)
 				while (1)
 				{
 					line = readline("> ");
-					if (!line || (ft_strcmp(line, (cmd->heredoc_delimiter[j])) == 0))
+					if (!line)
+						break;
+					if (ft_strcmp(line, (tmp->heredoc_delimiter[j])) == 0)
 						break;
 					if (dollar_count(line) > 0)
 						line = her_expand(line, main);
@@ -111,7 +113,9 @@ void handle_simple_heredoc(t_cmd *cmd, t_main *main)
 			while (1)
 			{
 				line = readline("> ");
-				if (!line || (ft_strcmp(line, (cmd->heredoc_delimiter[j])) == 0))
+				if (!line)
+					break;
+				if (ft_strcmp(line, (cmd->heredoc_delimiter[j])) == 0)
 					break;
 				if (dollar_count(line) > 0)
 					line = her_expand(line, main);
