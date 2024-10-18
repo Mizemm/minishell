@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/17 00:58:03 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/19 00:06:19 by mizem            ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -48,6 +48,7 @@ typedef struct s_cmd
 	char			**append_file;
 	char			**heredoc_delimiter;
 	char			*heredoc_content;
+	int				herdoc_flag;
 	int				pipe_out;
 	int				stdin_backup;
 	int				stdout_backup;
@@ -94,6 +95,7 @@ typedef struct s_lexer
 typedef struct s_main
 {
     int exit_status;
+	int flag;
     t_cmd *cmd;
     t_env *env;
     t_expo *export;

@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 13:15:50 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/18 14:45:56 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/18 23:54:54 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 void	clear_cmd_list(t_cmd *head)
 {
 	t_cmd	*tmp;
+
 	while (head)
 	{
 		tmp = head;
 		if (tmp->command)
 			free(tmp->command);
-		if (tmp->path)	
+		if (tmp->path)
 			free(tmp->path);
 		if (tmp->args)
 			ft_free(tmp->args);
@@ -74,7 +75,6 @@ void	clear(t_main *main, t_lexer *lexer, char *line)
 	if (main)
 	{
 		clear_cmd_list(main->cmd);
-		// printf("##############\n");
 		free(main);
 	}
 	if (lexer)

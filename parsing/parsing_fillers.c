@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 23:48:21 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/17 11:45:30 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/19 00:22:49 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,10 @@ void	fill_heredoc(t_lexer **lexer, t_cmd *tmp_list)
 {
 	while ((*lexer) && (*lexer)->type != WORD && (*lexer)->type != ENV)
 		(*lexer) = (*lexer)->next;
+	tmp_list->herdoc_flag = 0;
+	if ((*lexer)->state == IN_QUOTE || (*lexer)->state == IN_DQUOTE)
+		tmp_list->herdoc_flag = 1;
+	printf(">>> %d, %s\n", tmp_list->herdoc_flag, (*lexer)->content);
 	tmp_list->heredoc_delimiter[tmp_list->her_index++] = 
 		ft_strdup((*lexer)->content);
 	tmp_list->heredoc_delimiter[tmp_list->her_index] = NULL;

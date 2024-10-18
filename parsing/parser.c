@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/17 11:47:16 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/19 00:07:06 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	initialize(t_cmd *cmd)
 	cmd->append_file = NULL;
 	cmd->heredoc_delimiter = NULL;
 	cmd->heredoc_content = NULL;
+	cmd->herdoc_flag = 0;
 	cmd->pipe_out = 0;
 	cmd->stdin_backup = 0;
 	cmd->stdout_backup = 0;

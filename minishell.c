@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/18 14:51:06 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/18 23:56:52 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,21 @@ void	minish(t_main *main, char *line, t_lexer *lex_list)
 		printf("Syntax error\n");
 	}
 }
+void	initialize_1(t_main *main, t_lexer *lex_list, char **env)
+{
+	main->cmd = NULL;
+	main->exit_status = 0;
+	main->flag = 1;
+	main->env = enviroment_variable(env);
+	main->full_env = env;
+	lex_list = NULL;
+}
+
+void initialize_2(t_main *main, t_lexer *lex_list, char **env)
+{
+	main->env = enviroment_variable(env);
+	main->full_env = env;
+}
 int	main(int ac, char **av, char **env)
 {
 	char	*line;
@@ -69,15 +84,12 @@ int	main(int ac, char **av, char **env)
 	// atexit(leaks);
 	if (ac != 1 || !env)
 		return (0);
-	using_history();
 	(void)av;
+	using_history();
 	main = malloc(sizeof(t_main));
-	main->cmd = NULL;
-	main->exit_status = 0;
-	main->flag = 1;
-	main->env = enviroment_variable(env);
-	main->full_env = env;
-	lex_list = NULL;
+	if (!main)
+		return(0);
+	initialize_1(main, lex_list, env);
 	while (1)
 	{
 		// handle_signals();
@@ -89,8 +101,9 @@ int	main(int ac, char **av, char **env)
 			if (main->flag != 1)
 			{
 				main = malloc(sizeof(t_main));
-				main->env = enviroment_variable(env);
-				main->full_env = env;
+				if (!main)
+					return(0);
+				initialize_2(main, lex_list, env);
 			}
 			minish(main, line, lex_list);
 			add_history(line);

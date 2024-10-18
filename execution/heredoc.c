@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 13:47:36 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/18 14:56:37 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/19 00:42:21 by mizem            ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -83,7 +83,7 @@ void handle_piped_heredoc(t_main *main, t_cmd *cmd)
 						break;
 					if (ft_strcmp(line, (tmp->heredoc_delimiter[j])) == 0)
 						break;
-					if (dollar_count(line) > 0)
+					if (dollar_count(line) > 0 && tmp->herdoc_flag == 0)
 						line = her_expand(line, main);
 					write(fd, line, ft_strlen(line));
 					write(fd, "\n", 1);
@@ -117,7 +117,7 @@ void handle_simple_heredoc(t_cmd *cmd, t_main *main)
 					break;
 				if (ft_strcmp(line, (cmd->heredoc_delimiter[j])) == 0)
 					break;
-				if (dollar_count(line) > 0)
+				if (dollar_count(line) > 0 && cmd->herdoc_flag == 0)
 					line = her_expand(line, main);
 				write(fd, line, ft_strlen(line));
 				write(fd, "\n", 1);

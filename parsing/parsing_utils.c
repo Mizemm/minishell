@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:38:00 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/16 13:49:49 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/18 23:53:51 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,18 @@ int	path_check(char *s)
 char	**environment(t_main *main)
 {
 	char	**tmp;
+	t_env	*env;
 
+	env = main->env;
 	tmp = NULL;
-	while (main->env)
+	while (env)
 	{
-		if (ft_strcmp(main->env->name, "PATH") == 0)
+		if (ft_strcmp(env->name, "PATH") == 0)
 		{
-			tmp = ft_split(main->env->value, ':');
+			tmp = ft_split(env->value, ':');
 			return (tmp);
 		}
-		main->env = main->env->next;
+		env = env->next;
 	}
 	return (tmp);
 }
