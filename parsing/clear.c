@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 13:15:50 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/18 23:54:54 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/20 14:59:40 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,13 @@ void	clear_env_list(t_env *head)
 void	clear(t_main *main, t_lexer *lexer, char *line)
 {
 	if (main)
-	{
 		clear_cmd_list(main->cmd);
-		free(main);
-	}
+	if (main->env)
+		clear_env_list(main->env);
 	if (lexer)
 		clear_lexer_list(lexer);
 	if (*line)
 		free(line);
+	if (main->full_env)
+		ft_free(main->full_env);
 }

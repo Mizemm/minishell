@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/20 10:54:18 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/20 14:57:07 by mizem            ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -44,15 +44,8 @@ t_env	*enviroment_variable(char **ev)
 	return (head);
 }
 
-void	loop(t_main *main, char *line, t_lexer *lex_list, char **env, int flag)
+void	loop(t_main *main, char *line, t_lexer *lex_list, char **env)
 {
-	if (flag != 1)
-	{
-		main = malloc(sizeof(t_main));
-		main->env = enviroment_variable(env);
-		main->full_env = env;
-		flag = 0;
-	}
 	lex_list = NULL;
 	main->cmd = NULL;
 	lex_list = tokenize(line, main);
@@ -80,16 +73,14 @@ void	initialize_1(t_main *main, t_lexer *lex_list, char **env)
 
 int main(int ac, char **av, char **env)
 {
-	// atexit(leaks);
+	atexit(leaks);
 	t_main *main;
 	t_lexer *lex_list;
 	char *line;
-	int flag;
 
 	(void)av;
 	using_history();
 	main = malloc(sizeof(t_main));
-	flag = 1;
 	initialize_1(main, lex_list, env);
 	if (ac < 1)
 		return 0;
@@ -101,9 +92,9 @@ int main(int ac, char **av, char **env)
 			break;
 		if (*line)
 		{
-			loop(main, line, lex_list, env, flag);
+			loop(main, line, lex_list, env);
 			add_history(line);
-			// clear(main, lex_list, line);
+			clear(main, lex_list, line);
 		}
 	}
 }
