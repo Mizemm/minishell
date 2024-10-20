@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:55:26 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/17 00:46:49 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/19 02:30:31 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -39,7 +39,7 @@ void update_env_value(t_env **env, char *name, char *value)
     }
 }
 
-int exec_cd(t_main *main)
+int exec_cd(t_main *main, t_cmd *cmd)
 {
     char *dir;
     char old_cwd[1024];
@@ -47,7 +47,7 @@ int exec_cd(t_main *main)
 
     if (getcwd(old_cwd, sizeof(old_cwd)) == NULL)
         return(error("getcwd error"), 1);
-    if (main->cmd->arg_count < 2)
+    if (!cmd->args[1])
     {
         dir = get_env_value(main->env, "HOME");
         if (!dir)
@@ -63,7 +63,7 @@ int exec_cd(t_main *main)
     else 
         dir = main->cmd->args[1];
     if (chdir(dir) != 0)
-        return(error("cd error"), 1);
+        return(error("bash: cd: No such file or directory"), 1);
     update_env_value(&main->env, "OLDPWD", old_cwd);
     if (getcwd(new_cwd, sizeof(new_cwd)) == NULL)
         return(error("getcwd error"), 1);

@@ -4,7 +4,7 @@
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
-/*                                                 +#+#+#+#+#+  
+/*                                                 +#+#+#+#+#+
 	+#+           */
 /*   Created: 2024/08/01 10:17:07 by abdennac          #+#    #+#             */
 /*   Updated: 2024/09/26 11:22:35 by abdennac         ###   ########.fr       */
@@ -13,24 +13,31 @@
 
 #include "../minishell.h"
 
-void	execute_single_command(t_main *main, t_cmd *cmd)
+void execute_single_command(t_main *main, t_cmd *cmd)
 {
 	if (check_if_builtin(cmd->command))
+	{
 		execute_builtins(main, cmd);
+		exit(main->exit_status);
+	}
 	else
+	{
+		if (!cmd->path)
+			error2(main, "Command not found", 127);
 		execve(cmd->path, cmd->args, main->full_env);
+	}
 }
 
-void	pipe_exec_with_redirection(t_main *main)
+void pipe_exec_with_redirection(t_main *main)
 {
-	t_cmd	*cmd;
-	pid_t	pid;
-	pid_t	*child_pids;
-	int		pipe_fd[2];
-	int		prev_pipe_fd[2] = {-1, -1};
-	int		cmd_count;
-	int		i;
-	int		file_count;
+	t_cmd *cmd;
+	pid_t pid;
+	pid_t *child_pids;
+	int pipe_fd[2];
+	int prev_pipe_fd[2] = {-1, -1};
+	int cmd_count;
+	int i;
+	int file_count;
 
 	cmd = main->cmd;
 	cmd_count = count_commands(cmd);
@@ -42,10 +49,10 @@ void	pipe_exec_with_redirection(t_main *main)
 		if (cmd->heredoc_delimiter)
 			file_count++;
 		if (cmd->next && pipe(pipe_fd) < 0)
-			error("pipe error");
+			error2(main, "pipe error", 1);
 		pid = fork();
 		if (pid < 0)
-			error("fork error");
+			error2(main, "fork error", 1);
 		else if (pid == 0)
 			child_exec(main, cmd, prev_pipe_fd, file_count, pipe_fd);
 		else
@@ -71,7 +78,13 @@ void	pipe_exec_with_redirection(t_main *main)
 	}
 	i = -1;
 	while (++i < cmd_count) // Wait for all child processes to finish
-		waitpid(child_pids[i], NULL, 0);
+	{
+		waitpid(child_pids[i], &(main->exit_status), 0);
+		if (WIFEXITED(main->exit_status))
+			main->exit_status = WEXITSTATUS(main->exit_status);
+		else if (WIFSIGNALED(main->exit_status))
+			main->exit_status = 128 + WTERMSIG(main->exit_status);
+	}
 	free(child_pids);
 	if (main->cmd->heredoc_delimiter)
 	{
@@ -80,9 +93,9 @@ void	pipe_exec_with_redirection(t_main *main)
 	}
 }
 
-void	execute_command(t_main *main)
+void execute_command(t_main *main)
 {
-	t_cmd	*cmd;
+	t_cmd *cmd;
 
 	cmd = main->cmd;
 	signal(SIGINT, SIG_IGN);

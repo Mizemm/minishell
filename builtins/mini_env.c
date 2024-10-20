@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 10:09:31 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/17 00:49:48 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/19 02:36:06 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -17,6 +17,8 @@ int exec_env(t_main *main)
     t_env *env;
     char *pwd;
     
+    if (!main->env)
+        return (error("env error"), 1);
     env = main->env;
     pwd = NULL;
     while (env)

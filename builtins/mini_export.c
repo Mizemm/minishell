@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 12:56:43 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/17 01:58:51 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/20 10:46:20 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -74,19 +74,41 @@ void add_to_env(t_main *main, char **split)
 	ft_lstadd_back_env(&main->env, new);
 }
 
-int exec_export(t_main *main)
+int is_valide(char *str)
+{
+	int i;
+
+	i = 0;
+	if (!ft_isalpha(str[i]) && str[i] != '_')
+		return (1);
+	while (str[++i])
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_' && str[i] != '=')
+			return (1);
+	}
+	return (0);
+}
+
+int exec_export(t_main *main, t_cmd *cmd)
 {
 	int i;
 	char **split;
+	int flag;
 
-	if (!main->cmd->args[1])
+	flag = 0;
+	if (!cmd->args[1])
 		print_export(main);
 	else
 	{
 		i = 0;
-		while (main->cmd->args[++i])
+		while (cmd->args[++i])
 		{
-			split = ft_split(main->cmd->args[i], '=');
+			if (is_valide(cmd->args[i]))
+			{
+				error("export: not a valid identifier");
+				flag = 1;
+			}
+			split = ft_split(cmd->args[i], '=');
 			if (!check_export(split))
 			{
 				if (is_exported(main, split[0]))
@@ -97,6 +119,7 @@ int exec_export(t_main *main)
 			ft_free(split);
 		}
 	}
-	
+	if (flag == 1)
+		return (1);
 	return (0);
 }

@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/19 00:06:19 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/20 09:58:36 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -124,7 +124,7 @@ void				ft_lstadd_back(t_cmd **head, t_cmd *new);
 void				ft_lstadd_back2(t_lexer **head, t_lexer *new);
 char				*ft_itoa(int n);
 t_lexer				*add_node(char *str);
-
+int					ft_isalpha(int c);;
 /* PARSING FUNCTIONS */
 
 void				clear_cmd_list(t_cmd *head);
@@ -177,7 +177,6 @@ void				execute_command(t_main *main);
 void				simple_exec(t_main *main);
 void				simple_cleanup(t_cmd *cmd);
 void				execute_builtins(t_main *main, t_cmd *cmd);
-void				error(char *str);
 void				ft_lstadd_back_env(t_env **head, t_env *new);
 void				update_env_value(t_env **env, char *name, char *value);
 void				print_export(t_main *main);
@@ -187,15 +186,18 @@ int					count_commands(t_cmd *cmd);
 char				*her_expand(char *str, t_main *main);
 void				handle_signals(void);
 t_env				*ft_lstlast_env(t_env *lst);
+void				pipe_exec_with_redirection(t_main *main);
+void 				error2(t_main *main, char *str, int status);
+void				error(char *str);
 
 /* A77 */
 
 int					exec_echo(t_cmd *cmd);
 int					excec_pwd(void);
 int					exec_env(t_main *main);
-int					exec_cd(t_main *main);
+int					exec_cd(t_main *main, t_cmd *cmd);
 int					exec_exit(t_main *main);
-int					exec_export(t_main *main);
-int					exec_unset(t_main *main);
+int					exec_export(t_main *main, t_cmd *cmd);
+int					exec_unset(t_main *main, t_cmd *cmd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:45:55 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/18 01:29:55 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/20 10:45:34 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -16,24 +16,23 @@ void error(char *str)
 {
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd("\n", 2);
-	exit(1);
 }
 
 void execute_builtins(t_main *main, t_cmd *cmd)
 {
 	if (ft_strcmp("echo", cmd->command) == 0)
 		main->exit_status = exec_echo(cmd);
-	else if (ft_strcmp("cd", main->cmd->command) == 0)
-		main->exit_status = exec_cd(main);
-	else if (ft_strcmp("pwd", main->cmd->command) == 0)
+	else if (ft_strcmp("cd", cmd->command) == 0)
+		main->exit_status = exec_cd(main, cmd);
+	else if (ft_strcmp("pwd", cmd->command) == 0)
 		main->exit_status = excec_pwd();
-	else if (ft_strcmp("export", main->cmd->command) == 0)
-		main->exit_status = exec_export(main);
-	else if (ft_strcmp("unset", main->cmd->command) == 0)
-		main->exit_status = exec_unset(main);
-	else if (ft_strcmp("env", main->cmd->command) == 0)
+	else if (ft_strcmp("export", cmd->command) == 0)
+		main->exit_status = exec_export(main, cmd);
+	else if (ft_strcmp("unset", cmd->command) == 0)
+		main->exit_status = exec_unset(main, cmd);
+	else if (ft_strcmp("env", cmd->command) == 0)
 		main->exit_status = exec_env(main);
-	else if (ft_strcmp("exit", main->cmd->command) == 0)
+	else if (ft_strcmp("exit", cmd->command) == 0)
 		main->exit_status = exec_exit(main);
 }
 
@@ -79,3 +78,8 @@ void child_exec(t_main *main, t_cmd *cmd, int *prev_pipe_fd, int file_count, int
 	main->exit_status = 127;
 	exit(127);
 }
+
+
+
+
+

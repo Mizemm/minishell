@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 11:10:51 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/17 16:59:34 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/19 02:10:15 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -76,6 +76,7 @@ void simple_cleanup(t_cmd *cmd)
 void simple_exec(t_main *main)
 {
 	pid_t pid;
+	int status;
 
 	if (check_if_builtin(main->cmd->command))
 	{
@@ -88,19 +89,26 @@ void simple_exec(t_main *main)
 	{
 		pid = fork();
 		if (pid < 0)
-			error("fork error");
+			error2(main, "fork error", 1);
 		else if (pid == 0)
 		{
 			signal(SIGINT, SIG_DFL);
 			simple_input(main->cmd);
 			simple_output(main->cmd);
 			if (!main->cmd->path)
-				error("Command not found");
+				error2(main, "Command not found", 127);
 			execve(main->cmd->path, main->cmd->args, main->full_env);
 		}
 		else
-			waitpid(pid, NULL, 0);
-		if (main->cmd->heredoc_delimiter)
-			unlink("/tmp/heredoc0");
+		{
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+				status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				status = 128 + WTERMSIG(status);
+			main->exit_status = status;
+		}
 	}
+	if (main->cmd->heredoc_delimiter)
+		unlink("/tmp/heredoc");
 }

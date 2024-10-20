@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:01:48 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/17 01:26:40 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/20 09:01:42 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -35,18 +35,20 @@ void free_env_node(t_env **head, t_env *node_to_free)
 	}
 }
 
-int exec_unset(t_main *main)
+int exec_unset(t_main *main, t_cmd *cmd)
 {
 	t_env *tmp1;
 	int i;
 	
 	i = 0;
-	while (main->cmd->args[++i])
+	while (cmd->args[++i])
 	{
+		if (ft_strchr(cmd->args[i], '='))
+			return(error("unset: not a valid identifier"), 1);
 		tmp1 = main->env;
 		while (tmp1)
 		{
-			if (ft_strcmp(tmp1->name, main->cmd->args[i]) == 0)
+			if (ft_strcmp(tmp1->name, cmd->args[i]) == 0)
 			{
 				free_env_node(&main->env, tmp1);
 				break;
