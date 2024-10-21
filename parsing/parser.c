@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/19 00:07:06 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/21 13:29:07 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../minishell.h"
 
@@ -85,6 +85,7 @@ t_cmd	*create_args(t_lexer **lexer, char **ev)
 	}
 	if ((*lexer) && (*lexer)->type == PIPE_LINE)
 		tmp_list->pipe_out = 1;
+
 	return (tmp_list);
 }
 
@@ -101,5 +102,6 @@ t_cmd	*create_list(t_cmd *list, t_lexer *lexer, char **ev)
 		lexer = lexer->next;
 	}
 	lexer = head;
+	ft_free(ev);
 	return (list);
 }

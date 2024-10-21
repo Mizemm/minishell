@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/20 14:57:07 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/21 14:35:31 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minishell.h"
 
@@ -35,6 +35,7 @@ t_env	*enviroment_variable(char **ev)
 		new_node->name = ft_strdup(tmp[0]);
 		new_node->value = ft_strdup(tmp[1]);
 		new_node->next = NULL;
+		ft_free(tmp);
 		if (!head)
 			head = new_node;
 		else
@@ -44,14 +45,16 @@ t_env	*enviroment_variable(char **ev)
 	return (head);
 }
 
-void	loop(t_main *main, char *line, t_lexer *lex_list, char **env)
+void	loop(t_main *main, char *line, t_lexer *lex_list)
 {
+
 	lex_list = NULL;
 	main->cmd = NULL;
 	lex_list = tokenize(line, main);
 	if (lex_list != NULL && lex_list->syntax_error == false)
 	{
 		main->cmd = create_list(main->cmd, lex_list, environment(main));
+		system("leaks -q minishell");
 		handle_heredoc(main);
 		execute_command(main);
 	}
@@ -60,6 +63,7 @@ void	loop(t_main *main, char *line, t_lexer *lex_list, char **env)
 		main->exit_status = 258;
 		printf("Syntax error\n");
 	}
+
 }
 
 void	initialize_1(t_main *main, t_lexer *lex_list, char **env)
@@ -67,6 +71,7 @@ void	initialize_1(t_main *main, t_lexer *lex_list, char **env)
 	main->cmd = NULL;
 	main->exit_status = 0;
 	main->env = enviroment_variable(env);
+	// system("leaks -q minishell");
 	main->full_env = env;
 	lex_list = NULL;
 }
@@ -81,22 +86,25 @@ int main(int ac, char **av, char **env)
 	(void)av;
 	using_history();
 	main = malloc(sizeof(t_main));
+	lex_list = NULL;
 	initialize_1(main, lex_list, env);
 	if (ac < 1)
 		return 0;
+	
 	while (1)
 	{
-		// handle_signals();
+		handle_signals();
 		line = readline("lminishin $ ");
 		if (!line)
 			break;
 		if (*line)
 		{
-			loop(main, line, lex_list, env);
+			loop(main, line, lex_list);
 			add_history(line);
-			clear(main, lex_list, line);
+			clear(main->cmd, lex_list, line);
 		}
 	}
+	clear_all(&main);
 }
 
 

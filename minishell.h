@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/20 09:58:36 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/20 15:40:48 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -95,7 +95,6 @@ typedef struct s_lexer
 typedef struct s_main
 {
     int exit_status;
-	int flag;
     t_cmd *cmd;
     t_env *env;
     t_expo *export;
@@ -135,7 +134,7 @@ char				*return_path(char **ev, char *str);
 t_cmd				*create_list(t_cmd *list, t_lexer *lexer, char **ev);
 t_lexer				*tokenize(char *str, t_main *main);
 void				expand(t_lexer *list, t_main *main);
-void				clear(t_main *main, t_lexer *lexer, char *line);
+void				clear(t_cmd *cmd, t_lexer *lexer, char *line);
 int					valid_name(char c);
 int					heredoc_breakers(char c);
 void				fill_node(t_lexer **list, char *result);
@@ -165,6 +164,7 @@ void				fill_output_file(t_lexer **lexer, t_cmd *tmp_list);
 void				fill_append_file(t_lexer **lexer, t_cmd *tmp_list);
 void				fill_heredoc(t_lexer **lexer, t_cmd *tmp_list);
 void				fill_args(t_lexer **lexer, t_cmd *tmp_list);
+void				clear_all(t_main **main);
 
 /* EXECUTION FUNCTIONS */
 

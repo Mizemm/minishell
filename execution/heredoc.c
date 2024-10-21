@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 13:47:36 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/20 09:57:33 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/20 11:40:04 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -140,6 +140,7 @@ void handle_simple_heredoc(t_cmd *cmd, t_main *main)
 void handle_heredoc(t_main *main)
 {
 	int pid;
+	int status;
 
 	main->heredoc_files = make_file_name(main->cmd);
 	pid = fork();
@@ -153,5 +154,11 @@ void handle_heredoc(t_main *main)
 		exit(0);
 	}
 	else
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		status = 128 + WTERMSIG(status);
+	main->exit_status = status;
+		
 }

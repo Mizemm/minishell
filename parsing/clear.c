@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   clear.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 13:15:50 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/20 14:59:40 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/21 13:50:36 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../minishell.h"
 
@@ -52,34 +52,50 @@ void	clear_lexer_list(t_lexer *head)
 		head = head->next;
 		free(tmp);
 	}
+	head = NULL;
 }
 
-void	clear_env_list(t_env *head)
+void	clear_env_list(t_env **head)
 {
 	t_env	*tmp;
 
-	while (head != NULL)
+	while (*head)
 	{
-		tmp = head;
-		if (tmp->value)
-			free(tmp->value);
-		if (tmp->name)
-			free(tmp->name);
-		head = head->next;
+		tmp = *head;
+		if ((*head)->name)
+			free((*head)->name);
+		if ((*head)->value)
+			free((*head)->value);
+		*head = tmp->next;
 		free(tmp);
 	}
+	*head = NULL;
 }
 
-void	clear(t_main *main, t_lexer *lexer, char *line)
+void	clear(t_cmd *cmd, t_lexer *lexer, char *line)
 {
-	if (main)
-		clear_cmd_list(main->cmd);
-	if (main->env)
-		clear_env_list(main->env);
+	if (cmd)
+		clear_cmd_list(cmd);
 	if (lexer)
 		clear_lexer_list(lexer);
 	if (*line)
 		free(line);
-	if (main->full_env)
-		ft_free(main->full_env);
 }
+
+void	clear_all(t_main **main)
+{
+	while((*main)->env)
+	{
+		if ((*main)->env->name)
+			free((*main)->env->name);
+		if ((*main)->env->value)
+			free((*main)->env->value);
+		(*main)->env = (*main)->env->next;
+	}
+	if ((*main)->heredoc_files)
+		ft_free((*main)->heredoc_files);
+	(*main)->exit_status = 0;
+	free(*main);
+	*main = NULL;
+}
+
