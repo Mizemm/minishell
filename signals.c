@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:37:25 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/22 02:13:54 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:00:50 by mizem            ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 #include <readline/readline.h>
@@ -22,7 +22,7 @@ void handle_sigint(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
-	rl_replace_line("", 0); // Clear current input line
+	// rl_replace_line("", 0); // Clear current input line
 	rl_on_new_line();		// Move cursor to new prompt
 	rl_redisplay();			// Redisplay prompt
 }

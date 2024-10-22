@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/22 05:34:53 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/22 18:02:38 by mizem            ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -92,7 +92,7 @@ int main(int ac, char **av, char **env)
 		return 0;
 	while (1)
 	{
-		handle_signals();
+		// handle_signals();
 		line = readline("lminishin $ ");
 		if (!line)
 			break;
@@ -100,7 +100,7 @@ int main(int ac, char **av, char **env)
 		{	
 			loop(main, line, lex_list);
 			add_history(line);
-			clear(main->cmd, lex_list, line);
+			clear(main->cmd, line);
 		}
 	}
 		// free(line);
