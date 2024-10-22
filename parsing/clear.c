@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 13:15:50 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/21 13:50:36 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/22 05:36:13 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -90,10 +90,11 @@ void	clear_all(t_main **main)
 			free((*main)->env->name);
 		if ((*main)->env->value)
 			free((*main)->env->value);
+		free((*main)->env);
 		(*main)->env = (*main)->env->next;
 	}
-	if ((*main)->heredoc_files)
-		ft_free((*main)->heredoc_files);
+	// if ((*main)->heredoc_files)
+	// 	ft_free((*main)->heredoc_files);
 	(*main)->exit_status = 0;
 	free(*main);
 	*main = NULL;

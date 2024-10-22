@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:38:00 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/21 13:25:21 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/22 05:02:16 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -53,6 +53,8 @@ char	*return_path(char **ev, char *str)
 	char	*slash;
 
 	i = 0;
+	if (!ev)
+		return (0);
 	slash = ft_strdup("/");
 	while (ev[i])
 	{

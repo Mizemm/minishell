@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/21 13:29:07 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/22 05:03:03 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -102,6 +102,7 @@ t_cmd	*create_list(t_cmd *list, t_lexer *lexer, char **ev)
 		lexer = lexer->next;
 	}
 	lexer = head;
-	ft_free(ev);
+	if (ev)
+		ft_free(ev);
 	return (list);
 }
