@@ -46,6 +46,7 @@ void pipe_exec_with_redirection(t_main *main)
 	file_count = -1;
 	while (cmd)
 	{
+
 		if (cmd->heredoc_delimiter)
 			file_count++;
 		if (cmd->next && pipe(pipe_fd) < 0)
@@ -95,34 +96,37 @@ void pipe_exec_with_redirection(t_main *main)
 
 void execute_command(t_main *main)
 {
-	t_cmd *cmd;
-
-	cmd = main->cmd;
-	signal(SIGINT, SIG_IGN);
 	main->cmd->stdin_backup = dup(STDIN_FILENO);
 	main->cmd->stdout_backup = dup(STDOUT_FILENO);
-	while (main->cmd)
-	{
-		if (!main->cmd->next)
+	signal(SIGINT, SIG_IGN);
+	if (!main->cmd->next && main->cmd)
 			simple_exec(main);
-		else
-		{
-			pipe_exec_with_redirection(main);
-			while (main->cmd->next)
-				main->cmd = main->cmd->next;
-		}
-		main->cmd = main->cmd->next;
-	}
-	main->cmd = cmd;
+	else if (main->cmd)
+		pipe_exec_with_redirection(main);
 }
 
-// void	execute_command(t_main *main)
+// void execute_command(t_main *main)
 // {
+// 	t_cmd *cmd;
+
+// 	dprintf(2, "************************\n");
+// 	cmd = main->cmd;
+// 	signal(SIGINT, SIG_IGN);
 // 	main->cmd->stdin_backup = dup(STDIN_FILENO);
 // 	main->cmd->stdout_backup = dup(STDOUT_FILENO);
-
-// 		if (!main->cmd->next && main->cmd)
+// 	while (main->cmd)
+// 	{
+// 		// if (main->exit_status == 1)
+// 			// continue;
+// 		if (!main->cmd->next)
 // 			simple_exec(main);
-// 		else if (main->cmd)
+// 		else
+// 		{
 // 			pipe_exec_with_redirection(main);
+// 			while (main->cmd->next)
+// 				main->cmd = main->cmd->next;
+// 		}
+// 		main->cmd = main->cmd->next;
+// 	}
+// 	main->cmd = cmd;
 // }

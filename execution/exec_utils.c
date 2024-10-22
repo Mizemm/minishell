@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:45:55 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/20 10:45:34 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/22 03:55:35 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -78,8 +78,3 @@ void child_exec(t_main *main, t_cmd *cmd, int *prev_pipe_fd, int file_count, int
 	main->exit_status = 127;
 	exit(127);
 }
-
-
-
-
-

@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/21 23:50:44 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/22 03:44:37 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -21,6 +21,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdbool.h>
+
+int g_signal;
 
 typedef struct s_expo
 {
@@ -124,7 +126,6 @@ void				ft_lstadd_back2(t_lexer **head, t_lexer *new);
 char				*ft_itoa(int n);
 t_lexer				*add_node(char *str);
 int					ft_isalpha(int c);;
-
 /* PARSING FUNCTIONS */
 
 void				clear_cmd_list(t_cmd *head);
@@ -135,6 +136,7 @@ char				*return_path(char **ev, char *str);
 t_cmd				*create_list(t_cmd *list, t_lexer *lexer, char **ev);
 t_lexer				*tokenize(char *str, t_main *main);
 void				expand(t_lexer *list, t_main *main);
+void				clear(t_cmd *cmd, t_lexer *lexer, char *line);
 int					valid_name(char c);
 int					heredoc_breakers(char c);
 void				fill_node(t_lexer **list, char *result);
@@ -164,9 +166,7 @@ void				fill_output_file(t_lexer **lexer, t_cmd *tmp_list);
 void				fill_append_file(t_lexer **lexer, t_cmd *tmp_list);
 void				fill_heredoc(t_lexer **lexer, t_cmd *tmp_list);
 void				fill_args(t_lexer **lexer, t_cmd *tmp_list);
-void				clear(t_cmd *cmd, char *line);
 void				clear_all(t_main **main);
-void				clear_lexer_list(t_lexer *head);
 
 /* EXECUTION FUNCTIONS */
 
@@ -191,6 +191,7 @@ t_env				*ft_lstlast_env(t_env *lst);
 void				pipe_exec_with_redirection(t_main *main);
 void 				error2(t_main *main, char *str, int status);
 void				error(char *str);
+void handle_herdoc_signal(void);
 
 /* A77 */
 
