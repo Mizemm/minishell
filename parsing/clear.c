@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 13:15:50 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/22 18:02:53 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/23 21:33:57 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	clear(t_cmd *cmd, char *line)
 
 void	clear_all(t_main **main)
 {
-	while((*main)->env)
+	while ((*main)->env)
 	{
 		if ((*main)->env->name)
 			free((*main)->env->name);
@@ -91,10 +91,7 @@ void	clear_all(t_main **main)
 		free((*main)->env);
 		(*main)->env = (*main)->env->next;
 	}
-	// if ((*main)->heredoc_files)
-	// 	ft_free((*main)->heredoc_files);
 	(*main)->exit_status = 0;
 	free(*main);
 	*main = NULL;
 }
-
