@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/22 18:02:38 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/24 01:26:18 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ void	loop(t_main *main, char *line, t_lexer *lex_list)
 	if (lex_list != NULL && lex_list->syntax_error == false)
 	{
 		main->cmd = create_list(main->cmd, lex_list, environment(main));
-		// handle_heredoc(main);
-		// if (!g_signal)
-		// 	execute_command(main);
-		// g_signal=0;
+		handle_heredoc(main);
+		if (!g_signal)
+			execute_command(main);
+		g_signal=0;
 	}
 	else
 	{
@@ -82,7 +82,7 @@ int main(int ac, char **av, char **env)
 	t_lexer *lex_list;
 	char *line;
 
-	atexit(leaks);
+	// atexit(leaks);
 	(void)av;
 	using_history();
 	main = malloc(sizeof(t_main));

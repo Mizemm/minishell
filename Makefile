@@ -1,19 +1,19 @@
-#******************************************************************************#
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+         #
+#    By: mizem <mizem@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/20 22:27:04 by abdennac          #+#    #+#              #
-#    Updated: 2024/10/22 05:16:36 by abdennac         ###   ########.fr        #
+#    Updated: 2024/10/24 01:24:57 by mizem            ###   ########.fr        #
 #                                                                              #
-#******************************************************************************#
+# **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I/Users/abdennac/.brew/opt/readline/include #-fsanitize=address # Include readline headers
-LDFLAGS = -L/Users/abdennac/.brew/opt/readline/lib -lreadline  # Link readline library
+CFLAGS = -Wall -Wextra -Werror -I/Users/mizem/.brew/opt/readline/include #-fsanitize=address # Include readline headers
+LDFLAGS = -L/Users/mizem/.brew/opt/readline/lib -lreadline  # Link readline library
 MINISHELL_C = minishell.c
 UTILS_C = parsing/clear.c parsing/parser.c parsing/parsing_utils.c parsing/lexer.c parsing/expand.c \
 			parsing/expand_utils.c parsing/lexer_utils.c parsing/lexer_syntax.c parsing/lexer_type.c \
