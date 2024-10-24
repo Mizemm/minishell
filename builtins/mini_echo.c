@@ -62,8 +62,6 @@ int exec_echo(t_cmd *cmd)
     }
     if (!flag_n)
         printf("\n");
-    else
-        printf("");
     return (0);
 }
 

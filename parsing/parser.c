@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/22 18:03:53 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/24 01:34:37 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ t_cmd	*create_args(t_lexer **lexer, char **ev)
 	}
 	if ((*lexer) && (*lexer)->type == PIPE_LINE)
 		tmp_list->pipe_out = 1;
-
 	return (tmp_list);
 }
 
