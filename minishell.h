@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/22 18:03:20 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/28 04:08:11 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -192,8 +192,8 @@ t_env				*ft_lstlast_env(t_env *lst);
 void				pipe_exec_with_redirection(t_main *main);
 void 				error2(t_main *main, char *str, int status);
 void				error(char *str);
-void handle_herdoc_signal(void);
-
+void 				handle_herdoc_signal(void);
+void 				find_path(t_main *main, t_cmd *cmd);
 /* A77 */
 
 int					exec_echo(t_cmd *cmd);

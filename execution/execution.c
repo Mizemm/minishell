@@ -23,7 +23,8 @@ void execute_single_command(t_main *main, t_cmd *cmd)
 	else
 	{
 		if (!cmd->path)
-			error2(main, "Command not found", 127);
+			find_path(main, cmd);
+		dprintf(2, "path: %s\n", cmd->path);
 		execve(cmd->path, cmd->args, main->full_env);
 	}
 }
