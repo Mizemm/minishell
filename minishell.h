@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/19 21:19:27 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/28 04:08:11 by abdennac         ###   ########.fr       */
+/*   Created: 2024/10/29 10:01:17 by abdennac          #+#    #+#             */
+/*   Updated: 2024/10/29 11:03:47 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -194,6 +194,8 @@ void 				error2(t_main *main, char *str, int status);
 void				error(char *str);
 void 				handle_herdoc_signal(void);
 void 				find_path(t_main *main, t_cmd *cmd);
+char 				*path_split(char *str, char c);
+char *get_env_value(t_env *env_list, char *name);
 /* A77 */
 
 int					exec_echo(t_cmd *cmd);

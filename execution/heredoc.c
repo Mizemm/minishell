@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 13:47:36 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/22 04:26:31 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/28 17:16:33 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -14,6 +14,7 @@
 
 void error2(t_main *main, char *str, int status)
 {
+	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd("\n", 2);
 	main->exit_status = status;

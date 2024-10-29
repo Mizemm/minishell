@@ -5,25 +5,25 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/19 21:23:49 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/28 05:09:09 by abdennac         ###   ########.fr       */
+/*   Created: 2024/10/29 10:29:43 by abdennac          #+#    #+#             */
+/*   Updated: 2024/10/29 10:46:20 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "minishell.h"
 
-void	leaks(void)
+void leaks(void)
 {
 	system("leaks minishell");
 }
 
-t_env	*enviroment_variable(char **ev)
+t_env *enviroment_variable(char **ev)
 {
-	int		i;
-	char	**tmp;
-	t_env	*head;
-	t_env	*current;
-	t_env	*new_node;
+	int i;
+	char **tmp;
+	t_env *head;
+	t_env *current;
+	t_env *new_node;
 
 	i = -1;
 	head = NULL;
@@ -45,7 +45,7 @@ t_env	*enviroment_variable(char **ev)
 	return (head);
 }
 
-void	loop(t_main *main, char *line, t_lexer *lex_list)
+void loop(t_main *main, char *line, t_lexer *lex_list)
 {
 
 	lex_list = NULL;
@@ -57,17 +57,16 @@ void	loop(t_main *main, char *line, t_lexer *lex_list)
 		handle_heredoc(main);
 		if (!g_signal)
 			execute_command(main);
-		g_signal=0;
+		g_signal = 0;
 	}
 	else
 	{
 		main->exit_status = 258;
 		printf("Syntax error\n");
 	}
-
 }
 
-void	initialize_1(t_main *main, t_lexer *lex_list, char **env)
+void initialize_1(t_main *main, t_lexer *lex_list, char **env)
 {
 	main->cmd = NULL;
 	main->exit_status = 0;
@@ -92,17 +91,17 @@ int main(int ac, char **av, char **env)
 		return 0;
 	while (1)
 	{
-		// handle_signals();
+		handle_signals();
 		line = readline("lminishin $ ");
 		if (!line)
 			break;
 		if (*line)
-		{	
+		{
 			loop(main, line, lex_list);
 			add_history(line);
 			clear(main->cmd, line);
 		}
 	}
-		// free(line);
+	// free(line);
 	clear_all(&main);
 }

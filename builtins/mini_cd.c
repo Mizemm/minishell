@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:55:26 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/19 02:30:31 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/29 11:13:22 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -60,10 +60,10 @@ int exec_cd(t_main *main, t_cmd *cmd)
             return(error("cd: OLDPWD not set"), 1);
         printf("%s\n", dir);
     }
-    else 
+    else
         dir = main->cmd->args[1];
     if (chdir(dir) != 0)
-        return(error("bash: cd: No such file or directory"), 1);
+        return(error("minishin: cd: No such file or directory"), 1);
     update_env_value(&main->env, "OLDPWD", old_cwd);
     if (getcwd(new_cwd, sizeof(new_cwd)) == NULL)
         return(error("getcwd error"), 1);
