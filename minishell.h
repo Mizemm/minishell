@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:01:17 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/29 20:13:55 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/29 21:42:41 by mizem            ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -49,8 +49,6 @@ typedef struct s_cmd
 	char			**input_file;
 	char			**heredoc_delimiter;
 	t_out			*output_files;
-	// char			**output_file;
-	// char			**append_file;
 	char			*heredoc_content;
 	int				herdoc_flag;
 	int				pipe_out;

@@ -1,27 +1,26 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/29 20:22:21 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/29 21:39:48 by mizem            ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
-void initialize(t_cmd *cmd)
+void	initialize(t_cmd *cmd)
 {
 	cmd->command = NULL;
 	cmd->path = NULL;
 	cmd->args = NULL;
 	cmd->arg_count = 0;
 	cmd->input_file = NULL;
-	// cmd->output_file = NULL;
-	// cmd->append_file = NULL;
 	cmd->heredoc_delimiter = NULL;
+	cmd->output_files = NULL;
 	cmd->heredoc_content = NULL;
 	cmd->herdoc_flag = 0;
 	cmd->pipe_out = 0;
@@ -32,27 +31,21 @@ void initialize(t_cmd *cmd)
 	cmd->out_index = 0;
 	cmd->app_index = 0;
 	cmd->her_index = 0;
-				cmd->output_files = NULL;
 	cmd->next = NULL;
 }
 
-void allocate_list(t_cmd *list, t_lexer *lexer)
+void	allocate_list(t_cmd *list, t_lexer *lexer)
 {
 	if (count_args(lexer) > 0)
 		list->args = malloc(sizeof(char *) * (count_args(lexer) + 1));
 	if (count_redir_in(lexer) > 0)
 		list->input_file = malloc(sizeof(char *) * (count_redir_in(lexer) + 1));
-	// if (count_redir_out(lexer) > 0)
-	// 	list->output_file = malloc(sizeof(char *) *
-	// 							   (count_redir_out(lexer) + 1));
-	// if (count_append(lexer) > 0)
-	// 	list->append_file = malloc(sizeof(char *) * (count_append(lexer) + 1));
 	if (count_her(lexer) > 0)
-		list->heredoc_delimiter = malloc(sizeof(char *) *
-										 (count_her(lexer) + 1));
+		list->heredoc_delimiter = malloc(sizeof(char *) 
+				* (count_her(lexer) + 1));
 }
 
-void fill_list(t_lexer **lexer, t_cmd *tmp_list)
+void	fill_list(t_lexer **lexer, t_cmd *tmp_list)
 {
 	if ((*lexer)->type == WHITE_SPACE)
 		(*lexer) = (*lexer)->next;
@@ -68,9 +61,9 @@ void fill_list(t_lexer **lexer, t_cmd *tmp_list)
 		fill_args(lexer, tmp_list);
 }
 
-t_cmd *create_args(t_lexer **lexer, char **ev)
+t_cmd	*create_args(t_lexer **lexer, char **ev)
 {
-	t_cmd *tmp_list;
+	t_cmd	*tmp_list;
 
 	tmp_list = malloc(sizeof(t_cmd));
 	if (!tmp_list)
@@ -100,16 +93,16 @@ t_cmd *create_args(t_lexer **lexer, char **ev)
 	return (tmp_list);
 }
 
-t_cmd *create_list(t_cmd *list, t_lexer *lexer, char **ev)
+t_cmd	*create_list(t_cmd *list, t_lexer *lexer, char **ev)
 {
-	t_lexer *head;
+	t_lexer	*head;
 
 	head = lexer;
 	while (lexer && lexer->type != PIPE_LINE)
 	{
 		ft_lstadd_back(&list, create_args(&lexer, ev));
 		if (lexer == NULL)
-			break;
+			break ;
 		lexer = lexer->next;
 	}
 	lexer = head;

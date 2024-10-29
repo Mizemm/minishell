@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parsing_fillers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 01:34:46 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/29 20:14:40 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/29 21:41:10 by mizem            ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -23,7 +23,7 @@ void	fill_input_file(t_lexer **lexer, t_cmd *tmp_list)
 
 void	fill_output_file(t_lexer **lexer, t_cmd *tmp_list)
 {
-	t_out *node;
+	t_out	*node;
 
 	node = NULL;
 	while ((*lexer) && (*lexer)->type != WORD && (*lexer)->type != ENV)
@@ -35,7 +35,7 @@ void	fill_output_file(t_lexer **lexer, t_cmd *tmp_list)
 
 void	fill_append_file(t_lexer **lexer, t_cmd *tmp_list)
 {
-	t_out *node;
+	t_out	*node;
 
 	node = NULL;
 	while ((*lexer) && (*lexer)->type != WORD && (*lexer)->type != ENV)
