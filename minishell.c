@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:29:43 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/29 20:22:38 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/29 22:13:12 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -82,7 +82,7 @@ int main(int ac, char **av, char **env)
 	t_lexer *lex_list;
 	char *line;
 
-	atexit(leaks);
+	// atexit(leaks);
 	(void)av;
 	using_history();
 	main = malloc(sizeof(t_main));
