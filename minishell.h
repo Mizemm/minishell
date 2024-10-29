@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:01:17 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/29 11:03:47 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:37:08 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -21,16 +21,15 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdbool.h>
+# include <limits.h>
 
 int g_signal;
 
-typedef struct s_expo
+typedef struct s_out
 {
-	char			*value;
-	char			*name;
-	int				is_export;
-	struct s_expo	*next;
-}					t_expo;
+	char			*output;
+	char			*type;
+}					t_out;
 
 typedef struct s_env
 {
@@ -48,6 +47,7 @@ typedef struct s_cmd
 	char			**input_file;
 	char			**output_file;
 	char			**append_file;
+	t_out			*output_files;
 	char			**heredoc_delimiter;
 	char			*heredoc_content;
 	int				herdoc_flag;
@@ -99,7 +99,6 @@ typedef struct s_main
     int exit_status;
     t_cmd *cmd;
     t_env *env;
-    t_expo *export;
     char **full_env;
     char **heredoc_files;
 } t_main;

@@ -6,11 +6,37 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 12:03:20 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/17 00:51:01 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:39:39 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "../minishell.h"
+
+long	f_atoi(char *str)
+{
+	long	sum;
+	long	sign;
+	long	found;
+
+	sum = 0;
+	sign = 1;
+	found = 1;
+	while (*str == ' ' || *str == '\t' || *str == '\n' || *str == '\f' || *str == '\r')
+		str++;
+	if (*str == '-')
+		sign = -1;
+	if (*str == '-' || *str == '+')
+		str++;
+	while (*str && found)
+	{
+		if (*str >= '0' && *str <= '9')
+			sum = sum * 10 + *str - '0';
+		else
+			found = 0;
+		str++;
+	}
+	return (sign * sum);
+}
 
 int exec_exit(t_main *main)
 {
@@ -23,7 +49,7 @@ int exec_exit(t_main *main)
         int i = -1;
         while (main->cmd->args[1][++i])
         {
-            if (main->cmd->args[1][i] < '0' || main->cmd->args[1][i] > '9')
+            if ((main->cmd->args[1][i] < '0' || main->cmd->args[1][i] > '9') || f_atoi(main->cmd->args[1]) > INT_MAX)
             {
                 ft_putstr_fd("minishell: exit: ", 2);
                 ft_putstr_fd(main->cmd->args[1], 2);
