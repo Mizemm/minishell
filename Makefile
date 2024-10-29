@@ -6,7 +6,7 @@
 #    By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/20 22:27:04 by abdennac          #+#    #+#              #
-#    Updated: 2024/10/28 23:01:00 by abdennac         ###   ########.fr        #
+#    Updated: 2024/10/29 20:22:58 by abdennac         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -26,7 +26,7 @@ UTILS_C = parsing/clear.c parsing/parser.c parsing/parsing_utils.c parsing/lexer
 			libft_utils/add_node.c libft_utils/ft_isalnum.c libft_utils/ft_strdup.c libft_utils/ft_atoi.c \
 			libft_utils/ft_strchr.c libft_utils/ft_strcmp.c libft_utils/ft_strjoin.c libft_utils/ft_strlen.c \
 			libft_utils/ft_split.c libft_utils/ft_lstadd_back_env.c libft_utils/ft_putstr_fd.c libft_utils/ft_itoa.c \
-			libft_utils/ft_strncpy.c signals.c \
+			libft_utils/ft_strncpy.c libft_utils/ft_lstadd_back_file.c libft_utils/ft_lstadd_back_file.c signals.c \
 
 MINISHELL_O = $(MINISHELL_C:.c=.o)
 UTILS_O = $(UTILS_C:.c=.o)

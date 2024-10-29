@@ -1,38 +1,38 @@
 /******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_node.c                                         :+:      :+:    :+:   */
+/*   ft_lstadd_back_file.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/29 18:38:43 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/29 19:53:31 by abdennac         ###   ########.fr       */
+/*   Created: 2024/01/05 20:39:38 by mizem             #+#    #+#             */
+/*   Updated: 2024/10/29 19:55:06 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
 #include "../minishell.h"
 
-t_lexer	*add_node(char *str)
+t_out	*ft_lstlast3(t_out *lst)
 {
-	t_lexer	*node;
-
-	node = malloc(sizeof(t_lexer));
-	if (!node)
+	if (!lst)
 		return (NULL);
-	node->content = str;
-	node->next = NULL;
-	return (node);
+	while (lst->next != NULL)
+		lst = lst->next;
+	return (lst);
 }
 
-t_out	*add_file(char *str, int type)
+void	ft_lstadd_back3(t_out **head, t_out *new)
 {
-	t_out	*node;
+	t_out *tmp;
 
-	node = malloc(sizeof(t_out));
-	if (!node)
-		return (NULL);
-	node->output = str;
-	node->type = type;
-	node->next = NULL;
-	return (node);
+	tmp = NULL;	
+	if (!head || !new)
+		return ;
+	if (!*head)
+	{
+		*head = new;
+		return ;
+	}
+	tmp = ft_lstlast3(*head);
+	tmp->next = new;
 }

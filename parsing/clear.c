@@ -1,44 +1,17 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   clear.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 13:15:50 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/24 01:34:09 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/29 20:22:32 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../minishell.h"
 
-void	clear_cmd_list(t_cmd *head)
-{
-	t_cmd	*tmp;
-
-	while (head)
-	{
-		tmp = head;
-		if (tmp->command)
-			free(tmp->command);
-		if (tmp->path)
-			free(tmp->path);
-		if (tmp->args)
-			ft_free(tmp->args);
-		if (tmp->input_file)
-			ft_free(tmp->input_file);
-		if (tmp->output_file)
-			ft_free(tmp->output_file);
-		if (tmp->append_file)
-			ft_free(tmp->append_file);
-		if (tmp->heredoc_delimiter)
-			ft_free(tmp->heredoc_delimiter);
-		if (tmp->heredoc_content)
-			free(tmp->heredoc_content);
-		head = head->next;
-		free(tmp);
-	}
-}
 
 void	clear_lexer_list(t_lexer *head)
 {
@@ -70,6 +43,46 @@ void	clear_env_list(t_env **head)
 		free(tmp);
 	}
 	*head = NULL;
+}
+void	clear_output_list(t_out **head)
+{
+	t_out	*tmp;
+
+	while (*head)
+	{
+		tmp = *head;
+		if ((*head)->output)
+			free((*head)->output);
+		*head = tmp->next;
+		free(tmp);
+	}
+	*head = NULL;
+}
+
+void	clear_cmd_list(t_cmd *head)
+{
+	t_cmd	*tmp;
+
+	while (head)
+	{
+		tmp = head;
+		if (tmp->command)
+			free(tmp->command);
+		if (tmp->path)
+			free(tmp->path);
+		if (tmp->args)
+			ft_free(tmp->args);
+		if (tmp->input_file)
+			ft_free(tmp->input_file);
+		if (tmp->output_files)
+			clear_output_list(&tmp->output_files);
+		if (tmp->heredoc_delimiter)
+			ft_free(tmp->heredoc_delimiter);
+		if (tmp->heredoc_content)
+			free(tmp->heredoc_content);
+		head = head->next;
+		free(tmp);
+	}
 }
 
 void	clear(t_cmd *cmd, char *line)

@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:01:17 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/29 12:37:08 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/29 20:13:55 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -25,11 +25,6 @@
 
 int g_signal;
 
-typedef struct s_out
-{
-	char			*output;
-	char			*type;
-}					t_out;
 
 typedef struct s_env
 {
@@ -38,6 +33,13 @@ typedef struct s_env
 	struct s_env	*next;
 }					t_env;
 
+typedef struct s_out
+{
+	char			*output;
+	int				type;
+	struct s_out	*next;
+}					t_out;
+
 typedef struct s_cmd
 {
 	char			*command;
@@ -45,10 +47,10 @@ typedef struct s_cmd
 	char			**args;
 	int				arg_count;
 	char			**input_file;
-	char			**output_file;
-	char			**append_file;
-	t_out			*output_files;
 	char			**heredoc_delimiter;
+	t_out			*output_files;
+	// char			**output_file;
+	// char			**append_file;
 	char			*heredoc_content;
 	int				herdoc_flag;
 	int				pipe_out;
@@ -167,7 +169,9 @@ void				fill_args(t_lexer **lexer, t_cmd *tmp_list);
 void				clear(t_cmd *cmd, char *line);
 void				clear_all(t_main **main);
 void				clear_lexer_list(t_lexer *head);
-
+t_out				*add_file(char *str, int type);
+void				ft_lstadd_back3(t_out **head, t_out *new);
+void				clear_output_list(t_out **head);
 /* EXECUTION FUNCTIONS */
 
 void 				child_exec(t_main *main, t_cmd *cmd, int *prev_pipe_fd, int file_count, int *pipe_fd);

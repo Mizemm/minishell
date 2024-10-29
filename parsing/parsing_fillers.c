@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parsing_fillers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 01:34:46 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/24 01:34:47 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/29 20:14:40 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../minishell.h"
 
@@ -23,19 +23,25 @@ void	fill_input_file(t_lexer **lexer, t_cmd *tmp_list)
 
 void	fill_output_file(t_lexer **lexer, t_cmd *tmp_list)
 {
+	t_out *node;
+
+	node = NULL;
 	while ((*lexer) && (*lexer)->type != WORD && (*lexer)->type != ENV)
 		(*lexer) = (*lexer)->next;
-	tmp_list->output_file[tmp_list->out_index++] = ft_strdup((*lexer)->content);
-	tmp_list->output_file[tmp_list->out_index] = NULL;
+	node = add_file(ft_strdup((*lexer)->content), 1);
+	ft_lstadd_back3(&tmp_list->output_files, node);
 	(*lexer) = (*lexer)->next;
 }
 
 void	fill_append_file(t_lexer **lexer, t_cmd *tmp_list)
 {
+	t_out *node;
+
+	node = NULL;
 	while ((*lexer) && (*lexer)->type != WORD && (*lexer)->type != ENV)
 		(*lexer) = (*lexer)->next;
-	tmp_list->append_file[tmp_list->app_index++] = ft_strdup((*lexer)->content);
-	tmp_list->append_file[tmp_list->app_index] = NULL;
+	node = add_file(ft_strdup((*lexer)->content), 0);
+	ft_lstadd_back3(&tmp_list->output_files, node);
 	(*lexer) = (*lexer)->next;
 }
 

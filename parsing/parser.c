@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/28 22:13:59 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/29 20:22:21 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -19,8 +19,8 @@ void initialize(t_cmd *cmd)
 	cmd->args = NULL;
 	cmd->arg_count = 0;
 	cmd->input_file = NULL;
-	cmd->output_file = NULL;
-	cmd->append_file = NULL;
+	// cmd->output_file = NULL;
+	// cmd->append_file = NULL;
 	cmd->heredoc_delimiter = NULL;
 	cmd->heredoc_content = NULL;
 	cmd->herdoc_flag = 0;
@@ -32,6 +32,7 @@ void initialize(t_cmd *cmd)
 	cmd->out_index = 0;
 	cmd->app_index = 0;
 	cmd->her_index = 0;
+				cmd->output_files = NULL;
 	cmd->next = NULL;
 }
 
@@ -41,11 +42,11 @@ void allocate_list(t_cmd *list, t_lexer *lexer)
 		list->args = malloc(sizeof(char *) * (count_args(lexer) + 1));
 	if (count_redir_in(lexer) > 0)
 		list->input_file = malloc(sizeof(char *) * (count_redir_in(lexer) + 1));
-	if (count_redir_out(lexer) > 0)
-		list->output_file = malloc(sizeof(char *) *
-								   (count_redir_out(lexer) + 1));
-	if (count_append(lexer) > 0)
-		list->append_file = malloc(sizeof(char *) * (count_append(lexer) + 1));
+	// if (count_redir_out(lexer) > 0)
+	// 	list->output_file = malloc(sizeof(char *) *
+	// 							   (count_redir_out(lexer) + 1));
+	// if (count_append(lexer) > 0)
+	// 	list->append_file = malloc(sizeof(char *) * (count_append(lexer) + 1));
 	if (count_her(lexer) > 0)
 		list->heredoc_delimiter = malloc(sizeof(char *) *
 										 (count_her(lexer) + 1));
