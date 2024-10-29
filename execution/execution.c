@@ -53,7 +53,10 @@ void pipe_exec_with_redirection(t_main *main)
 			error2(main, "pipe error", 1);
 		pid = fork();
 		if (pid < 0)
-			error2(main, "fork error", 1);
+		{
+			error("fork error");
+			break;
+		}
 		else if (pid == 0)
 			child_exec(main, cmd, prev_pipe_fd, file_count, pipe_fd);
 		else
@@ -104,29 +107,3 @@ void execute_command(t_main *main)
 	else if (main->cmd)
 		pipe_exec_with_redirection(main);
 }
-
-// void execute_command(t_main *main)
-// {
-// 	t_cmd *cmd;
-
-// 	dprintf(2, "************************\n");
-// 	cmd = main->cmd;
-// 	signal(SIGINT, SIG_IGN);
-// 	main->cmd->stdin_backup = dup(STDIN_FILENO);
-// 	main->cmd->stdout_backup = dup(STDOUT_FILENO);
-// 	while (main->cmd)
-// 	{
-// 		// if (main->exit_status == 1)
-// 			// continue;
-// 		if (!main->cmd->next)
-// 			simple_exec(main);
-// 		else
-// 		{
-// 			pipe_exec_with_redirection(main);
-// 			while (main->cmd->next)
-// 				main->cmd = main->cmd->next;
-// 		}
-// 		main->cmd = main->cmd->next;
-// 	}
-// 	main->cmd = cmd;
-// }

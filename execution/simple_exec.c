@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:35:20 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/29 10:36:25 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/29 21:25:07 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -49,47 +49,28 @@ void simple_input(t_main *main, t_cmd *cmd)
 void simple_output(t_main *main, t_cmd *cmd)
 {
     int fd_out;
-    int i;
+    t_out *tmp;
 
-    if (cmd->output_file)
+    if (cmd->output_files)
     {
-        i = -1;
-        while (cmd->output_file[++i])
+        tmp = cmd->output_files;
+        while (tmp)
         {
-            if (access(cmd->output_file[i], F_OK) == 0)
+            if (access(tmp->output, F_OK) == 0)
             {
-                if (access(cmd->output_file[i], W_OK) != 0)
+                if (access(tmp->output, W_OK) != 0)
                     error2(main, "Permission denied", 1);
             }
-            fd_out = open(cmd->output_file[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+            if (tmp->type == 1)
+                fd_out = open(tmp->output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+            else if (tmp->type == 0)
+                fd_out = open(tmp->output, O_WRONLY | O_CREAT | O_APPEND, 0644);
             if (fd_out < 0)
                 error2(main, "Failed to open file", 1);
+            dup2(fd_out, STDOUT_FILENO);
+            close(fd_out);
+            tmp = tmp->next;
         }
-        dup2(fd_out, STDOUT_FILENO);
-        close(fd_out);
-    }
-    else if (cmd->append_file)
-    {
-        i = -1;
-        while (cmd->append_file[++i])
-        {
-            if (access(cmd->append_file[i], F_OK) == 0)
-            {
-                if (access(cmd->append_file[i], W_OK) != 0)
-                {
-                    error2(main, "Permission denied", 1);
-                    return;
-                }
-            }
-            fd_out = open(cmd->append_file[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
-            if (fd_out < 0)
-            {
-                error2(main, "Failed to open file", 1);
-                return;
-            }
-        }
-        dup2(fd_out, STDOUT_FILENO);
-        close(fd_out);
     }
 }
 
