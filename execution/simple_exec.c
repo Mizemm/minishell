@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:35:20 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/29 21:25:07 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/29 22:52:08 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -96,8 +96,8 @@ void simple_exec(t_main *main)
 
 	if (check_if_builtin(main->cmd->command))
 	{
-		simple_input(main, main->cmd);
-		simple_output(main, main->cmd);
+		// simple_input(main, main->cmd);
+		// simple_output(main, main->cmd);
 		execute_builtins(main, main->cmd);
 		simple_cleanup(main->cmd);
 	}
@@ -111,7 +111,6 @@ void simple_exec(t_main *main)
 			signal(SIGINT, SIG_DFL);
 			simple_input(main, main->cmd);
 			simple_output(main, main->cmd);
-
 			if (!main->cmd->path)
 				find_path(main, main->cmd);
 			execve(main->cmd->path, main->cmd->args, main->full_env);
@@ -119,6 +118,7 @@ void simple_exec(t_main *main)
 		else
 		{
 			waitpid(pid, &status, 0);
+		    simple_cleanup(main->cmd);
 			if (WIFEXITED(status))
 				status = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:01:17 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/29 21:42:41 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/30 19:31:52 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,8 @@ void 				handle_herdoc_signal(void);
 void 				find_path(t_main *main, t_cmd *cmd);
 char 				*path_split(char *str, char c);
 char *get_env_value(t_env *env_list, char *name);
+char	**add_empty(char **split);
+int	is_exported(t_main *main, char *name);
 /* A77 */
 
 int					exec_echo(t_cmd *cmd);

@@ -28,6 +28,36 @@ void execute_single_command(t_main *main, t_cmd *cmd)
 	}
 }
 
+void close_file_descriptors(t_cmd *cmd, int *pipe_fd, int *prev_pipe_fd)
+{
+	// Close the current pipe if it's open
+	if (pipe_fd && pipe_fd[0] != -1)
+	{
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+	}
+
+	// Close the previous pipe if it's open
+	if (prev_pipe_fd && prev_pipe_fd[0] != -1)
+	{
+		close(prev_pipe_fd[0]);
+		close(prev_pipe_fd[1]);
+	}
+	// Restore and close any stdin or stdout backups
+	if (cmd->stdin_backup != -1)
+	{
+		dup2(cmd->stdin_backup, STDIN_FILENO);
+		close(cmd->stdin_backup);
+		cmd->stdin_backup = -1;
+	}
+	if (cmd->stdout_backup != -1)
+	{
+		dup2(cmd->stdout_backup, STDOUT_FILENO);
+		close(cmd->stdout_backup);
+		cmd->stdout_backup = -1;
+	}
+}
+
 void pipe_exec_with_redirection(t_main *main)
 {
 	t_cmd *cmd;
@@ -80,6 +110,16 @@ void pipe_exec_with_redirection(t_main *main)
 		close(prev_pipe_fd[0]);
 		close(prev_pipe_fd[1]);
 	}
+	if (main->cmd->stdin_backup != -1)
+	{
+		dup2(main->cmd->stdin_backup, STDIN_FILENO);
+		close(main->cmd->stdin_backup);
+	}
+	if (main->cmd->stdout_backup != -1)
+	{
+		dup2(main->cmd->stdout_backup, STDOUT_FILENO);
+		close(main->cmd->stdout_backup);
+	}
 	i = -1;
 	while (++i < cmd_count) // Wait for all child processes to finish
 	{
@@ -103,7 +143,7 @@ void execute_command(t_main *main)
 	main->cmd->stdout_backup = dup(STDOUT_FILENO);
 	signal(SIGINT, SIG_IGN);
 	if (!main->cmd->next && main->cmd)
-			simple_exec(main);
+		simple_exec(main);
 	else if (main->cmd)
 		pipe_exec_with_redirection(main);
 }

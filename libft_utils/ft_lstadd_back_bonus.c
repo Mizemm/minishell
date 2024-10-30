@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 20:39:38 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/03 23:06:04 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/30 17:07:11 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../minishell.h"
 
@@ -23,9 +23,9 @@ t_cmd	*ft_lstlast(t_cmd *lst)
 
 void	ft_lstadd_back(t_cmd **head, t_cmd *new)
 {
-	t_cmd *tmp;
+	t_cmd	*tmp;
 
-	tmp = NULL;	
+	tmp = NULL;
 	if (!head || !new)
 		return ;
 	else if (!*head)
@@ -37,8 +37,9 @@ void	ft_lstadd_back(t_cmd **head, t_cmd *new)
 	{
 		tmp = ft_lstlast(*head);
 		tmp->next = new;
-	}	
+	}
 }
+
 t_lexer	*ft_lstlast2(t_lexer *lst)
 {
 	if (!lst)
@@ -50,9 +51,9 @@ t_lexer	*ft_lstlast2(t_lexer *lst)
 
 void	ft_lstadd_back2(t_lexer **head, t_lexer *new)
 {
-	t_lexer *tmp;
+	t_lexer	*tmp;
 
-	tmp = NULL;	
+	tmp = NULL;
 	if (!head || !new)
 		return ;
 	new->prev = NULL;

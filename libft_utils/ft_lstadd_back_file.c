@@ -23,9 +23,9 @@ t_out	*ft_lstlast3(t_out *lst)
 
 void	ft_lstadd_back3(t_out **head, t_out *new)
 {
-	t_out *tmp;
+	t_out	*tmp;
 
-	tmp = NULL;	
+	tmp = NULL;
 	if (!head || !new)
 		return ;
 	if (!*head)

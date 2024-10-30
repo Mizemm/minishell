@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:30:32 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/01 21:24:14 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/30 17:07:38 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -14,8 +14,8 @@
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	int i;
-	
+	int	i;
+
 	if (!s)
 		return ;
 	i = -1;

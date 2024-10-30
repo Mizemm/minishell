@@ -23,9 +23,9 @@ t_env	*ft_lstlast_env(t_env *lst)
 
 void	ft_lstadd_back_env(t_env **head, t_env *new)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
-	tmp = NULL;	
+	tmp = NULL;
 	if (!head || !new)
 		return ;
 	else if (!*head)
@@ -37,5 +37,5 @@ void	ft_lstadd_back_env(t_env **head, t_env *new)
 	{
 		tmp = ft_lstlast_env(*head);
 		tmp->next = new;
-	}	
+	}
 }

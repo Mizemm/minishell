@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/26 16:19:21 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/16 13:49:15 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/30 17:19:29 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,11 @@ void	*ft_free(char **str)
 
 int	count_wc(char *str, char c)
 {
-	int i = 0;
-	int wc = 0;
-	
+	int	i;
+	int	wc;
+
+	i = 0;
+	wc = 0;
 	while (str[i])
 	{
 		while (str[i] && str[i] == c)
@@ -42,20 +44,20 @@ int	count_wc(char *str, char c)
 	}
 	return (wc);
 }
+
 char	**ft_split(char *str, char c)
 {
-	int i;
-	int j;
-	int k;
-	int wc;
-	
+	int		i;
+	int		j;
+	int		k;
+	int		wc;
+	char	**out;
+
 	i = 0;
 	j = 0;
 	k = 0;
 	wc = count_wc(str, c);
-	char **out = malloc(sizeof(char *) * (wc + 1));
-	if (!out)
-		return (NULL);
+	out = malloc(sizeof(char *) * (wc + 1));
 	while (str[i])
 	{
 		while (str[i] && str[i] == c)
@@ -69,6 +71,5 @@ char	**ft_split(char *str, char c)
 			ft_strncpy(out[k++], &str[j], i - j);
 		}
 	}
-	out[k] = NULL;
-	return (out);
+	return (out[k] = NULL, out);
 }

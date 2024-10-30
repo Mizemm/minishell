@@ -1,28 +1,28 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/23 16:23:23 by mizem             #+#    #+#             */
-/*   Updated: 2024/09/29 18:41:32 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/30 17:02:55 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../minishell.h"
 
 char	*ft_substr(char *s, int start, int len)
 {
 	char	*dst;
-	int	i;
-	int	srclen;
-	int	khawi;
+	int		i;
+	int		srclen;
+	int		khawi;
 
 	i = 0;
 	if (!s)
 		return (NULL);
-	srclen = ft_strlen(s); 
+	srclen = ft_strlen(s);
 	khawi = len;
 	if (start >= srclen)
 		return (ft_strdup(""));
