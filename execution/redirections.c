@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:57:53 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/30 23:47:56 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/31 02:28:53 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ void	input_redirection_helper(t_cmd *cmd, int fd_in)
 	}
 }
 
-void	handle_input_redirection(t_cmd *cmd, t_main *main, int *prev_pipe_fd,
-			int file_count)
+void	handle_input_redirection(t_cmd *cmd, t_main *main, int *prev_pipe_fd)
 {
 	int	fd_in;
 
@@ -51,7 +50,7 @@ void	handle_input_redirection(t_cmd *cmd, t_main *main, int *prev_pipe_fd,
 	}
 	if (cmd->heredoc_delimiter)
 	{
-		fd_in = open(main->heredoc_files[file_count], O_RDONLY);
+		fd_in = open(main->heredoc_files[main->file_count], O_RDONLY);
 		if (fd_in < 0)
 			return (error("Heredoc file open error"));
 		dup2(fd_in, STDIN_FILENO);

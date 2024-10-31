@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:45:55 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/30 23:42:09 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/31 01:54:56 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,4 @@ int	count_commands(t_cmd *cmd)
 		tmp = tmp->next;
 	}
 	return (count);
-}
-
-void	child_exec(t_main *main, t_cmd *cmd, int *prev_pipe_fd, int file_count,
-		int *pipe_fd)
-{
-	signal(SIGINT, SIG_DFL);
-	handle_output_redirection(cmd, pipe_fd);
-	handle_input_redirection(cmd, main, prev_pipe_fd, file_count);
-	execute_single_command(main, cmd);
-	main->exit_status = 127;
-	exit(127);
 }

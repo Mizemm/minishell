@@ -6,7 +6,7 @@
 #    By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/20 22:27:04 by abdennac          #+#    #+#              #
-#    Updated: 2024/10/31 00:31:06 by abdennac         ###   ########.fr        #
+#    Updated: 2024/10/31 01:56:42 by abdennac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ UTILS_C = builtins/export_utils.c \
 		  execution/redirections.c \
 		  execution/simple_exec.c \
 		  execution/simple_exec_2.c \
+		  execution/exec_pipe.c \
 		  libft_utils/add_node.c \
 		  libft_utils/ft_atoi.c \
 		  libft_utils/ft_isalnum.c \

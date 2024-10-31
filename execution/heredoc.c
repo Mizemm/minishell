@@ -6,32 +6,11 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 13:47:36 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/31 01:10:44 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/31 01:30:12 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-// void	heredoc_loop_2(t_main *main, t_cmd *tmp, int fd, int j)
-// {
-// 	char	*line;
-	
-// 	while (1)
-// 	{
-// 		line = readline("> ");
-// 		if (!line)
-// 			break ;
-// 		if (ft_strcmp(line, (tmp->heredoc_delimiter[j])) == 0)
-// 			break ;
-// 		if (dollar_count(line) > 0 && tmp->herdoc_flag == 0)
-// 			line = her_expand(line, main);
-// 		write(fd, line, ft_strlen(line));
-// 		write(fd, "\n", 1);
-// 		free(line);
-// 	}
-// 	close(fd);
-// 	free(line);
-// }
 
 void	heredoc_loop_1(t_main *main, t_cmd *cmd, int fd, int j)
 {
@@ -81,7 +60,6 @@ void	handle_piped_heredoc(t_main *main, t_cmd *cmd)
 		tmp = tmp->next;
 	}
 }
-
 
 void	handle_simple_heredoc(t_cmd *cmd, t_main *main)
 {

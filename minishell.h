@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:01:17 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/31 00:28:40 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/31 02:30:31 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_main
 	t_env			*env;
 	char			**full_env;
 	char			**heredoc_files;
+	int				file_count;
 }					t_main;
 
 /* LIBFT FUNCTIONS */
@@ -171,13 +172,15 @@ void				clear_lexer_list(t_lexer *head);
 t_out				*add_file(char *str, int type);
 void				ft_lstadd_back3(t_out **head, t_out *new);
 void				clear_output_list(t_out **head);
+void				replace_command(t_cmd *tmp_list);
+
 /* EXECUTION FUNCTIONS */
 
 void				child_exec(t_main *main, t_cmd *cmd, int *prev_pipe_fd,
-						int file_count, int *pipe_fd);
+						int *pipe_fd);
 void				execute_single_command(t_main *main, t_cmd *cmd);
 void				handle_input_redirection(t_cmd *cmd, t_main *main,
-						int *prev_pipe_fd, int file_count);
+						int *prev_pipe_fd);
 void				handle_output_redirection(t_cmd *cmd, int *pipe_fd);
 int					check_if_builtin(char *str);
 void				execute_command(t_main *main);
