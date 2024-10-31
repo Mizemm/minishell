@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:01:17 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/31 02:30:31 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:09:58 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,13 +111,12 @@ char				*ft_strchr(char *s, int c);
 int					ft_strcmp(char *s1, char *s2);
 int					ft_atoi(char *str);
 void				ft_strncpy(char *s1, char *s2, int len);
-char				*ft_strncoco(char *str, int size);
+char				*ft_strsize_cpy(char *str, int size);
 char				*ft_strdup(char *src);
 char				*ft_substr(char *s, int start, int len);
 char				*ft_strtrim(char *s1, char *set);
 char				*ft_strjoin(char *s1, char *s2);
 char				**ft_split(char *str, char c);
-// char				**pipe_split(char *str, char c);
 void				ft_putstr_fd(char *s, int fd);
 void				*ft_free(char **str);
 void				ft_lstadd_back(t_cmd **head, t_cmd *new);
@@ -126,7 +125,6 @@ char				*ft_itoa(int n);
 t_lexer				*add_node(char *str);
 int					ft_isalpha(int c);
 
-;
 /* PARSING FUNCTIONS */
 
 void				clear_cmd_list(t_cmd *head);

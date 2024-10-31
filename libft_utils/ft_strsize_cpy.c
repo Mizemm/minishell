@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncoco.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 18:39:36 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/30 21:52:05 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/31 17:10:07 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strncoco(char *str, int size)
+char	*ft_strsize_cpy(char *str, int size)
 {
 	int		i;
 	char	*s;
