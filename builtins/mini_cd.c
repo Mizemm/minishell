@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:55:26 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/30 19:47:03 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/30 22:05:20 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	update_env_value(t_env **env, char *name, char *value)
 		current = current->next;
 	}
 }
-	
+
 int	exec_cd(t_main *main, t_cmd *cmd)
 {
 	char	*dir;

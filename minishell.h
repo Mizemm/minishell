@@ -6,25 +6,24 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:01:17 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/30 19:31:52 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/31 00:28:40 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <fcntl.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <stdio.h>
-# include <fcntl.h>
-# include <sys/wait.h>
-# include <stdlib.h>
-# include <unistd.h>
 # include <stdbool.h>
-# include <limits.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <sys/wait.h>
+# include <unistd.h>
 
-int g_signal;
-
+int					g_signal;
 
 typedef struct s_env
 {
@@ -62,7 +61,7 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
-enum e_type
+enum				e_type
 {
 	WORD = -1,
 	WHITE_SPACE = ' ',
@@ -74,7 +73,7 @@ enum e_type
 	APPEND,
 };
 
-enum e_state
+enum				e_state
 {
 	IN_QUOTE = '\'',
 	IN_DQUOTE = '\"',
@@ -96,12 +95,12 @@ typedef struct s_lexer
 
 typedef struct s_main
 {
-    int exit_status;
-    t_cmd *cmd;
-    t_env *env;
-    char **full_env;
-    char **heredoc_files;
-} t_main;
+	int				exit_status;
+	t_cmd			*cmd;
+	t_env			*env;
+	char			**full_env;
+	char			**heredoc_files;
+}					t_main;
 
 /* LIBFT FUNCTIONS */
 
@@ -124,7 +123,9 @@ void				ft_lstadd_back(t_cmd **head, t_cmd *new);
 void				ft_lstadd_back2(t_lexer **head, t_lexer *new);
 char				*ft_itoa(int n);
 t_lexer				*add_node(char *str);
-int					ft_isalpha(int c);;
+int					ft_isalpha(int c);
+
+;
 /* PARSING FUNCTIONS */
 
 void				clear_cmd_list(t_cmd *head);
@@ -148,7 +149,7 @@ int					in_redirections_syntax(char *str);
 int					out_redirections_syntax(char *str);
 int					next_false(t_lexer *list);
 bool				syntax_error(t_lexer *list);
-enum				e_type add_type(t_lexer *list);
+enum e_type			add_type(t_lexer *list);
 int					flag(t_lexer *list);
 void				give_type(t_lexer *list);
 int					count_args(t_lexer *list);
@@ -172,15 +173,17 @@ void				ft_lstadd_back3(t_out **head, t_out *new);
 void				clear_output_list(t_out **head);
 /* EXECUTION FUNCTIONS */
 
-void 				child_exec(t_main *main, t_cmd *cmd, int *prev_pipe_fd, int file_count, int *pipe_fd);
+void				child_exec(t_main *main, t_cmd *cmd, int *prev_pipe_fd,
+						int file_count, int *pipe_fd);
 void				execute_single_command(t_main *main, t_cmd *cmd);
-void            	handle_input_redirection(t_cmd *cmd, t_main *main, int *prev_pipe_fd, int file_count);
+void				handle_input_redirection(t_cmd *cmd, t_main *main,
+						int *prev_pipe_fd, int file_count);
 void				handle_output_redirection(t_cmd *cmd, int *pipe_fd);
 int					check_if_builtin(char *str);
 void				execute_command(t_main *main);
 void				simple_exec(t_main *main);
 void				simple_cleanup(t_cmd *cmd);
-void				execute_builtins(t_main *main, t_cmd *cmd);
+int					execute_builtins(t_main *main, t_cmd *cmd);
 void				ft_lstadd_back_env(t_env **head, t_env *new);
 void				update_env_value(t_env **env, char *name, char *value);
 void				print_export(t_main *main);
@@ -191,21 +194,27 @@ char				*her_expand(char *str, t_main *main);
 void				handle_signals(void);
 t_env				*ft_lstlast_env(t_env *lst);
 void				pipe_exec_with_redirection(t_main *main);
-void 				error2(t_main *main, char *str, int status);
+void				error2(t_main *main, char *str, int status);
 void				error(char *str);
-void 				handle_herdoc_signal(void);
-void 				find_path(t_main *main, t_cmd *cmd);
-char 				*path_split(char *str, char c);
-char *get_env_value(t_env *env_list, char *name);
-char	**add_empty(char **split);
-int	is_exported(t_main *main, char *name);
+void				handle_herdoc_signal(void);
+void				find_path(t_main *main, t_cmd *cmd);
+char				*path_split(char *str, char c);
+char				*get_env_value(t_env *env_list, char *name);
+char				**add_empty(char **split);
+int					is_exported(t_main *main, char *name);
+void				simple_fork_output(t_main *main, t_cmd *cmd);
+void				simple_fork_input(t_main *main, t_cmd *cmd);
+int					her_valid_name(char c);
+int					dollar_count(char *str);
+char				**make_file_name(t_cmd *cmd);
+
 /* A77 */
 
 int					exec_echo(t_cmd *cmd);
 int					excec_pwd(void);
 int					exec_env(t_main *main);
 int					exec_cd(t_main *main, t_cmd *cmd);
-int					exec_exit(t_main *main);
+int					exec_exit(t_cmd *cmd);
 int					exec_export(t_main *main, t_cmd *cmd);
 int					exec_unset(t_main *main, t_cmd *cmd);
 

@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 12:03:20 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/30 19:59:12 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/30 23:36:13 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,33 +39,30 @@ long	f_atoi(char *str)
 	return (sign * sum);
 }
 
-int	exec_exit(t_main *main)
+int	exec_exit(t_cmd *cmd)
 {
 	int	exit_status;
 	int	i;
 
 	exit_status = 0;
 	ft_putstr_fd("exit\n", 2);
-	if (main->cmd->args[1])
+	if (cmd->args[1])
 	{
 		i = -1;
-		while (main->cmd->args[1][++i])
+		while (cmd->args[1][++i])
 		{
-			if ((main->cmd->args[1][i] < '0' || main->cmd->args[1][i] > '9')
-				|| f_atoi(main->cmd->args[1]) > LLONG_MAX)
+			if ((cmd->args[1][i] < '0' || cmd->args[1][i] > '9')
+				|| f_atoi(cmd->args[1]) > LLONG_MAX)
 			{
 				ft_putstr_fd("minishell: exit: ", 2);
-				ft_putstr_fd(main->cmd->args[1], 2);
+				ft_putstr_fd(cmd->args[1], 2);
 				ft_putstr_fd(": numeric argument required\n", 2);
 				exit(255);
 			}
 		}
-		exit_status = ft_atoi(main->cmd->args[1]);
-		if (main->cmd->args[2])
-		{
-			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-			return (1);
-		}
+		exit_status = ft_atoi(cmd->args[1]);
+		if (cmd->args[2])
+			return (ft_putstr_fd("minishell: exit: too many arguments\n", 2), 1);
 	}
 	exit(exit_status);
 	return (0);

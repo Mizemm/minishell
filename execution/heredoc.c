@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
@@ -6,72 +6,60 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 13:47:36 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/28 17:16:33 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/31 01:10:44 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
-void error2(t_main *main, char *str, int status)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd("\n", 2);
-	main->exit_status = status;
-	exit(status);
-}
+// void	heredoc_loop_2(t_main *main, t_cmd *tmp, int fd, int j)
+// {
+// 	char	*line;
+	
+// 	while (1)
+// 	{
+// 		line = readline("> ");
+// 		if (!line)
+// 			break ;
+// 		if (ft_strcmp(line, (tmp->heredoc_delimiter[j])) == 0)
+// 			break ;
+// 		if (dollar_count(line) > 0 && tmp->herdoc_flag == 0)
+// 			line = her_expand(line, main);
+// 		write(fd, line, ft_strlen(line));
+// 		write(fd, "\n", 1);
+// 		free(line);
+// 	}
+// 	close(fd);
+// 	free(line);
+// }
 
-char **make_file_name(t_cmd *cmd)
+void	heredoc_loop_1(t_main *main, t_cmd *cmd, int fd, int j)
 {
-	char *file_name;
-	char **files;
-	int i;
-	t_cmd *tmp;
-	int nb_files;
+	char	*line;
 
-	nb_files = 0;
-	tmp = cmd;
-	while (tmp)
+	while (1)
 	{
-		if (tmp->heredoc_delimiter)
-			nb_files++;
-		tmp = tmp->next;
+		line = readline("> ");
+		if (!line)
+			break ;
+		if (ft_strcmp(line, (cmd->heredoc_delimiter[j])) == 0)
+			break ;
+		if (dollar_count(line) > 0 && cmd->herdoc_flag == 0)
+			line = her_expand(line, main);
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
 	}
-	if (nb_files == 0)
-		return NULL;
-	files = malloc(sizeof(char *) * (nb_files + 1));
-	file_name = "/tmp/heredoc";
-
-	i = -1;
-	while (++i < nb_files)
-		files[i] = ft_strjoin(file_name, ft_itoa(i));
-	files[i] = NULL;
-	return files;
+	close(fd);
+	free(line);
 }
 
-int dollar_count(char *str)
+void	handle_piped_heredoc(t_main *main, t_cmd *cmd)
 {
-	int i;
-	int count;
-
-	i = 0;
-	count = 0;
-	while (str[i])
-	{
-		if (str[i] == '$')
-			count++;
-		i++;
-	}
-	return count;
-}
-
-void handle_piped_heredoc(t_main *main, t_cmd *cmd)
-{
-	t_cmd *tmp;
-	char *line;
-	int fd;
-	int i;
-	int j;
+	t_cmd	*tmp;
+	int		fd;
+	int		i;
+	int		j;
 
 	tmp = cmd;
 	i = 0;
@@ -83,23 +71,10 @@ void handle_piped_heredoc(t_main *main, t_cmd *cmd)
 			while (tmp->heredoc_delimiter[++j])
 			{
 				if (!main->heredoc_files[i])
-					break;
-				fd = open(main->heredoc_files[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-				while (1)
-				{
-					line = readline("> ");
-					if (!line)
-						break;
-					if (ft_strcmp(line, (tmp->heredoc_delimiter[j])) == 0)
-						break;
-					if (dollar_count(line) > 0 && tmp->herdoc_flag == 0)
-						line = her_expand(line, main);
-					write(fd, line, ft_strlen(line));
-					write(fd, "\n", 1);
-					free(line);
-				}
-				close(fd);
-				free(line);
+					break ;
+				fd = open(main->heredoc_files[i], O_WRONLY | O_CREAT | O_TRUNC,
+						0644);
+				heredoc_loop_1(main, tmp, fd, j);
 			}
 			i++;
 		}
@@ -107,11 +82,11 @@ void handle_piped_heredoc(t_main *main, t_cmd *cmd)
 	}
 }
 
-void handle_simple_heredoc(t_cmd *cmd, t_main *main)
+
+void	handle_simple_heredoc(t_cmd *cmd, t_main *main)
 {
-	char *line;
-	int fd;
-	int j;
+	int		fd;
+	int		j;
 
 	j = -1;
 	if (cmd->heredoc_delimiter)
@@ -119,29 +94,26 @@ void handle_simple_heredoc(t_cmd *cmd, t_main *main)
 		while (cmd->heredoc_delimiter[++j])
 		{
 			fd = open("/tmp/heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			while (1)
-			{
-				line = readline("> ");
-				if (!line)
-					break;
-				if (ft_strcmp(line, (cmd->heredoc_delimiter[j])) == 0)
-					break;
-				if (dollar_count(line) > 0 && cmd->herdoc_flag == 0)
-					line = her_expand(line, main);
-				write(fd, line, ft_strlen(line));
-				write(fd, "\n", 1);
-				free(line);
-			}
-			close(fd);
-			free(line);
+			heredoc_loop_1(main, cmd, fd, j);
 		}
 	}
 }
 
-void handle_heredoc(t_main *main)
+void	heredoc_helper(t_main *main)
 {
-	int pid;
-	int status;
+	main->exit_status = 1;
+	g_signal = 1;
+	if (main->heredoc_files)
+	{
+		while (main->heredoc_files[++main->cmd->her_index])
+			unlink(main->heredoc_files[main->cmd->her_index]);
+	}
+}
+
+void	handle_heredoc(t_main *main)
+{
+	int	pid;
+	int	status;
 
 	signal(SIGINT, SIG_IGN);
 	main->heredoc_files = make_file_name(main->cmd);
@@ -160,14 +132,6 @@ void handle_heredoc(t_main *main)
 		waitpid(pid, &status, 0);
 		handle_signals();
 		if (WIFSIGNALED(status))
-		{
-			main->exit_status = 1;
-			g_signal = 1;
-			if (main->heredoc_files)
-			{
-				while (main->heredoc_files[++main->cmd->her_index])
-					unlink(main->heredoc_files[main->cmd->her_index]);
-			}
-		}
+			heredoc_helper(main);
 	}
 }

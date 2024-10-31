@@ -1,19 +1,18 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
-/*                                                 +#+#+#+#+#+
-	+#+           */
-/*   Created: 2024/08/01 10:17:07 by abdennac          #+#    #+#             */
-/*   Updated: 2024/09/26 11:22:35 by abdennac         ###   ########.fr       */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/30 22:10:31 by abdennac          #+#    #+#             */
+/*   Updated: 2024/10/30 22:10:36 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
-void execute_single_command(t_main *main, t_cmd *cmd)
+void	execute_single_command(t_main *main, t_cmd *cmd)
 {
 	if (check_if_builtin(cmd->command))
 	{
@@ -28,22 +27,18 @@ void execute_single_command(t_main *main, t_cmd *cmd)
 	}
 }
 
-void close_file_descriptors(t_cmd *cmd, int *pipe_fd, int *prev_pipe_fd)
+void	close_file_descriptors(t_cmd *cmd, int *pipe_fd, int *prev_pipe_fd)
 {
-	// Close the current pipe if it's open
 	if (pipe_fd && pipe_fd[0] != -1)
 	{
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 	}
-
-	// Close the previous pipe if it's open
 	if (prev_pipe_fd && prev_pipe_fd[0] != -1)
 	{
 		close(prev_pipe_fd[0]);
 		close(prev_pipe_fd[1]);
 	}
-	// Restore and close any stdin or stdout backups
 	if (cmd->stdin_backup != -1)
 	{
 		dup2(cmd->stdin_backup, STDIN_FILENO);
@@ -58,16 +53,16 @@ void close_file_descriptors(t_cmd *cmd, int *pipe_fd, int *prev_pipe_fd)
 	}
 }
 
-void pipe_exec_with_redirection(t_main *main)
+void	pipe_exec_with_redirection(t_main *main)
 {
-	t_cmd *cmd;
-	pid_t pid;
-	pid_t *child_pids;
-	int pipe_fd[2];
-	int prev_pipe_fd[2] = {-1, -1};
-	int cmd_count;
-	int i;
-	int file_count;
+	t_cmd	*cmd;
+	pid_t	pid;
+	pid_t	*child_pids;
+	int		pipe_fd[2];
+	int		prev_pipe_fd[2] = {-1, -1};
+	int		cmd_count;
+	int		i;
+	int		file_count;
 
 	cmd = main->cmd;
 	cmd_count = count_commands(cmd);
@@ -76,7 +71,6 @@ void pipe_exec_with_redirection(t_main *main)
 	file_count = -1;
 	while (cmd)
 	{
-
 		if (cmd->heredoc_delimiter)
 			file_count++;
 		if (cmd->next && pipe(pipe_fd) < 0)
@@ -85,7 +79,7 @@ void pipe_exec_with_redirection(t_main *main)
 		if (pid < 0)
 		{
 			error("fork error");
-			break;
+			break ;
 		}
 		else if (pid == 0)
 			child_exec(main, cmd, prev_pipe_fd, file_count, pipe_fd);
@@ -105,7 +99,7 @@ void pipe_exec_with_redirection(t_main *main)
 		}
 		cmd = cmd->next;
 	}
-	if (prev_pipe_fd[0] != -1) // Close remaining pipes
+	if (prev_pipe_fd[0] != -1)
 	{
 		close(prev_pipe_fd[0]);
 		close(prev_pipe_fd[1]);
@@ -121,7 +115,7 @@ void pipe_exec_with_redirection(t_main *main)
 		close(main->cmd->stdout_backup);
 	}
 	i = -1;
-	while (++i < cmd_count) // Wait for all child processes to finish
+	while (++i < cmd_count)
 	{
 		waitpid(child_pids[i], &(main->exit_status), 0);
 		if (WIFEXITED(main->exit_status))
@@ -137,7 +131,7 @@ void pipe_exec_with_redirection(t_main *main)
 	}
 }
 
-void execute_command(t_main *main)
+void	execute_command(t_main *main)
 {
 	main->cmd->stdin_backup = dup(STDIN_FILENO);
 	main->cmd->stdout_backup = dup(STDOUT_FILENO);

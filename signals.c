@@ -3,33 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:37:25 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/22 18:00:50 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/30 22:09:51 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <readline/readline.h>
 
-void handle_herdoc_signal(void)
+void	handle_herdoc_signal(void)
 {
 	signal(SIGINT, SIG_DFL);
 }
 
-void handle_sigint(int sig)
+void	handle_sigint(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
-	// rl_replace_line("", 0); // Clear current input line
-	rl_on_new_line();		// Move cursor to new prompt
-	rl_redisplay();			// Redisplay prompt
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
-void handle_signals(void)
+void	handle_signals(void)
 {
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
-	
 }

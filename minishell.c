@@ -1,4 +1,4 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
@@ -6,24 +6,24 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:29:43 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/29 22:43:35 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/30 22:09:17 by abdennac         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-void leaks(void)
+void	leaks(void)
 {
 	system("leaks minishell");
 }
 
-t_env *enviroment_variable(char **ev)
+t_env	*enviroment_variable(char **ev)
 {
-	int i;
-	char **tmp;
-	t_env *head;
-	t_env *current;
-	t_env *new_node;
+	int		i;
+	char	**tmp;
+	t_env	*head;
+	t_env	*current;
+	t_env	*new_node;
 
 	i = -1;
 	head = NULL;
@@ -45,9 +45,8 @@ t_env *enviroment_variable(char **ev)
 	return (head);
 }
 
-void loop(t_main *main, char *line, t_lexer *lex_list)
+void	loop(t_main *main, char *line, t_lexer *lex_list)
 {
-
 	lex_list = NULL;
 	main->cmd = NULL;
 	lex_list = tokenize(line, main);
@@ -65,9 +64,10 @@ void loop(t_main *main, char *line, t_lexer *lex_list)
 		clear_lexer_list(lex_list);
 		printf("Syntax error\n");
 	}
+	add_history(line);
 }
 
-void initialize_1(t_main *main, t_lexer *lex_list, char **env)
+void	initialize_1(t_main *main, t_lexer *lex_list, char **env)
 {
 	main->cmd = NULL;
 	main->exit_status = 0;
@@ -76,30 +76,28 @@ void initialize_1(t_main *main, t_lexer *lex_list, char **env)
 	lex_list = NULL;
 }
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
-	t_main *main;
-	t_lexer *lex_list;
-	char *line;
+	t_main	*main;
+	t_lexer	*lex_list;
+	char	*line;
 
-	// atexit(leaks);
 	(void)av;
 	using_history();
 	main = malloc(sizeof(t_main));
 	lex_list = NULL;
 	initialize_1(main, lex_list, env);
 	if (ac < 1)
-		return 0;
+		return (0);
 	while (1)
 	{
 		handle_signals();
 		line = readline("lminishin $ ");
 		if (!line)
-			break;
+			break ;
 		if (*line)
 		{
 			loop(main, line, lex_list);
-			add_history(line);
 			clear(main->cmd, line);
 		}
 	}
