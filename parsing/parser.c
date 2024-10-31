@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/29 21:39:48 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/31 01:07:27 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,7 @@ t_cmd	*create_args(t_lexer **lexer, char **ev)
 	{
 		tmp_list->command = ft_strdup(tmp_list->args[0]);
 		if (ft_strchr(tmp_list->command, '/'))
-		{
-			tmp_list->path = ft_strdup(tmp_list->command);
-			tmp_list->command = path_split(tmp_list->command, '/');
-			if (access(tmp_list->path, X_OK) != 0)
-			{
-				free(tmp_list->path);
-				tmp_list->path = NULL;
-			}
-		}
+			replace_command(tmp_list);
 		else
 			tmp_list->path = return_path(ev, tmp_list->command);
 	}

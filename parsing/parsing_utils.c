@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 01:35:05 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/29 21:41:27 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/31 01:07:40 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,15 @@ char	*return_path(char **ev, char *str)
 	}
 	free(slash);
 	return (0);
+}
+
+void	replace_command(t_cmd *tmp_list)
+{
+	tmp_list->path = ft_strdup(tmp_list->command);
+	tmp_list->command = path_split(tmp_list->command, '/');
+	if (access(tmp_list->path, X_OK) != 0)
+	{
+		free(tmp_list->path);
+		tmp_list->path = NULL;
+	}
 }
