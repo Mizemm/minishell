@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mizem <mizem@student.42.fr>                +#+  +:+       +#+         #
+#    By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/20 22:27:04 by abdennac          #+#    #+#              #
-#    Updated: 2024/10/31 17:10:39 by mizem            ###   ########.fr        #
+#    Updated: 2024/10/31 01:56:42 by abdennac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ UTILS_C = builtins/export_utils.c \
 		  libft_utils/ft_strdup.c \
 		  libft_utils/ft_strjoin.c \
 		  libft_utils/ft_strlen.c \
-		  libft_utils/ft_strsize_cpy.c \
+		  libft_utils/ft_strncoco.c \
 		  libft_utils/ft_strncpy.c \
 		  libft_utils/ft_strtrim.c \
 		  libft_utils/ft_substr.c \

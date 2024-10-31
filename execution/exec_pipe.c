@@ -6,30 +6,11 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 01:38:03 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/31 02:41:08 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/31 16:47:33 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	close_fds(t_main *main, int *prev_pipe_fd)
-{
-	if (prev_pipe_fd[0] != -1)
-	{
-		close(prev_pipe_fd[0]);
-		close(prev_pipe_fd[1]);
-	}
-	if (main->cmd->stdin_backup != -1)
-	{
-		dup2(main->cmd->stdin_backup, STDIN_FILENO);
-		close(main->cmd->stdin_backup);
-	}
-	if (main->cmd->stdout_backup != -1)
-	{
-		dup2(main->cmd->stdout_backup, STDOUT_FILENO);
-		close(main->cmd->stdout_backup);
-	}
-}
 
 void	unlink_files(t_main *main, int file_count)
 {
@@ -58,21 +39,26 @@ void	catch_signal(pid_t *child_pids, t_main *main)
 	}
 }
 
-void	pipe_exec_with_redirection(t_main *main)
+void	handle_pipe_fd(t_main *main, t_cmd *cmd, int *pipe_fd)
 {
-	t_cmd	*cmd;
-	pid_t	pid;
-	pid_t	*child_pids;
+	if (main->prev_pipe_fd[0] != -1)
+	{
+		close(main->prev_pipe_fd[0]);
+		close(main->prev_pipe_fd[1]);
+	}
+	if (cmd->next)
+	{
+		main->prev_pipe_fd[0] = pipe_fd[0];
+		main->prev_pipe_fd[1] = pipe_fd[1];
+	}
+}
+
+void	pipe_loop(t_main *main, t_cmd *cmd, pid_t pid)
+{
 	int		pipe_fd[2];
-	int		prev_pipe_fd[2];
 	int		i;
 
-	prev_pipe_fd[0] = -1;
-	prev_pipe_fd[1] = -1;
-	cmd = main->cmd;
-	child_pids = malloc(sizeof(pid_t) * count_commands(cmd));
 	i = 0;
-	main->file_count = -1;
 	while (cmd)
 	{
 		if (cmd->heredoc_delimiter)
@@ -86,25 +72,30 @@ void	pipe_exec_with_redirection(t_main *main)
 			break ;
 		}
 		else if (pid == 0)
-			child_exec(main, cmd, prev_pipe_fd, pipe_fd);
+			child_exec(main, cmd, main->prev_pipe_fd, pipe_fd);
 		else
 		{
-			child_pids[i++] = pid;
-			if (prev_pipe_fd[0] != -1)
-			{
-				close(prev_pipe_fd[0]);
-				close(prev_pipe_fd[1]);
-			}
-			if (cmd->next)
-			{
-				prev_pipe_fd[0] = pipe_fd[0];
-				prev_pipe_fd[1] = pipe_fd[1];
-			}
+			main->child_pids[i++] = pid;
+			handle_pipe_fd(main, cmd, pipe_fd);
 		}
 		cmd = cmd->next;
 	}
-	close_fds(main, prev_pipe_fd);
-	catch_signal(child_pids, main);
-	free(child_pids);
+}
+
+void	pipe_exec_with_redirection(t_main *main)
+{
+	t_cmd	*cmd;
+	pid_t	pid;
+
+	pid = 0;
+	main->prev_pipe_fd[0] = -1;
+	main->prev_pipe_fd[1] = -1;
+	cmd = main->cmd;
+	main->child_pids = malloc(sizeof(pid_t) * count_commands(cmd));
+	main->file_count = -1;
+	pipe_loop(main, cmd, pid);
+	close_fds(main, main->prev_pipe_fd);
+	catch_signal(main->child_pids, main);
+	free(main->child_pids);
 	unlink_files(main, main->file_count);
 }

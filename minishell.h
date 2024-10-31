@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:01:17 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/31 17:09:58 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/31 17:57:38 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,17 @@ typedef struct s_lexer
 
 typedef struct s_main
 {
-	int				exit_status;
 	t_cmd			*cmd;
 	t_env			*env;
+	int				exit_status;
 	char			**full_env;
 	char			**heredoc_files;
 	int				file_count;
+	pid_t			*child_pids;
+	int				prev_pipe_fd[2];
+	char			*dir;
+	char			old_cwd[1024];
+	char			new_cwd[1024];
 }					t_main;
 
 /* LIBFT FUNCTIONS */
@@ -111,12 +116,13 @@ char				*ft_strchr(char *s, int c);
 int					ft_strcmp(char *s1, char *s2);
 int					ft_atoi(char *str);
 void				ft_strncpy(char *s1, char *s2, int len);
-char				*ft_strsize_cpy(char *str, int size);
+char				*ft_strncoco(char *str, int size);
 char				*ft_strdup(char *src);
 char				*ft_substr(char *s, int start, int len);
 char				*ft_strtrim(char *s1, char *set);
 char				*ft_strjoin(char *s1, char *s2);
 char				**ft_split(char *str, char c);
+// char				**pipe_split(char *str, char c);
 void				ft_putstr_fd(char *s, int fd);
 void				*ft_free(char **str);
 void				ft_lstadd_back(t_cmd **head, t_cmd *new);
@@ -125,6 +131,7 @@ char				*ft_itoa(int n);
 t_lexer				*add_node(char *str);
 int					ft_isalpha(int c);
 
+;
 /* PARSING FUNCTIONS */
 
 void				clear_cmd_list(t_cmd *head);
@@ -208,6 +215,7 @@ void				simple_fork_input(t_main *main, t_cmd *cmd);
 int					her_valid_name(char c);
 int					dollar_count(char *str);
 char				**make_file_name(t_cmd *cmd);
+void				close_fds(t_main *main, int *prev_pipe_fd);
 
 /* A77 */
 

@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 12:01:42 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/31 17:10:54 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/18 13:48:54 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	quotes_tokenize(t_lexer **list, char *str, int i, int j)
 		err_q = true;
 	else
 		j++;
-	node = add_node(ft_strsize_cpy(&str[i + 1], j - 2));
+	node = add_node(ft_strncoco(&str[i + 1], j - 2));
 	node->len = ft_strlen(node->content);
 	node->in_quotes = true;
 	node->err_quotes = err_q;
@@ -58,7 +58,7 @@ int	special_tokenize(t_lexer **list, char *str, int i, int j)
 				break ;
 		}
 	}
-	node = add_node(ft_strsize_cpy(&str[i], j));
+	node = add_node(ft_strncoco(&str[i], j));
 	node->state = GENERAL;
 	node->len = j;
 	node->in_quotes = false;
@@ -74,7 +74,7 @@ int	normal_tokenize(char *str, t_lexer **list, int i)
 	j = 0;
 	while (str[i + j] && !special_char(str[i + j]))
 		j++;
-	node = add_node(ft_strsize_cpy(&str[i], j));
+	node = add_node(ft_strncoco(&str[i], j));
 	node->state = GENERAL;
 	node->len = j;
 	ft_lstadd_back2(list, node);

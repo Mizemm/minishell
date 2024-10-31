@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:29:43 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/31 17:00:58 by mizem            ###   ########.fr       */
+/*   Updated: 2024/10/31 22:02:00 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	main(int ac, char **av, char **env)
 	t_lexer	*lex_list;
 	char	*line;
 
+	atexit(leaks);
 	(void)av;
 	using_history();
 	main = malloc(sizeof(t_main));
@@ -91,7 +92,7 @@ int	main(int ac, char **av, char **env)
 		return (0);
 	while (1)
 	{
-		// handle_signals();
+		handle_signals();
 		line = readline("lminishin $ ");
 		if (!line)
 			break ;

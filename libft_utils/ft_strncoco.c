@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   ft_strncoco.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/06 21:37:25 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/30 22:09:51 by abdennac         ###   ########.fr       */
+/*   Created: 2024/09/29 18:39:36 by mizem             #+#    #+#             */
+/*   Updated: 2024/10/30 21:52:05 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <readline/readline.h>
+#include "../minishell.h"
 
-void	handle_herdoc_signal(void)
+char	*ft_strncoco(char *str, int size)
 {
-	signal(SIGINT, SIG_DFL);
-}
+	int		i;
+	char	*s;
 
-void	handle_sigint(int sig)
-{
-	(void)sig;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
-void	handle_signals(void)
-{
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
+	i = 0;
+	s = malloc((size + 1) * sizeof(char));
+	if (!s)
+		return (NULL);
+	while (i < size && str[i])
+	{
+		s[i] = str[i];
+		i++;
+	}
+	s[i] = '\0';
+	return (s);
 }

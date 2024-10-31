@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   exec_utils_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:50:41 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/30 23:52:25 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/10/31 22:29:18 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,26 @@ void	error2(t_main *main, char *str, int status)
 	exit(status);
 }
 
+char	**get_file_names(char **files, int nb_files)
+{
+	int		i;
+	char	*nb;
+	
+	i = -1;
+	files = malloc(sizeof(char *) * (nb_files + 1));
+	while (++i < nb_files)
+	{
+		nb = ft_itoa(i);
+		files[i] = ft_strjoin("/tmp/heredoc", nb);
+		free(nb);
+	}
+	files[i] = NULL;
+	return (files);
+}
+
 char	**make_file_name(t_cmd *cmd)
 {
-	char	*file_name;
 	char	**files;
-	int		i;
 	t_cmd	*tmp;
 	int		nb_files;
 
@@ -39,12 +54,8 @@ char	**make_file_name(t_cmd *cmd)
 	}
 	if (nb_files == 0)
 		return (NULL);
-	files = malloc(sizeof(char *) * (nb_files + 1));
-	file_name = "/tmp/heredoc";
-	i = -1;
-	while (++i < nb_files)
-		files[i] = ft_strjoin(file_name, ft_itoa(i));
-	files[i] = NULL;
+	files = NULL;
+	files = get_file_names(files, nb_files);
 	return (files);
 }
 
@@ -62,4 +73,23 @@ int	dollar_count(char *str)
 		i++;
 	}
 	return (count);
+}
+
+void	close_fds(t_main *main, int *prev_pipe_fd)
+{
+	if (prev_pipe_fd[0] != -1)
+	{
+		close(prev_pipe_fd[0]);
+		close(prev_pipe_fd[1]);
+	}
+	if (main->cmd->stdin_backup != -1)
+	{
+		dup2(main->cmd->stdin_backup, STDIN_FILENO);
+		close(main->cmd->stdin_backup);
+	}
+	if (main->cmd->stdout_backup != -1)
+	{
+		dup2(main->cmd->stdout_backup, STDOUT_FILENO);
+		close(main->cmd->stdout_backup);
+	}
 }
