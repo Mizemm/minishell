@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 12:03:20 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/30 23:36:13 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/11/01 21:18:16 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,14 @@ long	f_atoi(char *str)
 	return (sign * sum);
 }
 
+void	print_error(t_cmd *cmd)
+{
+	ft_putstr_fd("minishell: exit: ", 2);
+	ft_putstr_fd(cmd->args[1], 2);
+	ft_putstr_fd(": numeric argument required\n", 2);
+	exit(255);
+}
+
 int	exec_exit(t_cmd *cmd)
 {
 	int	exit_status;
@@ -51,14 +59,12 @@ int	exec_exit(t_cmd *cmd)
 		i = -1;
 		while (cmd->args[1][++i])
 		{
+			if (i == 0 && (cmd->args[1][i] == '-' || cmd->args[1][i] == '+') 
+				&& cmd->args[1][i + 1])
+				continue ;
 			if ((cmd->args[1][i] < '0' || cmd->args[1][i] > '9')
 				|| f_atoi(cmd->args[1]) > LLONG_MAX)
-			{
-				ft_putstr_fd("minishell: exit: ", 2);
-				ft_putstr_fd(cmd->args[1], 2);
-				ft_putstr_fd(": numeric argument required\n", 2);
-				exit(255);
-			}
+				print_error(cmd);
 		}
 		exit_status = ft_atoi(cmd->args[1]);
 		if (cmd->args[2])

@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:55:01 by abdennac          #+#    #+#             */
-/*   Updated: 2024/11/01 01:33:56 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/11/01 21:05:43 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	exec_echo(t_cmd *cmd)
 	{
 		ft_print(cmd->args[i]);
 		if (cmd->args[i + 1])
-			printf(" ");
+			ft_print(" ");
 		i++;
 	}
 	if (!flag_n)
