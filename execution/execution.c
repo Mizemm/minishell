@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 22:10:31 by abdennac          #+#    #+#             */
-/*   Updated: 2024/11/01 23:12:13 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/11/02 00:35:56 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,8 @@ void	execute_command(t_main *main)
 	main->cmd->stdin_backup = dup(STDIN_FILENO);
 	main->cmd->stdout_backup = dup(STDOUT_FILENO);
 	signal(SIGINT, SIG_IGN);
-
 	if (!main->cmd->next && main->cmd)
 		simple_exec(main);
 	else if (main->cmd)
 		pipe_exec_with_redirection(main);
-
 }

@@ -1,34 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   exec_utils_4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/06 21:37:25 by abdennac          #+#    #+#             */
-/*   Updated: 2024/11/02 00:36:12 by mizem            ###   ########.fr       */
+/*   Created: 2024/11/02 00:39:58 by mizem             #+#    #+#             */
+/*   Updated: 2024/11/02 00:41:08 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include <readline/readline.h>
+#include "../minishell.h"
 
-void	handle_herdoc_signal(void)
+void	sig_red(t_main *main)
 {
 	signal(SIGINT, SIG_DFL);
-}
-
-void	handle_sigint(int sig)
-{
-	(void)sig;
-	write(1, "\n", 1);
-	// rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
-void	handle_signals(void)
-{
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, SIG_DFL);
+	simple_fork_input(main, main->cmd);
+	simple_fork_output(main, main->cmd);
 }

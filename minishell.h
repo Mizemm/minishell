@@ -6,7 +6,7 @@
 /*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:01:17 by abdennac          #+#    #+#             */
-/*   Updated: 2024/11/01 01:01:04 by mizem            ###   ########.fr       */
+/*   Updated: 2024/11/02 00:40:33 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ int					her_valid_name(char c);
 int					dollar_count(char *str);
 char				**make_file_name(t_cmd *cmd);
 void				close_fds(t_main *main, int *prev_pipe_fd);
-
+void				sig_red(t_main *main);
 /* A77 */
 
 int					exec_echo(t_cmd *cmd);
