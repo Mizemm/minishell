@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:50:41 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/31 22:29:18 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/11/01 00:58:31 by mizem            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	**get_file_names(char **files, int nb_files)
 {
 	int		i;
 	char	*nb;
-	
+
 	i = -1;
 	files = malloc(sizeof(char *) * (nb_files + 1));
 	while (++i < nb_files)
