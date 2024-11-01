@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 22:10:31 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/31 02:30:16 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/11/01 23:12:13 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	execute_single_command(t_main *main, t_cmd *cmd)
 void	child_exec(t_main *main, t_cmd *cmd, int *prev_pipe_fd, int *pipe_fd)
 {
 	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	handle_output_redirection(cmd, pipe_fd);
 	handle_input_redirection(cmd, main, prev_pipe_fd);
 	execute_single_command(main, cmd);
@@ -42,8 +43,10 @@ void	execute_command(t_main *main)
 	main->cmd->stdin_backup = dup(STDIN_FILENO);
 	main->cmd->stdout_backup = dup(STDOUT_FILENO);
 	signal(SIGINT, SIG_IGN);
+
 	if (!main->cmd->next && main->cmd)
 		simple_exec(main);
 	else if (main->cmd)
 		pipe_exec_with_redirection(main);
+
 }

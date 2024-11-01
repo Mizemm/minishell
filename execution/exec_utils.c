@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 10:45:55 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/31 01:54:56 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/11/01 23:27:06 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	execute_builtins(t_main *main, t_cmd *cmd)
 
 int	check_if_builtin(char *str)
 {
+	if (!str)
+		return (0);
 	if (ft_strcmp("echo", str) == 0)
 		return (1);
 	if (ft_strcmp("cd", str) == 0)

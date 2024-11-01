@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 01:38:03 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/31 16:47:33 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/11/01 23:17:59 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	catch_signal(pid_t *child_pids, t_main *main)
 		else if (WIFSIGNALED(main->exit_status))
 			main->exit_status = 128 + WTERMSIG(main->exit_status);
 	}
+	if (main->exit_status == 131)
+		ft_putstr_fd("Quit: 3\n", 2);
 }
 
 void	handle_pipe_fd(t_main *main, t_cmd *cmd, int *pipe_fd)

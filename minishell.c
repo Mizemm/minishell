@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:29:43 by abdennac          #+#    #+#             */
-/*   Updated: 2024/11/01 01:53:40 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/11/01 23:22:54 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	loop(t_main *main, char *line, t_lexer *lex_list)
 			execute_command(main);
 		g_signal = 0;
 	}
-	else
+	else if (lex_list != NULL)
 	{
 		main->exit_status = 258;
 		clear_lexer_list(lex_list);

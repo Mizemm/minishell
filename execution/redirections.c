@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:57:53 by abdennac          #+#    #+#             */
-/*   Updated: 2024/11/01 01:52:23 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/11/01 23:31:57 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	input_redirection_helper(t_cmd *cmd, int fd_in)
 					return (error("Permission denied"));
 			}
 			else
-				return (error("Input file not found"));
+				return (error("No such file or directory"));
 			fd_in = open(cmd->input_file[i], O_RDONLY);
 			if (fd_in < 0)
 				return (error("Input file open error"));

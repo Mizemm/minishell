@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 01:34:46 by mizem             #+#    #+#             */
-/*   Updated: 2024/11/01 01:37:02 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/11/01 21:24:33 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,6 @@ void	fill_heredoc(t_lexer **lexer, t_cmd *tmp_list)
 
 void	fill_args(t_lexer **lexer, t_cmd *tmp_list)
 {
-	if ((*lexer)->content && (*lexer)->content[0] == '\0')
-	{
-		(*lexer) = (*lexer)->next;
-		return ;
-	}
 	tmp_list->args[tmp_list->arg_index++] = ft_strdup((*lexer)->content);
 	tmp_list->args[tmp_list->arg_index] = NULL;
 	(*lexer) = (*lexer)->next;

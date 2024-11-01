@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:35:20 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/30 21:52:23 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/11/01 23:30:21 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	exec_simple_command(t_main *main, int status)
 	else if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		simple_fork_input(main, main->cmd);
 		simple_fork_output(main, main->cmd);
 		if (!main->cmd->path)
@@ -105,6 +106,8 @@ void	exec_simple_command(t_main *main, int status)
 		else if (WIFSIGNALED(status))
 			status = 128 + WTERMSIG(status);
 		main->exit_status = status;
+		if (main->exit_status == 131)
+			ft_putstr_fd("Quit: 3\n", 2);
 	}
 }
 
@@ -113,17 +116,20 @@ void	simple_exec(t_main *main)
 	int	status;
 
 	status = 0;
-	if (check_if_builtin(main->cmd->command))
-	{
-		status = simple_input(main->cmd);
-		status = simple_output(main->cmd);
-		if (status == 0)
-			status = execute_builtins(main, main->cmd);
-		simple_cleanup(main->cmd);
-		main->exit_status = status;
-	}
-	else
-		exec_simple_command(main, status);
-	if (main->cmd->heredoc_delimiter)
-		unlink("/tmp/heredoc");
+	// if (main->cmd->command)
+	// {
+		if (check_if_builtin(main->cmd->command))
+		{
+			status = simple_input(main->cmd);
+			status = simple_output(main->cmd);
+			if (status == 0)
+				status = execute_builtins(main, main->cmd);
+			simple_cleanup(main->cmd);
+			main->exit_status = status;
+		}
+		else 
+			exec_simple_command(main, status);
+		if (main->cmd->heredoc_delimiter)
+			unlink("/tmp/heredoc");
+	// }
 }
