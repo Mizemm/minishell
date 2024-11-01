@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 22:57:53 by abdennac          #+#    #+#             */
-/*   Updated: 2024/10/31 02:28:53 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/11/01 01:52:23 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	input_redirection_helper(t_cmd *cmd, int fd_in)
 			if (access(cmd->input_file[i], F_OK) == 0)
 			{
 				if (access(cmd->input_file[i], R_OK) != 0)
-					return (error("Permission denied for input file"));
+					return (error("Permission denied"));
 			}
 			else
 				return (error("Input file not found"));

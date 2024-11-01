@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 22:19:35 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/18 13:44:34 by mizem            ###   ########.fr       */
+/*   Updated: 2024/11/01 01:47:19 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char	*expand_1(t_lexer *list, t_main *main, char *result, int *i)
 	j = 0;
 	output = NULL;
 	(*i)++;
+	if (list->content[(*i)] == '\0')
+		return (result = ft_strdup("$"));
 	while (list->content[*i] && valid_name(list->content[*i]))
 	{
 		tmp[j++] = list->content[(*i)];
