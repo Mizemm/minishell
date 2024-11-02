@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 02:49:24 by abdennac          #+#    #+#             */
-/*   Updated: 2024/11/01 01:34:04 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/11/02 22:37:12 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ void	fill_list(t_lexer **lexer, t_cmd *tmp_list)
 t_cmd	*create_args(t_lexer **lexer, char **ev)
 {
 	t_cmd	*tmp_list;
-	int		i;
 
-	i = 0;
 	tmp_list = malloc(sizeof(t_cmd));
 	if (!tmp_list)
 		return (NULL);
@@ -76,7 +74,7 @@ t_cmd	*create_args(t_lexer **lexer, char **ev)
 		fill_list(lexer, tmp_list);
 	if (tmp_list->args)
 	{
-		tmp_list->command = ft_strdup(tmp_list->args[i]);
+		tmp_list->command = ft_strdup(tmp_list->args[0]);
 		if (ft_strchr(tmp_list->command, '/'))
 			replace_command(tmp_list);
 		else

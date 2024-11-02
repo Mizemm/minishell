@@ -6,16 +6,11 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 10:29:43 by abdennac          #+#    #+#             */
-/*   Updated: 2024/11/01 23:22:54 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/11/02 21:26:28 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	leaks(void)
-{
-	system("leaks minishell");
-}
 
 t_env	*enviroment_variable(char **ev)
 {

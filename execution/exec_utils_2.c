@@ -6,7 +6,7 @@
 /*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 21:41:04 by abdennac          #+#    #+#             */
-/*   Updated: 2024/11/02 00:24:31 by abdennac         ###   ########.fr       */
+/*   Updated: 2024/11/02 23:19:41 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	check_access(t_main *main, t_cmd *cmd)
 {
 	if (access(cmd->path, X_OK) != 0)
 		error2(main, "Command not found", 127);
-	else
+	else if (stat(cmd->path, NULL) != 0)
 		error2(main, "is a directory", 127);
 }
 

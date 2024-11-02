@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mizem <mizem@student.42.fr>                +#+  +:+       +#+        */
+/*   By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 01:35:05 by mizem             #+#    #+#             */
-/*   Updated: 2024/10/31 01:07:40 by mizem            ###   ########.fr       */
+/*   Updated: 2024/11/02 22:22:54 by abdennac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	replace_command(t_cmd *tmp_list)
 {
 	tmp_list->path = ft_strdup(tmp_list->command);
 	tmp_list->command = path_split(tmp_list->command, '/');
-	if (access(tmp_list->path, X_OK) != 0)
+	if (access(tmp_list->path, X_OK) != 0 || stat(tmp_list->path, NULL) != 0)
 	{
 		free(tmp_list->path);
 		tmp_list->path = NULL;

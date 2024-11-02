@@ -6,7 +6,7 @@
 #    By: abdennac <abdennac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/20 22:27:04 by abdennac          #+#    #+#              #
-#    Updated: 2024/11/01 01:04:10 by abdennac         ###   ########.fr        #
+#    Updated: 2024/11/02 21:28:09 by abdennac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ UTILS_C = builtins/export_utils.c \
 		  execution/exec_utils.c \
 		  execution/exec_utils_2.c \
 		  execution/exec_utils_3.c \
+		  execution/exec_utils_4.c \
 		  execution/execution.c \
 		  execution/heredoc_expand.c \
 		  execution/heredoc.c \
