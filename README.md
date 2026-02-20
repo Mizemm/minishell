@@ -31,5 +31,5 @@ Managing the "plumbing" of the shell required a deep understanding of `pipe()`, 
 ## 💻 How to Run
 1. **Clone and Compile:**
    ```bash
-   git clone [YOUR_REPO_LINK] && cd minishell
+   git clone [[YOUR_REPO_LINK](https://github.com/Mizemm/minishell)] && cd minishell
    make
